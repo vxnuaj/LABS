@@ -26,7 +26,6 @@ Each corresponding color channel can be represented by matrices of same dimensio
 
 When these matrices are stacked on top of one another (in numpy, would use `np.vstack`), the full color image would be created.
 
-![yep](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*8k6Yk6MhED2SxF2zLctG7g.png "yep")
 <img src = "https://miro.medium.com/v2/resize:fit:1100/format:webp/1*8k6Yk6MhED2SxF2zLctG7g.png" width= "500">
 
 ### Feature Vectors & RGB
@@ -37,3 +36,16 @@ For example, the color channel matrix for Red of an image with dimensionality, 3
 
 <img src = "https://github.com/vxnuaj/Training/blob/main/MachineLearning/AndrewNG-Notes/imagebacklog/featvec.png?raw=true" alttext = "Rudimentary btw" width = "250"/>
 
+### Notation for the Course
+
+- `(x,y)` is a specific training sample where,
+    - `x ∈ ℝ`<sup>`n`<sub>`x`</sub></sup>
+    - `y ∈ {0, 1}`, given binary classification
+- `m` is total number of training samples in a training sample where,
+    - `{(x`<sup>`1`</sup>`, y`<sup>`1`</sup>`), (x`<sup>`2`</sup>`, y`<sup>`2`</sup>`),... (x`<sup>`m`</sup>`, y`<sup>`m`</sup>`)}` is a training set
+    - May be written as `m`<sub>`train`</sub> or `m`<sub>`test`</sub>, for train and test samples respectively
+- `X` is the matrix that holds the number of training samples and it's features.
+    - `m` is the number of columns, indicating number of total samples
+    - `n`<sub>`x`</sub> is the total number rows indicating total number of features.
+
+    ![](MachineLearning/AndrewNG-Notes/imagebacklog/Xmatrix.png)
