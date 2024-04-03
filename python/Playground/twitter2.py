@@ -18,4 +18,4 @@ def vowel_strip(ui):
         return strip_ui
 
 main()
--- INSERT --
+

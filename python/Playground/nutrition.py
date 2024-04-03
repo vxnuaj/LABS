@@ -5,11 +5,9 @@ def main():
 		return
 	else:
 		print(f"CALORIES: {calories}")	
-
 def fruit_item():
 	fruit = input("ITEM: ").lower()
 	return fruit
-
 def cal(fruit):
 	nutrition_facts = {
 	"apple": 130,
@@ -36,5 +34,5 @@ def cal(fruit):
 	calories = nutrition_facts.get(fruit)
 	return calories
 
-main()
-
+if __name__ == "__main__":
+	main()
