@@ -39,13 +39,26 @@ For example, the color channel matrix for Red of an image with dimensionality, 3
 ### Notation for the Course
 
 - `(x,y)` is a specific training sample where,
+    - `n(x)` is the total number of features per sample `x`
     - `x ∈ ℝ`<sup>`n`<sub>`x`</sub></sup>
     - `y ∈ {0, 1}`, given binary classification
 - `m` is total number of training samples in a training sample where,
-    - `{(x`<sup>`1`</sup>`, y`<sup>`1`</sup>`), (x`<sup>`2`</sup>`, y`<sup>`2`</sup>`),... (x`<sup>`m`</sup>`, y`<sup>`m`</sup>`)}` is a training set
-    - May be written as `m`<sub>`train`</sub> or `m`<sub>`test`</sub>, for train and test samples respectively
+    - `{(x(1), y(1)), (x(2), y(2)),... (x(m), y(m))}` is a training set
+    - May be written as `m_train` or `m_test`, for train and test samples respectively
 - `X` is the matrix that holds the number of training samples and it's features.
     - `m` is the number of columns, indicating number of total samples
-    - `n`<sub>`x`</sub> is the total number rows indicating total number of features.
+    - `n(x)` is the total number rows indicating total number of features.
 
-    ![](MachineLearning/AndrewNG-Notes/imagebacklog/Xmatrix.png)
+        <img src = "imagebacklog/Xmatrix.png" width = "350">
+
+    - In other cases, we might see conventions of using the transpose of the X matrix here (as I used in ["NNMNIST from scratch"](https://github.com/vxnuaj/np.mnistnn)). 
+    
+        Not using the transpose, and rather the convention used in this course makes the implementation of neural nets easier. 
+
+    - In python, to check out the size of this matrix, when we run `X.shape` the result would be `(n(x), m)`
+
+- `Y` is matrix which holds the total number of training samples in a dataset
+    - `Y = [y(1), y(2),...y(m)]` 
+    - The `Y.shape` will yield a dimensionality `(1,m)`
+
+    
