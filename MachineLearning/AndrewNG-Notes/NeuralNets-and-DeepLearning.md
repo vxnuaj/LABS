@@ -1,4 +1,6 @@
-### Neural Network Basics
+### Neural Network Basics | Week 2
+
+> _I didn't take notes on Week 1, primarily due to lack of complexity_
 
 #### Binary Classification
 
@@ -13,3 +15,15 @@ and a neural network was fed the following image:
 
 <img src = "https://www.treehugger.com/thmb/qFhPReYPPaVgTtHBOthYeMJVeZ0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1043597638-49acd69677d7442588c1d8930d298a59.jpg" alt = "Zebra" width ="300"/>
 
+
+The model would clasify it into one of two classes, hopefully it being the class represented by 1, the Zebra. (At least, it would if it was trained right lol.)
+
+#### RGB
+
+Images, expressed through RGB, can be split into 3 different color channels corresponding to Red, Green, and Blue. 
+
+Each corresponding color channel can be represented by matrices of same dimensions as the original image which holds pixel values between 0 to 255.
+
+When these matrices are stacked on top of one another (in numpy, would use `np.vstack`), the full color image would be created.
+
+<img src = "https://miro.medium.com/v2/resize:fit:1100/format:webp/1*8k6Yk6MhED2SxF2zLctG7g.png" width= "500">
