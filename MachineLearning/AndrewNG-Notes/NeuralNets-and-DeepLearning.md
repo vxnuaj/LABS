@@ -34,3 +34,5 @@ To input an image into a neural network, we typicall unroll the RGB pixel values
 
 For example, the color channel matrix for Red of an image with dimensionality, 3x3, would be unrolled into a feature vector of dimensitonality 9x1 each corresponding to values ranging from 0 to 255.
 
+<img src = "https://github.com/vxnuaj/Training/blob/main/MachineLearning/AndrewNG-Notes/imagebacklog/featvec.png?raw=true" alttext = "Rudimentary btw" width = "250"/>
+
