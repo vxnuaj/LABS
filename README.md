@@ -1,4 +1,4 @@
-### This GIT Repo is my Training Grounds.
+### This git repo is my Training Grounds.
 
 **Goal:** Increase technical skillsets as a means of training myself to contribute to the future of humanity at the [bleeding edge of technology](https://en.wikipedia.org/wiki/Technological_singularity) and the [beginning of infinity](https://en.wikipedia.org/wiki/The_Beginning_of_Infinity)
 
@@ -6,7 +6,9 @@
 As I build and ship projects, there are specific engineering skillsets which I'll be working on.
 
 
-The code I write whilst I'm gaining these skillsets will be written in this GIT repo.
+The code I write and learnings I gain whilst I'm gaining these skillsets will be written in this GIT repo.
+
+I'll be hosting my obsidian vault in this repo as well (soon)
 
 
 I'll be adding as I go :)
