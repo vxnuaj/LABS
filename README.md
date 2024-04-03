@@ -1,4 +1,4 @@
-### This git repo is my Training Grounds.
+### This is my Training Grounds 🎧.
 
 **Goal:** Increase technical skillsets as a means of training myself to contribute to the future of humanity at the [bleeding edge of technology](https://en.wikipedia.org/wiki/Technological_singularity) and the [beginning of infinity](https://en.wikipedia.org/wiki/The_Beginning_of_Infinity)
 
