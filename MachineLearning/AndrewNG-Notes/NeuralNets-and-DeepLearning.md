@@ -26,6 +26,7 @@ Each corresponding color channel can be represented by matrices of same dimensio
 
 When these matrices are stacked on top of one another (in numpy, would use `np.vstack`), the full color image would be created.
 
+![yep](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*8k6Yk6MhED2SxF2zLctG7g.png "yep")
 <img src = "https://miro.medium.com/v2/resize:fit:1100/format:webp/1*8k6Yk6MhED2SxF2zLctG7g.png" width= "500">
 
 ### Feature Vectors & RGB
