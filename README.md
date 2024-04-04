@@ -18,5 +18,5 @@ I'll be adding as I go :)
 01. Programming
     01. [Python](python)
 
-02. Machine & Deep Learning
-    01. [Andrew NG Notes](MachineLearning/AndrewNG-Notes)
+02. Artificial Intelligence
+    01. [Machine Learning](MachineLearning)
