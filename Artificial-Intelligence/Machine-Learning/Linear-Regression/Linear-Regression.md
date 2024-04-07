@@ -91,6 +91,8 @@ Typically, the lower the learning rate, the more precise and better a result wil
 
 <details>
 <summary> Resources </summary>
+
 - [Neural-Nine's Linear Regression from Scratch in Python](https://www.youtube.com/watch?v=VmbA0pi2cRQ)
+
 - [D2l.ai Linear Neural Networks Pytorch Version](https://github.com/dsgiitr/d2l-pytorch/tree/master/Ch05_Linear_Neural_Networks)
 </details>
