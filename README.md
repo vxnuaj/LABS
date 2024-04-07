@@ -1,12 +1,9 @@
-### This is my Training Grounds 🎧.
+### This is my Training Grounds.
 
-**Goal:** Increase technical skillsets as a means of training myself to contribute to the future of humanity at the [bleeding edge of technology](https://en.wikipedia.org/wiki/Technological_singularity) and the [beginning of infinity](https://en.wikipedia.org/wiki/The_Beginning_of_Infinity).
-
-
-As I build and ship projects, there are specific engineering skillsets which I'll be working on.
+The action plan is to increase technical skillsets as a means of training myself to contribute to the future of humanity at the [bleeding edge of technology](https://en.wikipedia.org/wiki/Technological_singularity) and the [beginning of infinity](https://en.wikipedia.org/wiki/The_Beginning_of_Infinity).
 
 
-The code I write and learnings I takeaway whilst I'm gaining these skillsets will be written in this GIT repo.
+The code I write and learnings I takeaway whilst I'm gaining these skillsets will be written in this git repo.
 
 
 I'll be adding as I go :)
@@ -16,7 +13,9 @@ I'll be adding as I go :)
 ### Index
 
 01. Programming
-    01. [Python](python)
+    01. [Python](Programming/Python/)
 
 02. Artificial Intelligence
-    01. [Machine Learning](MachineLearning)
+    01. [Machine Learning](Artificial-Intelligence/MachineLearning)
+        01. [Linear-Regression](Artificial-Intelligence/Machine-Learning/Linear-Regression/)
+        02. [AndrewNG-Notes](Artificial-Intelligence/Machine-Learning/AndrewNG-Notes/)
