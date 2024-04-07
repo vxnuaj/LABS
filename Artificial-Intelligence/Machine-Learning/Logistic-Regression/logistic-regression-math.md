@@ -1,5 +1,7 @@
 ## The Mathematics of Logistic Regression
 
+>_Full notes @ the end of [here](../AndrewNG-Notes/NeuralNets-and-DeepLearning.md) | Full implementation [here](logreg.py)_
+
 Given that we're using
 - Weight matrix $W$
 - Input matrix $X$
