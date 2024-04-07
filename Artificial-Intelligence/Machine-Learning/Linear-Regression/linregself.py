@@ -44,7 +44,7 @@ def gradient_descent(m, b, alpha, epochs, x, y, loss):
 
 if __name__ == "__main__":
 
-    data = pd.read_csv("./Data/random.csv")
+    data = pd.read_csv("./Data/random1.csv")
     data = np.array(data)
 
     x = data[:, 0] # AGE

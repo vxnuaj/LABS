@@ -17,7 +17,7 @@ class LinearRegression(nn.Module):
     
 
 
-data = pd.read_csv("./Data/random.csv")
+data = pd.read_csv("./Data/random1.csv")
 data = np.array(data)
 
 x = data[:, 0]

@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-data = pd.read_csv('./Data/random.csv')
+data = pd.read_csv('./Data/random1.csv')
 
 x = data.iloc[:202].x
 y = data[:202].y

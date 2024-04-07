@@ -4,7 +4,7 @@ from sklearn.linear_model import LinearRegression
 import pandas as pd
 import numpy as np
 
-data = pd.read_csv("./Data/random.csv")
+data = pd.read_csv("./Data/random1.csv")
 data = np.array(data)
 
 x = data[:, 0]
