@@ -14,9 +14,9 @@ Sigmoid: $σ(z) = \frac{1}{(1+e^{-z})}$, where $σ(z)$ is the activation output 
 
 Cross-Entropy Loss (Loss, not cost): $ L(Y,a)= - Y log(a) + (1-Y)log(1-a)$
 
-Cross-EntropY Cost: $J(Y,a) = \frac{1}{n}(-Y log(a) + (1-Y)log(1-a))$
+Cross-Entropy Cost: $J(Y,a) = \frac{1}{n}(-Y log(a) + (1-Y)log(1-a))$
 
-So essentiallY,
+So essentially,
 
 1. Input matrix $X$ into $z = W^TX + b$
 
@@ -24,7 +24,7 @@ So essentiallY,
 
 3. Calculate the Loss: $L(Y,a) = -Y log(a) + (1-Y)log(1-a)$
 
-4. Take the gradients with respect to weights $W$: $\frac{∂J}{∂W} = (\frac{∂J}{∂a})(\frac{∂a}{∂W})$
+4. Take the gradients with respect to weights $W$: $\frac{∂J}{∂W} = (\frac{∂J}{∂a})(\frac{∂a}{∂z})(\frac{∂z}{∂w})$
 
 5. Take the gradients with respect to bias $b$: $\frac{∂J}{∂b} = (\frac{∂J}{∂a})(\frac{∂a}{∂b})$
 
@@ -34,6 +34,11 @@ So essentiallY,
 
 8. Repeat for `range(len(n))`
 
-9. Calculate the Cost: $J(Y,a) = \frac{1}{n}(-Y log(a) + (1-Y)log(1-a))$
+9. Calculate the Cost: $J(Y,a) = -\frac{1}{n}(Y log(a) + (1-Y)log(1-a))$
 
 10. Repeat for `range(epochs)`, until you've trained your model.
+
+btw, gradients of loss (not cost) w.r.t param $W$ and $b$ is:
+
+- $\frac{∂L}{∂W} = (a - y) * X$
+- $\frac{∂L}{∂b} = (a - y)$

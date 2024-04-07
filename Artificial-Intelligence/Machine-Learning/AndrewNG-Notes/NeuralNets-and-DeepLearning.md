@@ -99,7 +99,7 @@ as when performing logistic regression, we want `ŷ` to be between 0 and 1 for a
 
 > _**Reminder**: Linear regression is a means to predict the next value given a current (tangential) slope (think 6th grade mathematics). It serves as a means for prediction a the relationship when variables are completely linear_
 
-Instead of using a pure linear model, logistic regression involes taking the linear regression. `ŷ = w<sup>T</sub>x + b`, and applying a sigmoid function to it.
+Instead of using a pure linear model, logistic regression involes taking the linear regression. `ŷ =` `w`<sup>`T`</sup>`x + b`, and applying a sigmoid function to it.
 
 >_**Reminder**: The transpose is optional, contextual depending on the nature of the dataset_
 
@@ -117,4 +117,32 @@ In the earlier case,
 >
 >_Essentially, according to our model, what would be the probability that the above picture is a cat?_
 
-where the class for a cat is `1` and the input image **is** the image of a cat, using logistic regression, the model's job is to learn the optimal parameters `w` and `b` to output a near 100% probability that the image belongs to class `1` (cat)
+where the class for a cat is `1` and the input image **is** the image of a cat, using logistic regression, the model's job is to learn the optimal parameters `w` and `b` to output a 1.0 (100%) probability that the image belongs to class `1` (cat)
+
+> **NOTE** _Will be using katex styling from now, instead of `code` styling_
+
+So essentially given a training set, $[(x^1, y^1),...,(x^m, y^m)]$, you want $\hat{y}≈ y^i$
+
+#### Logistic Regression Cost Function
+
+A common loss function typically used in linear regression is the squared error, $(y - \hat{y})^2$. In logistic regression we can't use this as it introduces an optimization problem. Where logistic regression isn't linear, the loss function will have local minima. Using the squared error doesn't allow for a network to optimize it's weights past those local minima to a global minima.
+
+The loss function for logistic regression is typically, 
+
+$ L(\hat{y}, y) - ylog{\hat{y}} + (1-y)log(1-\hat{y})$ | Called the cross-entropy loss
+
+Here, if $y=1$, we get $-log(\hat{y})$. To minimize the loss, we want $\hat{y}$ to be as big as small as possible or nearing 1 given that 0 ≤ $\hat{y}$ ≤ 1 due to the sigmoid activation function.
+
+Then, if $y=0$, we get $-log(1-\hat{y})$. To minimize the loss, we want $\hat{y}$ to be as small as possible or nearing 0 given that 0 ≤ $\hat{y}$ ≤ 1 due to the sigmoid activation function.
+
+The the cost function can be defined as the average of the loss function over all datapoints $i$,
+
+$\frac{1}{m} \sum_{i=1}^{m} - y^ilog{\hat{y}^i} + (1-y^i)log(1-\hat{y}^i)$
+
+$\frac{1}{m} \sum_{i=1}^{m} L(\hat{y}^i, y^i)$
+
+The loss function is the loss of 1 parameter, whilst the cost function is the averaged loss of all parameters.
+
+Ultimately, logistic regression can be seen as a mini-neural network. Logistic regression computed on a single datapoint can be considered a neuron of a neural network!
+
+>**Note**: For the full math, check [here](/Artificial-Intelligence/Machine-Learning/Logistic-Regression/logistic-regression-math.md)
