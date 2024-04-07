@@ -10,6 +10,8 @@ def make_pred(w, b, x, y):
         pred = a[i]
         true_val = y[i]
 
+        pred = np.max(pred)
+
         print(f"Prediction: {pred}")
         print(f"True Value: {true_val}")
 
@@ -19,7 +21,7 @@ if __name__ == "__main__":
     data = pd.read_csv("./Data/randomtest.csv")
     data = np.array(data)
     
-    x_test = data[:, 0].reshape(-1,1)
+    x_test = data[:, 0:2]
     y_test = data[:, 2].reshape(-1,1)
 
     make_pred(w, b, x_test, y_test)

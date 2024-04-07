@@ -3,6 +3,8 @@
 import pandas as pd
 import numpy as np
 import pickle
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
 
 # SAVING MODEL
 def save_model(w, b, filename):
@@ -16,8 +18,8 @@ def load_model(filename):
 
 # PARAMS
 def params():
-    w = np.random.rand(1)
-    b = np.random.rand(1)
+    w = np.random.rand(2,1)
+    b = np.random.rand(1,1)
     return w,b
 
 
@@ -80,12 +82,12 @@ if __name__ == "__main__":
     data = pd.read_csv("./Data/randomtrain.csv")
     data = np.array(data)
 
-    x_train = data[:, 0].reshape(-1,1) # 200, 1
+    x_train = data[:, 0:2] # 400, 1
     y_train = data[:, 2].reshape(-1,1) # 200, 1
 
 
     epochs = 1000
-    alpha = .0001
+    alpha = .00001
 
     w, b = gradient_descent(x_train, y_train, epochs, alpha)
     save_model(w, b, 'models/linreg.pkl')
