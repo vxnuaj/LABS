@@ -1,5 +1,5 @@
 import logreg
-from logreg import load_model, forward
+from logreg import load_model, forward, log_loss
 import pandas as pd
 import numpy as np
 
@@ -12,8 +12,10 @@ def make_pred(w, b, x, y):
 
         pred = np.max(pred)
 
+        loss = log_loss(pred, true_val)     
         print(f"Prediction: {pred}")
         print(f"True Value: {true_val}")
+        print(f"Loss: {loss}")
 
 if __name__ == "__main__":
     w, b = load_model('models/linreg.pkl')
@@ -25,5 +27,4 @@ if __name__ == "__main__":
     y_test = data[:, 2].reshape(-1,1)
 
     make_pred(w, b, x_test, y_test)
-
 

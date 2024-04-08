@@ -3,8 +3,6 @@
 import pandas as pd
 import numpy as np
 import pickle
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 
 # SAVING MODEL
 def save_model(w, b, filename):
@@ -36,7 +34,8 @@ def sigmoid(z):
 
 # LOSS FUNC | CROSS ENTROPY LOSS
 def log_loss(a, y):
-    loss = -np.mean(y * np.log(a) + (1 - y) * np.log(1-a))
+    epsilon = 1e-10
+    loss = np.mean(-y * np.log(a + epsilon) - (1 - y) * np.log(1 - a + epsilon))
     return loss
 
 

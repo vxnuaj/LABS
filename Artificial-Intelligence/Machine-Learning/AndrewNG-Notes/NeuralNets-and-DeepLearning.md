@@ -145,6 +145,6 @@ The loss function is the loss of 1 parameter, whilst the cost function is the av
 
 Ultimately, logistic regression can be seen as a mini-neural network. Logistic regression computed on a single datapoint can be considered a neuron of a neural network!
 
->**Note**: For the full math, check [here](/Artificial-Intelligence/Machine-Learning/Logistic-Regression/logistic-regression-math.md)
+>**Note**: For the full math, check [here](/Artificial-Intelligence/Machine-Learning/Logistic-Regression/logregmath.md)
 
 ## Gradient Descent

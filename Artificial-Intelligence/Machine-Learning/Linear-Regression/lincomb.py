@@ -48,7 +48,3 @@ if __name__ == "__main__":
     alpha = .0001
 
     m, b = gradient_descent(x, y, m, b, epochs, alpha)
-
-
-
-
