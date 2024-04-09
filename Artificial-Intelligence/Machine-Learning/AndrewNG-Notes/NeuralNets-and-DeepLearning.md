@@ -125,7 +125,7 @@ So essentially given a training set, $[(x^1, y^1),...,(x^m, y^m)]$, you want $\h
 
 #### Logistic Regression Cost Function
 
-A common loss function typically used in linear regression is the squared error, $(y - \hat{y})^2$. In logistic regression we can't use this as it introduces an optimization problem. Where logistic regression isn't linear, the loss function will have local minima. Using the squared error doesn't allow for a network to optimize it's weights past those local minima to a global minima.
+A common loss function typically used in linear regression is the squared error, $(y - \hat{y})^2$. In logistic regression we can't use this as it introduces an optimization problem. Where logistic regression isn't linear, the loss function will have local minima. Using the squared error doesn't allow for a network to optimize it's weights past those local minima to a global optima.
 
 The loss function for logistic regression is typically, 
 
@@ -148,3 +148,35 @@ Ultimately, logistic regression can be seen as a mini-neural network. Logistic r
 >**Note**: For the full math, check [here](/Artificial-Intelligence/Machine-Learning/Logistic-Regression/logregmath.md)
 
 ## Gradient Descent
+
+Given the cost function:
+
+$J(w,b) = \frac{1}{m} \sum_{i=1}^{m} - y^ilog{\hat{y}^i} + (1-y^i)log(1-\hat{y}^i)$
+
+our goal is to minimize the value of this cost function by dynamicall adjusting params $w$ and $b$ through gradient descent.
+
+This is what gradient descent looks like visualized:
+
+<img src = "https://builtin.com/sites/www.builtin.com/files/styles/ckeditor_optimize/public/inline-images/national/gradient-descent-convex-function.png" width = "350" />
+
+Here, the horizontal axes represents $w$ and $w$, the parameters, while $J(w,b)$ is the value of the cost function represented as the height.
+
+Ultimately, you want to find optimal values $w$ and $b$ to find the global optima of this convex function, $J$.
+
+> _Here, $J$ is the log loss function which is a convex function for Logistic regression. If the function wasn't convex, you'd risk getting params $w$ and $b$ at a local minima stalling the training process._
+
+For gradient descent, you'd initialize $w$ and $b$ either as 0 (`np.zeroes`) or a random value (`np.random.rand`). Either or works well, you'll eventually arrive at the same optima. 
+
+After iterations of gradient descent, based on a learning rate (typically denoted as alpha or ⍺), $w$ and $b$ begin to be optimized towards values that optimize the loss to a global optima.
+
+This is done through the update rule: 
+
+$θ - ⍺ * (\frac{∂J}{∂θ})$
+
+where 
+
+- $⍺$ is the learning rate
+- $\frac{∂J}{∂θ}$ is the gradient of the loss w.r.t to parameter $θ$
+    - This gradient ultimately denotes how steep the slope of the loss function is at the value which $θ$ represents. The larger the gradient is, the further away it is from the global optima.
+
+This update rule moves the value of $θ$ in the oppostie direction of the gradient to find the global optima.
