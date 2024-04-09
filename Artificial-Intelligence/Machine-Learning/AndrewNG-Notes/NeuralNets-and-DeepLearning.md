@@ -218,7 +218,65 @@ $\frac{∂J}{∂a} = (3)(3)$
 
 $\frac{∂J}{∂a} = 9$
 
+Then, if we change $a$, we can change $b$, which ultimately can change the gradient of the loss, $J$, to a minimal value over time through the update rule, $θ = θ - ⍺ * \frac{∂J}{∂θ}$
 
+Let's find the gradient of an earlier parameter, say $z$
 
+Say we increase $z$ by $.001$ and,
+- $a$ increases by $.001$
+- $b$ increases by $.003$
+- $J$ increases by $.009$
 
-Then, if we change $a$, we can change $b$, which ultimately changes the loss, $J$.
+$\frac{∂a}{∂z}$ is equal to 1 as an increase in param $z$ is equivalent to a same increase param $a$
+
+From this, we can tell that $\frac{∂J}{∂z}$ is equal to 9, just like $\frac{∂J}{∂a}$.
+
+Again, this can be computed using the chain rule as:
+
+$\frac{∂J}{∂z} = (\frac{∂J}{∂b})(\frac{∂b}{∂a})(\frac{∂a}{∂z})$
+
+> *We can replace $(\frac{∂J}{∂b})(\frac{∂b}{∂a})$ with $\frac{∂J}{∂a}$ as we've calculated that earlier through $\frac{∂J}{∂a}=(\frac{∂J}{∂b})(\frac{∂b}{∂a})$*
+
+$\frac{∂J}{∂z} = (\frac{∂J}{∂a})(\frac{∂a}{∂z})$
+
+$\frac{∂J}{∂z} = (9)(1)$
+
+$\frac{∂J}{∂z} = 9$
+
+Then, if we change $z$ we can change $a$ which then changes $b$ which then ultimately changes $J$. Through the update rule, $θ = θ - ⍺ * \frac{∂J}{∂θ}$, we can eventually change the loss $J$ to a minimal value. 
+
+This is what a model does during back propagation in order to increase its accuracy.
+
+## Logistic Regression & Gradient Descent.
+
+Say we implement a linear regression model and need to go through a training step. 
+
+This involves computing the gradient of the loss w.r.t to the parameters
+
+<img src = "imagebacklog/logregcompgraph.png" width = 500>
+
+To ultimately compute the loss, $L$ w.r.t the parameters, $w_1, w_2$ and $b$, we need to take the gradient with respect to $a$ and $z$ prior.
+
+To find $\frac{∂L}{∂w_1}$:
+
+$\frac{∂L}{∂z} = (\frac{∂L}{∂a})(\frac{∂a}{∂z})$
+
+$\frac{∂L}{∂w_1} = (\frac{∂L}{∂z})(\frac{∂z}{∂w_1})$
+
+Similarly, for $\frac{∂L}{∂w_2}$:
+
+$\frac{∂L}{∂z} = (\frac{∂L}{∂a})(\frac{∂a}{∂z})$
+
+$\frac{∂L}{∂w_2} = (\frac{∂L}{∂z})(\frac{∂z}{∂w_2})$
+
+And again for, for $\frac{∂L}{∂b}$:
+
+$\frac{∂L}{∂z} = (\frac{∂L}{∂a})(\frac{∂a}{∂z})$
+
+$\frac{∂L}{∂b} = (\frac{∂L}{∂z})(\frac{∂z}{∂b})$
+
+Afterward, to update each parameter, we implement the update rule as:
+
+$θ = θ - ⍺ * \frac{∂L}{∂θ}$
+
+where $θ$ is a parameter.
