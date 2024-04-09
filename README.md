@@ -18,4 +18,5 @@ I'll be adding as I go :)
 02. Artificial Intelligence
     01. [Machine Learning](Artificial-Intelligence/MachineLearning)
         01. [Linear-Regression](Artificial-Intelligence/Machine-Learning/Linear-Regression/)
+        02. [Logistic-Regression](Artificial-Intelligence/Machine-Learning/Logistic-Regression/)
         02. [AndrewNG-Notes](Artificial-Intelligence/Machine-Learning/AndrewNG-Notes/)

@@ -179,4 +179,4 @@ where
 - $\frac{∂J}{∂θ}$ is the gradient of the loss w.r.t to parameter $θ$
     - This gradient ultimately denotes how steep the slope of the loss function is at the value which $θ$ represents. The larger the gradient is, the further away it is from the global optima.
 
-This update rule moves the value of $θ$ in the oppostie direction of the gradient to find the global optima.
+This update rule moves the value of $θ$ in the oppostie direction of the gradient to ultimately find the global optima.

@@ -30,9 +30,9 @@ So essentially,
 
 5. Take the gradients with respect to bias $b$: $\frac{∂J}{∂b} = (\frac{∂J}{∂a})(\frac{∂a}{∂b})$
 
-6. Update weights $W$: $W$ = $W$ - $⍺ * \frac{∂J}{∂W}$
+6. Update weights $W$: $W = W - ⍺ * \frac{∂J}{∂W}$
 
-7. Update bias $b$: $b$ = $b$ - $⍺ * \frac{∂J}{∂b}$
+7. Update bias $b$: $b = b - ⍺ * \frac{∂J}{∂b}$
 
 8. Repeat for `range(len(n))`
 
