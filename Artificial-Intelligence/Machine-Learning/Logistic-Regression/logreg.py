@@ -1,4 +1,4 @@
-# 1 FEATURE, 1 TARGET (binary)
+# 2 FEATURES, 1 TARGET (binary classification)
 
 import pandas as pd
 import numpy as np
@@ -35,7 +35,7 @@ def sigmoid(z):
 # LOSS FUNC | CROSS ENTROPY LOSS
 def log_loss(a, y):
     epsilon = 1e-10
-    loss = np.mean(-y * np.log(a + epsilon) - (1 - y) * np.log(1 - a + epsilon))
+    loss = - np.mean(y * np.log(a + epsilon) + (1 - y) * np.log(1 - a + epsilon))
     return loss
 
 
@@ -78,10 +78,10 @@ def gradient_descent(x, y, epochs, alpha):
 
 if __name__ == "__main__":
 
-    data = pd.read_csv("./Data/randomtrain.csv")
+    data = pd.read_csv("Artificial-Intelligence/Machine-Learning/Logistic-Regression/Data/randomtrain.csv")
     data = np.array(data)
 
-    x_train = data[:, 0:2] # 400, 1
+    x_train = data[:, 0:2] # 200, 2
     y_train = data[:, 2].reshape(-1,1) # 200, 1
 
 
@@ -89,4 +89,4 @@ if __name__ == "__main__":
     alpha = .00001
 
     w, b = gradient_descent(x_train, y_train, epochs, alpha)
-    save_model(w, b, 'models/linreg.pkl')
+    save_model(w, b, 'Artificial-Intelligence/Machine-Learning/Logistic-Regression/models/linreg.pkl')
