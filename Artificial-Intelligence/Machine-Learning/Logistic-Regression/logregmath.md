@@ -14,7 +14,7 @@ Linear Regression: $z = W^TX + b$, where $z$ is the prediction/output of the lin
 
 Sigmoid: $σ(z) = \frac{1}{(1+e^{-z})}$, where $σ(z)$ is the activation output of the logistic regression. We'll use $a$ instead of $σ(z)$ for simplicity.
 
-Cross-Entropy Loss (Loss, not cost): $ L(Y,a)= - Y log(a) + (1-Y)log(1-a)$
+Cross-Entropy Loss (Loss, not cost): $L(Y,a)= - Y log(a) + (1-Y)log(1-a)$
 
 Cross-Entropy Cost: $J(Y,a) = \frac{1}{n}(-Y log(a) + (1-Y)log(1-a))$
 
