@@ -180,3 +180,45 @@ where
     - This gradient ultimately denotes how steep the slope of the loss function is at the value which $θ$ represents. The larger the gradient is, the further away it is from the global optima.
 
 This update rule moves the value of $θ$ in the oppostie direction of the gradient to ultimately find the global optima.
+
+
+## Computation Graphs, Derivatives, and Gradient Descent
+
+This is a computation graph:
+
+<img src = "https://colah.github.io/posts/2015-08-Backprop/img/tree-backprop.png" width = 400>
+
+
+
+Essentially, it's a means to sketch out mathematical operations of a model into different parts that feed into each other.
+
+It allows us to easily visualize the processes of the gradient descent in an understandable manner. With it, we're able to see more clearly the impact that specific params have on the total value of the loss function.
+
+Let's take this one as an example:
+
+<img src = "imagebacklog/computationgraph.png" width = 600>
+
+_ 
+
+Say we want to find $\frac{∂J}{∂b}$ and we know that param $b$ is equal to 9 while loss, $J$, is equal to $27$.
+
+Then, say we add $.002$ to parameter $b$ to get $9.002$ and the loss, $J$, increases by $.006$ to $27.006$
+
+From that, we know that the $\frac{∂J}{∂b}$ is equal to 3. As param $b$ increases by $.002$, loss $J$ increases by $3$ times as much indicating that the gradient/loss/derivative of $J$ w.r.t. to $b$ is $3$.
+
+Then say that the value of $a$ is equal to to $9$ and as we adjust $a$ upward by $.001$ to $9.001$, the value of $J$ increases by $.009$ from the original value $27$ to $27.009$. 
+
+This indicates that the  $\frac{∂J}{∂a}$ is equal to $9$ while the $\frac{∂b}{∂a}$ is equal to to $3$ given that the $\frac{∂J}{∂b}$ was also equal to $3$.
+
+This relationship can be easily calculated and shown through the chain rule for back propagation as such:
+
+$\frac{∂J}{∂a} = (\frac{∂J}{∂b})(\frac{∂b}{∂a})$
+
+$\frac{∂J}{∂a} = (3)(3)$
+
+$\frac{∂J}{∂a} = 9$
+
+
+
+
+Then, if we change $a$, we can change $b$, which ultimately changes the loss, $J$.
