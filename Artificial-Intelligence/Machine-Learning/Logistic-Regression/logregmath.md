@@ -1,6 +1,6 @@
 ## The Mathematics of Logistic Regression
 
->_Full implementation [here](logreg.py)_
+>_Full implementation [here](logreg2.py)_
 
 Given that we're using
 - Weight matrix $W$
