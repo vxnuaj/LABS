@@ -280,3 +280,19 @@ Afterward, to update each parameter, we implement the update rule as:
 $θ = θ - ⍺ * \frac{∂L}{∂θ}$
 
 where $θ$ is a parameter.
+
+If on a training set, where the total samples is denoted by $m$, you'd take the sum of  the loss over all samples $m$ and average it to find your average loss over the training set.
+
+$J(w,b) = \frac{1}{m} \sum_{i=1}^{m}L(a^i, y^i)$
+
+where
+- $L$ is the loss for $ith$ sample
+- $J$ is the cost over the entire training set.
+
+## Vectorization
+
+Vectorization is the process of converting all parameters $w_i$ from seperate values into a singular vector $W$.
+
+Turning all parameters into a singular vector $W$ allows for GPUs/CPUs to leverage built in functions that compute at a faster rate.
+
+Whenever possible, avoid using for-loops.
