@@ -1,6 +1,6 @@
 # Linear Algebra for Deep Learning
 
-### Transpose
+## Transpose
 
 The transpose of a matrix is essentially the flipping of rows of the matrix with its columns.
 
@@ -29,13 +29,15 @@ $Y^T = \begin{pmatrix} 1, 4, 7, 10 \\ 2, 5, 8, 11 \\ 3, 6, 9, 12\end{pmatrix}$
 
 </details>
 
-### Matrix Multiplication
+## Matrix Multiplication
 
 The dot product of $X$ and $W$ is the equivalent of: $X^Tw$ or $W^Tx$, depending on the order you compute it in. 
 
 $ W:\begin{pmatrix} 2, 3, 3 \\ 3, 2, 1 \end{pmatrix} · X: \begin{pmatrix} 3, 2 \\ 1, 2 \\ 4, 3 \end{pmatrix} = \begin{pmatrix} (2 * 3 + 3*1 + 3*4), (2 * 2 + 3 * 2 + 3 * 3) \\ (3* 3 + 2 * 1 + 1 * 4), (3 * 2 + 2 * 2 + 1 * 3) \end{pmatrix} = Z: \begin{pmatrix} 21, 19 \\ 15, 13 \end{pmatrix}$ 
 
 Here, the values in the product matrix $Z$ is the sum of the element wise product of the rows of $W$ with the columns of $X$.
+
+>**NOTE**: The number of columns in the first matrix MUST match the number of rows in the second matrix.
 
 When implementing the dot product in deep learning  during the calculation for the weighted sum, you typically want to multiply $W$ by $X$ rather than the inverse.
 
@@ -68,7 +70,7 @@ $\begin{pmatrix} (7 + 18 + 33), (8 + 20 + 36) \\ (28 + 45 + 66), (32 + 50 + 72) 
 $Z:\begin{pmatrix} (58), (64) \\ (139), (154) \end{pmatrix}$
 </details>
 
-### Dot Product
+## Dot Product
 
 Tldr; It's the vector version of the matrix multiplication
 
@@ -90,3 +92,73 @@ which will ultimately equal:
 $(2 * 1) + (3 * 4) + (6 * 5) = 2 + 12 + 30 = 44$
 
 </details>
+
+## Norm
+
+The Norm is essentially, the size, magnitude, or length of a Vector
+
+Say we have vectors:
+
+$x = \begin{pmatrix} 4 \\ 3 \end{pmatrix}$
+
+$y = \begin{pmatrix} -2 \\ 2 \end{pmatrix}$
+
+The distance of vector $y$ from the origin and the distance of vector $x$ from the origin are both calculated through $L_n$ norms.
+
+### $L_1$ norm: Manhattan Distance
+
+> [_Great Resource!_](https://www.youtube.com/watch?v=FiSy6zWDfiA)
+
+The $L_1$ norm is essentially the distance of a point from the x-axis added to the distance of a point from the y-axis.
+
+The formula for calculating the $L_1$ norm of a vector $x$ is given as:
+
+$L_1 = |x_1| + |x_2| + ... + |x_n|$
+
+or 
+
+$L_1 = \sum_{n=1}^{N}|x_n|$
+
+where
+- $n$ is the index for each value in a given vector
+
+
+### $L_2$ norm: Euclidean Distance
+
+The $L_2$ norm calculates the minimal distance from a given point to the origin by taking the square root of the sum of each $x_n^2$.
+
+The formula to calculate the $L_2$ norm of vector is given as:
+
+$L_2 = \sqrt{x_{1}^{2} + x_{2}^{2} + ... x_{n}^{2}}$
+
+or 
+
+$L_2 = \sqrt{\sum_{n = 1}^{N} x_{n}^{2}}$
+
+where
+- $n$ is the index for each value in a given vector
+
+<details> <summary> Example with vector x </summary>
+
+For vector $x$, the $L_2$ norm would be:
+
+$L_2 = \sqrt{4^{2} + 3^{2}}$
+
+$L_2 = \sqrt{16 + 9}$
+
+$L_2 = \sqrt{25}$
+
+$L_2 = 5$
+</details>
+
+<details> <summary> Example with vector y </summary>
+
+For vector $y$, the $L_2$ norm woudl be:
+
+$L_2 = \sqrt{-2^{2} + 2^{2}}$
+
+$L_2 = \sqrt{4 + 4}$
+
+$L_2 = \sqrt{8}$
+
+$L_2 = 2\sqrt{2} ≈ 2.83

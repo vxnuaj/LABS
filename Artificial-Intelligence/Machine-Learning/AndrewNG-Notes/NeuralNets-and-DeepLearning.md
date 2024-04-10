@@ -291,8 +291,24 @@ where
 
 ## Vectorization
 
-Vectorization is the process of converting all parameters $w_i$ from seperate values into a singular vector $W$.
+Vectorization is the process of converting all parameters $θ_i$ or inputs $x_i$ from seperate values into a singular vector or matrix $Θ$ / $X$
 
-Turning all parameters into a singular vector $W$ allows for GPUs/CPUs to leverage built in functions that compute at a faster rate.
+Turning all parameters into a singular vector/matrix $Θ$ / $X$ allows for GPUs/CPUs to leverage built in functions that compute at a faster rate.
 
-Whenever possible, avoid using for-loops.
+Whenever possible, avoid using for-loops!! It slows computations down!
+
+## Broadcasting 
+
+Broadcasting is a feature in numpy that allows for a matrix or vector to be appended to match the dimensions of another matrix to perform a specific operation, $+, -, *,$ or $/$
+
+Say I have the following matrices:
+
+$A = \begin{pmatrix} 2, 4, 5 \\ 4, 1, 3 \end{pmatrix}$ of dimensions $(2, 3)$
+
+$B = \begin{pmatrix} 2, 3, 4 \end{pmatrix}$ of dimenstions $(1, 3)$
+
+if I multiply $A · B$ as `np.dot(A, B)`, the dimensions of $B$ will align to match the dimensions of $A$
+
+$(1, 3) \rightarrow (2, 3)$
+
+$\begin{pmatrix} 2, 4, 5 \\ 4, 1, 3 \end{pmatrix}$ ·$\begin{pmatrix} 2, 3, 4 \\ 2, 3, 4 \end{pmatrix}$
