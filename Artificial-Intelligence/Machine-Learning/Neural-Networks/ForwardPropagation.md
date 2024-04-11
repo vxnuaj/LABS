@@ -16,7 +16,9 @@ where $i$ is the index of a specific neuron. The subscript is the index of the c
 
 The inputs, $x^{[i]}$, are represented by column vector $X$
 
+``` math
 $X = \begin{pmatrix} x_1^{[1]} \\ x_1^{[2]} \\ x_1^{[3]}\end{pmatrix}$
+```
 
 > For $x$, the superscript is the index of each neuron and the subscript is the index of each input sample.
 
@@ -24,7 +26,9 @@ Then given the size of our input vector $X$ and the number of neurons, $n$, the 
 
 This weights matrix is defined as $W_{[1]}$, the subscript $1$ indicating the first hidden layer, where:
 
+``` math
 $ W_{[1]} = \begin{pmatrix} w_{11}^{1}, w_{12}^{1}, w_{13}^{1} \\  w_{11}^{2}, w_{12}^{2}, w_{13}^{2} \end{pmatrix}$
+```
 
 > Each $w$ has subscripts representing the given index and the given layer. The first number is the current layer and the second number is the current weight parameter. The superscript is the index of each neuron. Similar notation will apply for the rest of the computations.
 
@@ -32,25 +36,29 @@ To begin the forward propagation, you take can take the input matrix $X$ and app
 
 >**np.dot(W, X)**
 
-
+``` math
 $ Z_{[1]} = \begin{pmatrix} w_{11}^{1}, w_{12}^{1}, w_{13}^{1} \\ w_{11}^{2}, w_{12}^{2}, w_{13}^{2} \end{pmatrix} · \begin{pmatrix} x^{[1]} \\ x^{[2]}\\ x^{[3]} \end{pmatrix}$
 
 $ Z_{[1]} = \begin{pmatrix} w_{11}^{1}x^{[1]} + w_{12}^{1}x^{[2]} + w_{13}^{1}x^{[3]} \\  w_{11}^{2}x^{[1]} + w_{12}^{2}x^{[2]} + w_{13}^{2}x^{[2]} \end{pmatrix}$
 
 $ Z_{[1]} = \begin{pmatrix} z_1^1 \\  z_1^2 \end{pmatrix}$
-
+```
 
 Here, $Z$ is our weighted sum matrix for the $1st$ hidden layer.
 
 Then we can take a bias vector $B$, and element-wise add each bias to each $z_1^i$.
 
+``` math
 $ Z_{[1]} = \begin{pmatrix} z_1^1 \\  z_1^2 \end{pmatrix} + \begin{pmatrix} b_{1}^1 \\ b_{1}^2 \end{pmatrix}$
+```
 
 Afterward, we apply the sigmoid function to each element in the matrix $Z_{[1]}$ for the activations in the current layer.
 
+``` math
 $A_{[1]} = \begin{pmatrix} σ(z_1^1) \\ σ(z_1^2) \end{pmatrix}$
 
 $A_{[1] }= \begin{pmatrix} a_{1}^{1} \\  a_{1}^{2} \end{pmatrix}$
+```
 
 The matrix $A_{[1]}$ represents the output for each of our 2 neurons in our first hidden layer!
 
@@ -58,23 +66,31 @@ To get the final output / prediction of this mini neural network, we apply anoth
 
 Given that our output layer only has 1 neuron, we use a weights matrix (well vector) of:
 
+``` math
 $W_{[2]} = \begin{pmatrix} w_{21}^1, w_{21}^1 \end{pmatrix}$
+```
 
 So we do a matrix multiplication:
 
+``` math
  $ Z_{[2]} = \begin{pmatrix} w_{21}^1a_{1}^{1} + w_{21}^1a_{1}^{2} \end{pmatrix}$
 
  $Z_{[2]} = (z_{21}^1)$
+```
 
 Then add a bias once again, this time only 1 given that our output layer consists of 1 neuron
 
+``` math
  $Z_{[2]} = (z_{21}^1) + (b_{21}^1)$
+```
 
 Then we can apply a sigmoig activation function (or in some cases softmax) to get our final prediction / output:
 
+``` math
 $A_{[2]} = \begin{pmatrix} σ(z_{21}^1)\end{pmatrix}$
 
 $A_{[2] }= \begin{pmatrix} a_{21}^{1}\end{pmatrix}$
+```
 
 And that's the final output for our very simple neural network, for only 1 sample.
 
@@ -82,7 +98,9 @@ We can do something very similar for multiple samples.
 
 Say we have a matrix $X$ of 2 samples:
 
+``` math
 $X = \begin{pmatrix} x_{1}^{1}, x_{2}^{1} \\ x_{1}^{2}, x_{2}^{2} \\ x_{1}^{3}, x_{2}^{3} \end{pmatrix}$
+```
 
 > _Here, the superscripts represent a neuron / input feature, $i$, and the subscripts represent the index of each sample._
 
@@ -96,11 +114,13 @@ $X · W_1$
 
 > _We're using the previous weight matrix of dimensions (2,3)_
 
-$ Z_1 = \begin{pmatrix} w_{11}^{1}, w_{12}^{1}, w_{13}^{1} \\  w_{11}^{2}, w_{12}^{2}, w_{13}^{2} \end{pmatrix} · \begin{pmatrix} x_1^{[1]}, x_2^{[1]} \\ x_1^{[2]}, x_2^{[2]} \\ x_1^{[3]}, x_2^{[3]}\end{pmatrix}$
+```math
+Z_1 = \begin{pmatrix} w_{11}^{1}, w_{12}^{1}, w_{13}^{1} \\  w_{11}^{2}, w_{12}^{2}, w_{13}^{2} \end{pmatrix} · \begin{pmatrix} x_1^{[1]}, x_2^{[1]} \\ x_1^{[2]}, x_2^{[2]} \\ x_1^{[3]}, x_2^{[3]}\end{pmatrix}
 
-$ Z_1 = \begin{pmatrix} w_{11}^{1}x_1^{[1]} + w_{12}^{1}x_1^{[2]} + w_{13}^{1}x_1^{[3]}, w_{11}^{1}x_2^{[1]} + w_{12}^{1}x_2^{[2]} + w_{13}^{1}x_2^{[3]}  \\  w_{11}^{2}x_1^{[1]} + w_{12}^{2}x_1^{[2]} + w_{13}^{2}x_1^{[2]}, w_{11}^{1}x_2^{[1]} + w_{12}^{1}x_2^{[2]} + w_{13}^{1}x_2^{[3]} \end{pmatrix}$
+ Z_1 = \begin{pmatrix} w_{11}^{1}x_1^{[1]} + w_{12}^{1}x_1^{[2]} + w_{13}^{1}x_1^{[3]}, w_{11}^{1}x_2^{[1]} + w_{12}^{1}x_2^{[2]} + w_{13}^{1}x_2^{[3]}  \\  w_{11}^{2}x_1^{[1]} + w_{12}^{2}x_1^{[2]} + w_{13}^{2}x_1^{[2]}, w_{11}^{1}x_2^{[1]} + w_{12}^{1}x_2^{[2]} + w_{13}^{1}x_2^{[3]} \end{pmatrix}$
 
-$ Z_1 = \begin{pmatrix} z_{11}^1, z_{12}^1 \\ z_{11}^2, z_{12}^2\end{pmatrix} $
+ Z_1 = \begin{pmatrix} z_{11}^1, z_{12}^1 \\ z_{11}^2, z_{12}^2\end{pmatrix}
+```
 
 > _This might get a little confusing so here's the notation again:_
 >
