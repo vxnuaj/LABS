@@ -1,4 +1,4 @@
-# Neural Network Basics | Week 2
+# Neural Networks and Deep Learning | Week 2
 
 > _I didn't take notes on Week 1, primarily due to lack of complexity_
 
