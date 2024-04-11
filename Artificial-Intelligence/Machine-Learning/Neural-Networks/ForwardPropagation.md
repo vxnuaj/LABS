@@ -114,7 +114,7 @@ $ Z_1 = \begin{pmatrix} z_{11}^1, z_{12}^1 \\ z_{11}^2, z_{12}^2\end{pmatrix} $
 
 Then ultimately, you'd apply the addition of the bias matrix, $B$, and the sigmoid function, σ, to get the activation matrix $A$ which would look as:
 ```math
-$A_{[1] }= \begin{pmatrix}a_{11}^{1}, a_{12}^{1} \\\  a_{11}^{2}, a_{12}^{2}\end{pmatrix}$
+A_{[1] }= \begin{pmatrix}a_{11}^{1}, a_{12}^{1} \\\  a_{11}^{2}, a_{12}^{2}\end{pmatrix}
 ```
 You can then propagate this forward by another matrix multiplication with matrix, $W_2$, another addition to with bias matrix, $B_2$, and finally apply a sigmoid activation function to get matrix $A_2$ which holds your final activations/predictions with dimensions $(1,2)$ where 1 is the number of output neurons and 2 is the total samples [^1].
 
