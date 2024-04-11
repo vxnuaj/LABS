@@ -24,7 +24,7 @@ So essentially,
 
 2. ApplY Sigmoid Activation through, $a = σ(z) = \frac{1}{(1+e^{-z})}$
 
-3. Calculate the Loss: $L(Y,a) = -Y log(a) + (1-Y)log(1-a)$
+3. Calculate the Loss: $L(Y,a) = -(Y log(a) + (1-Y)log(1-a))$
 
 4. Take the gradients with respect to weights $W$: $\frac{∂J}{∂W} = (\frac{∂J}{∂a})(\frac{∂a}{∂z})(\frac{∂z}{∂w})$
 
