@@ -5,6 +5,7 @@
 <details> 
 <summary>Notation</summary>
 
+
 $z_{1}^1 = w_{1}^{[1]T}x_1^{[1]} + b_{1}^{[1]} $
 
 Here, the superscript refers to the current layer and subscript refers to the specific neuron in a given layer.
@@ -51,7 +52,9 @@ $w_{4}^{[1]T}x_3^{[1]} + b_{4}^{[1]} = z_{4}^1 \rightarrow \frac{1}{1 + e^{-z_4^
 
 Rather than computing each single activation seperate from each other, you can vectorize the parameters and inputs into matrices to make equations simpler
 
+```math
 $\begin{pmatrix} w_1^{[1]T} \\ w_2^{[1]T} \\ w_3^{[1]T} \\ w_4^{[1]T} \end{pmatrix} · \begin{pmatrix}x_1 \\ x_2 \\ x_3 \end{pmatrix} + \begin{pmatrix} b_1^1 \\ b_2^1 \\ b_3^1 \\ b_4^1 \end{pmatrix}$
+```
 
 This will ultimately yield a matrix $Z^{[1]}$ whicih can then be sent through a sigmiod activation for a matrix output of $a^{[1]}$
 
@@ -80,3 +83,6 @@ You can easily vectorize your inputs and feed them forward at once.
 >_Then, the total number of rows - row[0] (because these are the labels) equals the total number of features per sample in the training set._
 >
 > _This depends on the nature of your dataset and the conventions you'd wish to use_
+
+For more details refer to [here](/Artificial-Intelligence/Machine-Learning/Neural-Networks/ForwardPropagation.md)
+
