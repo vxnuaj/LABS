@@ -1,8 +1,8 @@
 def main():
 	mass = input("Enter your mass in KG:")
-	joules =convert(mass)
+	joules = convert(mass)
 	print(joules)
-	return
+    return z
 
 def convert(m):
 	m = int(m)
@@ -10,3 +10,4 @@ def convert(m):
 	return joules
 
 main()
+

@@ -1,6 +1,7 @@
 def main():
 	user_input = user_inputs()
 	snake_case = convert(user_input)
+	b = 0
 	print(snake_case)	
 
 def user_inputs():
@@ -19,6 +20,10 @@ def convert(user_input):
 			snake_case = user_input
 			return snake_case			
 main()
+
+def hi():
+    return a
+    
 
 
 # camelCase
