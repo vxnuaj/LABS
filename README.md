@@ -1,6 +1,6 @@
 ## Labs
 
-This repo is where I mess around and tinker with code as I build engineering skillsets to contribute to the future of humanity at the bleeding edge of technology.
+This repo is where I test and tinker with code as I build engineering skillsets to contribute to the future of humanity at the bleeding edge of technology.
 
 Any code I write or learnings I takeaway while I'm building foundational knowledge and technical depth will be writtin in this git repo.
 
@@ -8,7 +8,7 @@ Any code I write or learnings I takeaway while I'm building foundational knowled
 
 ### Index
 
-01. [Programming](Programming)
+01. [Python](Python)
 
 01. [Machine Learning](Artificial-Intelligence/Machine-Learning)
     1. [Base Mathematics](Artificial-Intelligence/Machine-Learning/Base-Mathematics/)
