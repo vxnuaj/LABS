@@ -16,6 +16,7 @@ def is_valid(s):
 		return False
 
 
+
 def start_with(s):
 	if s[:1].isalpha():
 		return True
@@ -35,14 +36,13 @@ def start_end(s):
 		return False
 	
 # Works Fine
+
 def punc_space(s):
-	if any(char in string.punctuation for char in s) == False:
-		if s.isspace() == False:
+	if not any(char in string.punctuation for char in s):
+		if not s.isspace():
 			return True
 		else:
 			return False
-
+		
 if __name__ == "__main__":
 	main()
-
-
