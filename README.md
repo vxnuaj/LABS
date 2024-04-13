@@ -9,9 +9,5 @@ Any code I write or learnings I takeaway while I'm building foundational knowled
 ### Index
 
 1. [Python](Python)
-
-01. [Machine Learning](Machine-Learning)
-    1. [Base Mathematics](./Machine-Learning/Base-Mathematics/)
-    1.  [Linear-Regression](./Machine-Learning/Linear-Regression/)
-    1.  [Logistic-Regression](./Machine-Learning/Logistic-Regression/)
+2. [Deep Learning](Deep-Learning)
 
