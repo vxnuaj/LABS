@@ -8,23 +8,30 @@ The transpose of a matrix is essentially the flipping of rows of the matrix with
 <summary> Example 1 </summary>
 
 Given the matrix $X$
+
 ```math
 X = \begin{pmatrix} 2, 3 \\ 3, 2 \\ 5, 1 \\ 4, 2 \end{pmatrix}
+```
 
 the tranpose of it is:
 
+```math
 X^T = \begin{pmatrix} 2, 3, 5, 4 \\ 3, 2, 1, 2 \end{pmatrix} 
 ```
+
 </details>
 <details>
 <summary> Example 2 </summary>
 
 Given the matrix $Y$
-```
+
+```math
 Y = \begin{pmatrix}1, 2, 3 \\ 4, 5, 6 \\ 7, 8, 9 \\ 10, 11, 12 \end{pmatrix}$
+```
 
 the tranpose is given as:
 
+```math
 Y^T = \begin{pmatrix} 1, 4, 7, 10 \\ 2, 5, 8, 11 \\ 3, 6, 9, 12\end{pmatrix}
 ```
 
@@ -34,7 +41,7 @@ Y^T = \begin{pmatrix} 1, 4, 7, 10 \\ 2, 5, 8, 11 \\ 3, 6, 9, 12\end{pmatrix}
 
 The dot product of $X$ and $W$ is the equivalent of: $X^Tw$ or $W^Tx$, depending on the order you compute it in. 
 ```math
-W:\begin{pmatrix} 2, 3, 3 \\ 3, 2, 1 \end{pmatrix} · X: \begin{pmatrix} 3, 2 \\ 1, 2 \\ 4, 3 \end{pmatrix} = \begin{pmatrix} (2 * 3 + 3*1 + 3*4), (2 * 2 + 3 * 2 + 3 * 3) \\ (3* 3 + 2 * 1 + 1 * 4), (3 * 2 + 2 * 2 + 1 * 3) \end{pmatrix} = Z: \begin{pmatrix} 21, 19 \\ 15, 13 \end{pmatrix}$ 
+W:\begin{pmatrix} 2, 3, 3 \\ 3, 2, 1 \end{pmatrix} · X: \begin{pmatrix} 3, 2 \\ 1, 2 \\ 4, 3 \end{pmatrix} = \begin{pmatrix} (2 * 3 + 3*1 + 3*4), (2 * 2 + 3 * 2 + 3 * 3) \\ (3* 3 + 2 * 1 + 1 * 4), (3 * 2 + 2 * 2 + 1 * 3) \end{pmatrix} = Z: \begin{pmatrix} 21, 19 \\ 15, 13 \end{pmatrix}
 ```
 Here, the values in the product matrix $Z$ is the sum of the element wise product of the rows of $W$ with the columns of $X$.
 
