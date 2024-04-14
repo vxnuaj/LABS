@@ -39,7 +39,7 @@ Y^T = \begin{pmatrix} 1, 4, 7, 10 \\ 2, 5, 8, 11 \\ 3, 6, 9, 12\end{pmatrix}
 
 ## Matrix Multiplication
 
-The dot product of $X$ and $W$ is the equivalent of: $X^Tw$ or $W^Tx$, depending on the order you compute it in. 
+The dot product of $X$ and $W$ is the equivalent of:
 ```math
 W:\begin{pmatrix} 2, 3, 3 \\ 3, 2, 1 \end{pmatrix} · X: \begin{pmatrix} 3, 2 \\ 1, 2 \\ 4, 3 \end{pmatrix} = \begin{pmatrix} (2 * 3 + 3*1 + 3*4), (2 * 2 + 3 * 2 + 3 * 3) \\ (3* 3 + 2 * 1 + 1 * 4), (3 * 2 + 2 * 2 + 1 * 3) \end{pmatrix} = Z: \begin{pmatrix} 21, 19 \\ 15, 13 \end{pmatrix}
 ```

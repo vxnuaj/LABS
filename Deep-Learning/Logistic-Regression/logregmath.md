@@ -44,3 +44,4 @@ btw, gradients of loss (not cost) w.r.t param $W$ and $b$ is:
 
 - $\frac{∂L}{∂W} = (a - y) * X$
 - $\frac{∂L}{∂b} = (a - y)$
+- $θ = θ - ⍺ * \frac{∂J}{∂θ}$
