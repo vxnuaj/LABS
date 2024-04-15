@@ -4,6 +4,6 @@
 
 ### Index
 
-1. [Mathematics](./Mathematics)
-2. [Linear Regression](./Linear-Regression)
-3. [Logistic Regression](./Logistic-Regression)
+1. [Mathematics](Mathematics)
+2. [Regression](Regression)
+3. [Neural Networks](Neural-Networks)
