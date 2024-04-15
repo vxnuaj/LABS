@@ -9,12 +9,12 @@ def main():
 
 
 def usr_input():
-    ip = input("IPv4 address: ").strip()
+    ip = input("IPv4 address: ").strip()    
     try:
         one, two, three, four = ip.split(".")
         return int(one), int(two), int(three), int(four)
     except ValueError:
-        sys.exit("Invalid input!")
+        sys.exit("False")
 
 
 def validate(one, two, three, four):

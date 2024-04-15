@@ -1,19 +1,12 @@
 import pytest
-from email import usr_input, validate
-
-def main():
-    test_usr_input()
-    return
+from ip import usr_input, validate
 
 def test_usr_input():
-    ip = usr_input()
-    assert ip is int
-    return
+    one, two, three, four = usr_input()
+    assert one.is_integer()
+    assert two.is_integer()
+    assert three.is_integer()
+    assert four.is_integer()
 
 def test_validate():
-    cor_validation = validate(23, 23, 23, 255)
-    err_validation = validate(256, 256, 256, 256)
-    assert cor_validation is True
-
-if __name__ == "__main__":
-    main()
+    assert validate(200, 300, 300, 1000) == "False"
