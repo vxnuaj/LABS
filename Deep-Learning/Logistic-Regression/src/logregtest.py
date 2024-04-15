@@ -1,4 +1,4 @@
-from logreg2 import load_model, forward, log_loss
+from logreg import load_model, forward, log_loss
 import pandas as pd
 import numpy as np
 
