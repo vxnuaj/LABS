@@ -57,6 +57,7 @@ def gradient_descent(x, y, w, b, alpha, epochs):
         print(f"Epoch: {epoch}")
         print(f"Loss: {loss}")
 
+    print(a.shape)
     return w, b
 
 def model_train(x, y, alpha, epochs, filename):
@@ -86,7 +87,7 @@ if __name__ == "__main__":
     '''
     Normalizing data between 0 and 1: norm_data = (x - x_min) / (x_max - x_min)
     '''
-    X_train = (X_train - np.min(X_train, axis = 1, keepdims = True)) / (np.max(X_train, axis = 1, keepdims = True) - np.min(X_train, axis = 1, keepdims = True))
+    X_train = (X_train - np.min(X_train, axis = 0, keepdims = True)) / (np.max(X_train, axis = 0, keepdims = True) - np.min(X_train, axis = 0, keepdims = True))
 
 
     model_train(X_train, Y_train, .0001, 20000, filename)
