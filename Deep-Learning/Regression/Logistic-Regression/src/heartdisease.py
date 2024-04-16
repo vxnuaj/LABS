@@ -87,10 +87,10 @@ if __name__ == "__main__":
     '''
     Normalizing data between 0 and 1: norm_data = (x - x_min) / (x_max - x_min)
     '''
-    X_train = (X_train - np.min(X_train, axis = 0, keepdims = True)) / (np.max(X_train, axis = 0, keepdims = True) - np.min(X_train, axis = 0, keepdims = True))
+    #X_train = (X_train - np.min(X_train, axis = 0, keepdims = True)) / (np.max(X_train, axis = 0, keepdims = True) - np.min(X_train, axis = 0, keepdims = True))
 
 
-    model_train(X_train, Y_train, .0001, 20000, filename)
+    model_train(X_train, Y_train, .0001, 300000, filename)
 
 
 ''''
