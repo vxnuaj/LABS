@@ -11,28 +11,6 @@ class Student:
         statement = f"{self.name} from {self.house}!"
         return statement
     
-    @property
-    def name(self):
-        return self._name
-    
-    @name.setter
-    def name(self, name):
-        if not name:
-            raise ValueError("Missing name!")
-        self._name = name
-    
-    # A property allows for us to call an attribute in a given class to a desired specific parameter
-    @property
-    def house(self):  
-        return self._house
-    
-    # A getter allows for us to set rules when an attribute in a given class is assigned a new value.
-
-    @house.setter
-    def house(self, house):
-        if house not in ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]:
-            raise ValueError("Invalid house!")
-        self._house = house
 
 def main():
     student = get_student()
