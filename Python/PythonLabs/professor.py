@@ -1,6 +1,7 @@
 import sys
 import random
 
+
 def main():
     n = get_level()
     problems(n)
@@ -13,19 +14,19 @@ def get_level():
             n = input("Level: ")
             if n.isdigit() == True:
                 n = int(n)
-                if n not in [1,2,3]:
+                if n not in [1, 2, 3]:
                     continue
-                elif n in [1,2,3]:
+                elif n in [1, 2, 3]:
                     return n
             else:
                 continue
         except EOFError:
             sys.exit()
 
+
 def problems(n):
     score = 0
     attempts = 0
-
 
     if n == 1:
         for prob in range(10):
@@ -102,5 +103,6 @@ def problems(n):
                         sys.exit()
                 else:
                     continue
+
 
 main()
