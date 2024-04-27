@@ -59,7 +59,3 @@ if __name__ == "__main__":
     loss = 0
 
     m, b = gradient_descent(m, b, alpha, epochs, x, y, loss)
-
-    plt.scatter(x, y, color = "blue")
-    plt.plot(x, (m * x + b), color = "black")
-    plt.show()
