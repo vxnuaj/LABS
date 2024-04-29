@@ -8,6 +8,6 @@ Any code I write or learnings I takeaway while I'm building foundational knowled
 
 ### Index
 
-1. [Python](Python)
+1. [Programming](Programming)
 2. [Deep Learning](Deep-Learning)
 
