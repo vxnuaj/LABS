@@ -70,21 +70,24 @@ def update(w2, b2, w1, b1, dw2, db2, dw1, db1, alpha):
     b1 = b1 - alpha * db1
     return w1, b1, w2, b2
 
+
 def gradient_descent(X_train, Y_train, w1, b1, w2, b2, epochs, alpha, file):
     one_hot_y = one_hot(Y_train)
     for epoch in range(epochs):
         z1, a1, z2, a2 = forward(X_train, w1, b1, w2, b2)
+        
         acc = accuracy(a2, Y_train)
         l = cat_cross(one_hot_y, a2)
+        
         dw2, db2, dw1, db1 = backward(X_train, one_hot_y, a2, a1, w2)
         w1, b1, w2, b2 = update(w2, b2, w1, b1, dw2, db2, dw1, db1, alpha)
 
         print(f"epoch: {epoch}")
         print(f"loss: {l}")
-        print(f"acc: {acc} \n")
+        print(f"acc: {acc}%")
 
 
-    save_model(file, w1, b1, w2, b2)
+    save_model(file)
     return w1, b1, w2, b2
 
 def model(X_train, Y_train, epochs, alpha, file):
