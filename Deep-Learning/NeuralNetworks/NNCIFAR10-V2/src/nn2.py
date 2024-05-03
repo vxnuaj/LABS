@@ -1,3 +1,7 @@
+''''
+spedran this, 30 min?
+'''
+
 import numpy as np
 import pickle
 from preprocess import X_train, Y_train
