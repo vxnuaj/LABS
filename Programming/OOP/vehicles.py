@@ -1,4 +1,10 @@
-'''class Vehicle:
+'''
+
+https://pynative.com/python-object-oriented-programming-oop-exercise/#h-oop-exercise-1-create-a-class-with-instance-attributes
+
+#EXERCISE 1-3
+
+class Vehicle:
     def __init__(self, name, max_speed, mileage):
         self.name = name
         self.max_speed = max_speed
@@ -19,6 +25,9 @@ print(bus)
 
 
 '''
+'''
+
+# EXERCISE 4
 
 class Vehicle:
     def __init__(self, name, max_speed, mileage):
@@ -36,4 +45,4 @@ class Bus(Vehicle):
 
 bus = Bus('bus', 20, 200)
 
-print(bus.seating_capacity())
+print(bus.seating_capacity())'''
