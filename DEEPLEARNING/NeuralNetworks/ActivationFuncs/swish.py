@@ -17,11 +17,12 @@ def init_params():
     b2 = np.zeros((10, 1))
     return w1, b1, w2, b2
 
-def relu(z):
-    return np.maximum(z, 0)
+def swish(z, beta = 1):
+    return z * (1/(1+np.exp(beta * -z)))
 
-def relu_deriv(z):
-    return z > 0
+def swish_deriv(z, beta=1):
+    swish_z = z * (1 / (1 + np.exp(-beta * z)))
+    return swish_z + (-beta * z * np.exp(-beta * z)) / ((1 + np.exp(-beta * z)) ** 2)
 
 def softmax(z):
     eps = 1e-6
@@ -29,7 +30,7 @@ def softmax(z):
 
 def forward(x, w1, b1, w2, b2):
     z1 = np.dot(w1, x) + b1
-    a1 = relu(z1)
+    a1 = swish(z1)
     z2 = np.dot(w2, a1) + b2
     a2 = softmax(z2)
     return z1, a1, z2, a2
@@ -49,12 +50,11 @@ def accuracy(y, a2):
     acc = np.sum(pred == y) / 60000 * 100
     return acc
 
-
 def backward(x, one_hot_y, w2, a2, a1, z2, z1):
     dz2 = a2 - one_hot_y # difference between a one_hot_y vs regular y?
     dw2 = np.dot(dz2, a1.T) / 60000
     db2 = np.sum(dz2, axis = 1, keepdims=True) / 60000
-    dz1 = np.dot(w2.T, dz2) * relu_deriv(z1)
+    dz1 = np.dot(w2.T, dz2) * swish_deriv(z1)
     dw1 = np.dot(dz1, x.T) / 60000
     db1 = np.sum(dz1, axis=1, keepdims=True) / 60000
     return dw2, db2, dw1, db1
@@ -106,9 +106,3 @@ if __name__ == "__main__":
     file = 'models/mnistnn.pkl'
 
     w1, b1, w2, b2 = model(X_train, Y_train, 1000, .1, file)
-    
-'''
-reflection.
-
-a deeper network trains slower. for the mnist classification task, i think less layers makes sense. maybe because it lacks complexity?
-'''

@@ -39,6 +39,7 @@ def relu(z):
 def relu_deriv(z):
     return z > 0
 
+
 def softmax(z):
     eps = 1e-6
     return np.exp(z + eps) / np.sum(np.exp(z + eps), axis = 0, keepdims=True)

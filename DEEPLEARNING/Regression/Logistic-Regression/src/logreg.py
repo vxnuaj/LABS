@@ -67,7 +67,7 @@ def gradient_descent(x, y, alpha, epochs):
 
 if __name__ == "__main__":
 
-    data = pd.read_csv("./Logistic-Regression/Data/randomtrain.csv")
+    data = pd.read_csv("Data/randomtrain.csv")
     data = np.array(data)
 
     X_train = data[:, 0:2]
@@ -76,6 +76,8 @@ if __name__ == "__main__":
     alpha = .0001
     epochs = 5000
 
-    w, b = gradient_descent(X_train, Y_train, alpha, epochs)
-    save_model(w, b, './Logistic-Regression/models/linreg.pkl')
+    print(X_train.dtype)
 
+    '''w, b = gradient_descent(X_train, Y_train, alpha, epochs)
+    save_model(w, b, './Logistic-Regression/models/linreg.pkl')
+'''
