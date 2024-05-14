@@ -11,3 +11,5 @@
 I think it's clear that MSE punishes more heavily than MAE. The loss here only goes to about .000X while in the MSE implementation, the loss goes to 0.0000000000000000000000000000086602. 
 
 This is very much due to the squared nature of the MSE.
+
+MAE doesn't punish as severely as MSE meaning slower convergence, but the gain here is that it's more robust to outliers.
