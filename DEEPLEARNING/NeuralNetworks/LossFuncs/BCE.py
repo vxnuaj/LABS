@@ -42,10 +42,10 @@ def loss(y, a):
 def backward(x, y, w2, a2, a1, z1):
     dz2 = a2 - y
     dw2 = np.dot(dz2, a1.T) / 900
-    db2 = np.sum(dz2, axis = 1, keepdims=True)
+    db2 = np.sum(dz2, axis = 1, keepdims=True) / 900
     dz1 = np.dot(w2.T, dz2) * leaky_relu_deriv(z1)
     dw1 = np.dot(dz1, x.T) / 900
-    db1 = np.sum(dz1) / 900
+    db1 = np.sum(dz1, axis = 1, keepdims=True) / 900
     return dw1, db1, dw2, db2
 
 def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
@@ -86,5 +86,5 @@ if __name__ == "__main__":
     Y_train = np.array(Y_train)
     Y_train = binary_num(Y_train).reshape(1, -1)
 
-    model(X_train, Y_train, 100000, .1)
+    model(X_train, Y_train, 100000, .01)
 

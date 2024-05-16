@@ -2,6 +2,8 @@
 
 - Always thoroughly go through your math and derive the equations for yourself when you notice something looks off. YUou shoudl be able to do it on your own. You can't understand what you can't break on your own. You have to know the first principles
 
+- Sometimes, hyperparams are all you need.
+
 ### Implememting MAE and MSE
 
 - The derivative of MAE is -np.sign(y - pred) with an negative in front bc of the Chain Rule. Important! Make sure to thoroughly go through your math before making assumptions that something else is wrong.
