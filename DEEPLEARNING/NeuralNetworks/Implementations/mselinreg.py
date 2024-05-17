@@ -1,3 +1,10 @@
+'''
+
+Linear Regresssion with Mean Squared Error
+
+'''
+
+
 import numpy as np
 import pandas as pd
 

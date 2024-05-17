@@ -1,3 +1,9 @@
+'''
+
+Logistic Regression with Sigmoid
+
+'''
+
 import numpy as np
 import pandas as pd
 
