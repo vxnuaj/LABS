@@ -20,9 +20,6 @@ def MSE(y, pred ):
 
 def gradient_descent(m, b, alpha, epochs, x, y, loss):
     for epoch in range(epochs):
-       # x_i = x[i] #Getting dsatapoint at index i
-       # y_i = y[i] #Getting datapoint at index i
-
         pred = predict(m, b, x)
 
         m_gradient = -2 * np.mean(x * (y - (pred)))
