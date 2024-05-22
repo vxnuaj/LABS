@@ -23,12 +23,6 @@ def tanh(z):
 def tanh_deriv(z):
     return 1 - (tanh(z)) ** 2
 
-def relu(z):
-    return np.maximum(z, 0)
-
-def relu_deriv(z):
-    return z > 0
-
 def softmax(z):
     eps = 1e-6
     return np.exp(z + eps) / np.sum(np.exp(z + eps), axis = 0, keepdims=True)

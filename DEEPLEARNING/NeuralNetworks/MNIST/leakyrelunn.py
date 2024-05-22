@@ -11,9 +11,9 @@ def save_model(file, w1, b1, w2, b2, w3, b3):
         pickle.dump((w1, b1, w2, b2, w3, b3), f)
 
 def init_params():
-    w1 = np.random.randn(32, 784) * np.sqrt(1/784)
+    w1 = np.random.randn(32, 784) * np.sqrt(2/784)
     b1 = np.zeros((32, 1))
-    w2 = np.random.randn(10 , 32) * np.sqrt(1/784)
+    w2 = np.random.randn(10 , 32) * np.sqrt(2/32)
     b2 = np.zeros((10, 1))
     return w1, b1, w2, b2
 
