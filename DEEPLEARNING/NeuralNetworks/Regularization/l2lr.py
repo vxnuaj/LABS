@@ -1,3 +1,10 @@
+'''
+
+L2 REGULARIZATION ON LINEAR REGRESSION
+
+'''
+
+
 import numpy as np
 import pandas as pd
 
@@ -19,9 +26,9 @@ def mae(y, pred, lambd, w):
 def mae_grad(y, pred):
     return - np.sign(y - pred)
 
-def backwards(x, y, pred, eunorm):
+def backwards(x, y, w, pred, lambd):
     dz = mae_grad(y, pred)
-    dw = (np.dot(dz, x.T) + ( 2 * eunorm)) / y.size
+    dw = (np.dot(dz, x.T)) / y.size  + ( 2 * lambd * np.abs(w)) / y.size
     db = np.sum(dz) / y.size
     return dw, db
 
@@ -36,7 +43,7 @@ def grad_descent(x, y, w, b, epochs, alpha, lambd):
 
         eunorm, l = mae(y, pred, lambd, w)
 
-        dw, db = backwards(x, y, pred, eunorm)
+        dw, db = backwards(x, y, w, pred, lambd)
         w, b = update(w, b, dw, db, alpha)
 
         if epoch % 1000 == 0:

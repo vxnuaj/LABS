@@ -57,12 +57,12 @@ def accuracy(a, y):
     acc = np.sum(y == pred) / y.size * 100
     return acc
 
-def backward(x, one_hot_y, w2, a2, a1, z1, eunorm):
+def backward(x, one_hot_y, w2, w1, a2, a1, z1, eunorm, lambd):
     dz2 = a2 - one_hot_y
-    dw2 = (np.dot(dz2, a1.T) + (2 * eunorm)) / one_hot_y.shape[1]
+    dw2 = (np.dot(dz2, a1.T) + (2 * lambd * np.abs(w2))) / one_hot_y.shape[1]
     db2 = np.sum(dz2) / one_hot_y.shape[1]
     dz1 = np.dot(w2.T, dz2) * leaky_relu_deriv(z1)
-    dw1 = (np.dot(dz1, x.T) + ( 2 * eunorm)) / one_hot_y.shape[1]
+    dw1 = (np.dot(dz1, x.T) + ( 2 * lambd * np.abs(w1))) / one_hot_y.shape[1]
     db1 = np.sum(dz1) / one_hot_y.shape[1]
     return dw1, db1, dw2, db2
 
@@ -81,7 +81,7 @@ def grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, lambd, file):
         eunorm, loss = cce(one_hot_y, a2, w1, w2, lambd)
         acc = accuracy(a2, y)
 
-        dw1, db1, dw2, db2 = backward(x, one_hot_y, w2, a2, a1, z1, eunorm)
+        dw1, db1, dw2, db2 = backward(x, one_hot_y, w2, w1, a2, a1, z1, eunorm, lambd)
         w1, b1, w2, b2 = update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha)
     
         print(f"Epoch: {epoch}")
