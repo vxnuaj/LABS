@@ -1,3 +1,9 @@
+'''
+
+L2 REGULARIZATION ON FASHION-MNIST NN
+
+'''
+
 import numpy as np
 import pandas as pd
 import pickle
@@ -24,8 +30,8 @@ def leaky_relu_deriv(z):
     return np.where(z > 0, 1, .01)
 
 def softmax(z):
-    eps = 1e-10
-    return np.exp(z + eps) / np.sum(np.exp(z + eps), axis = 0, keepdims=True)
+    z = z - np.max(z, axis = 0, keepdims = True)
+    return np.exp(z) / np.sum(np.exp(z), axis = 0, keepdims=True)
 
 def forward(x, w1, b1, w2, b2):
     z1 = np.dot(w1, x) + b1
@@ -39,22 +45,24 @@ def one_hot(y):
     one_hot_y[y, np.arange(y.size)] = 1
     return one_hot_y
 
-def cce(one_hot_y, a):
+def cce(one_hot_y, a, w1, w2, lambd):
+    fronorm = (lambd * ((np.sum(np.square(w1))) + (np.sum(np.square(w2))))) / 60000
     eps = 1e-10
-    l = - np.sum(one_hot_y * np.log(a + eps)) / one_hot_y.shape[1]
-    return l
+    l = - np.sum(one_hot_y * np.log(a + eps)) / 60000
+    reg_l = l + fronorm
+    return fronorm, reg_l
 
 def accuracy(a, y):
     pred = np.argmax(a, axis = 0, keepdims=True)
     acc = np.sum(y == pred) / y.size * 100
     return acc
 
-def backward(x, one_hot_y, w2, a2, a1, z1):
+def backward(x, one_hot_y, w2, w1, a2, a1, z1, fronorm, lambd):
     dz2 = a2 - one_hot_y
-    dw2 = np.dot(dz2, a1.T) / one_hot_y.shape[1]
+    dw2 = (np.dot(dz2, a1.T) + (2 * lambd * np.abs(w2))) / one_hot_y.shape[1]
     db2 = np.sum(dz2) / one_hot_y.shape[1]
     dz1 = np.dot(w2.T, dz2) * leaky_relu_deriv(z1)
-    dw1 = np.dot(dz1, x.T) / one_hot_y.shape[1]
+    dw1 = (np.dot(dz1, x.T) + ( 2 * lambd * np.abs(w1))) / one_hot_y.shape[1]
     db1 = np.sum(dz1) / one_hot_y.shape[1]
     return dw1, db1, dw2, db2
 
@@ -65,15 +73,15 @@ def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
     b2 = b2 - alpha * db2
     return w1, b1, w2, b2
 
-def grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, file):
+def grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, lambd, file):
     one_hot_y = one_hot(y)
     for epoch in range(epochs):
         z1, a1, z2, a2 = forward(x, w1, b1, w2, b2)
 
-        loss = cce(one_hot_y, a2)
+        fronorm, loss = cce(one_hot_y, a2, w1, w2, lambd)
         acc = accuracy(a2, y)
 
-        dw1, db1, dw2, db2 = backward(x, one_hot_y, w2, a2, a1, z1)
+        dw1, db1, dw2, db2 = backward(x, one_hot_y, w2, w1, a2, a1, z1, fronorm, lambd)
         w1, b1, w2, b2 = update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha)
     
         print(f"Epoch: {epoch}")
@@ -81,11 +89,10 @@ def grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, file):
         print(f"Acc: {acc}\n")
 
     save_model(file, w1, b1, w2, b2)
-    print(f"Saved model!")
 
     return w1, b1, w2, b2
 
-def model(x, y, epochs, alpha, file):
+def model(x, y, epochs, alpha, lambd, file):
 
     try:
         w1, b1, w2, b2 = load_model(file)
@@ -95,8 +102,7 @@ def model(x, y, epochs, alpha, file):
         print(f"MODEL NOT FOUND. INIT NEW MODEL!")
         w1, b1, w2, b2 = init_params()
     
-    w1, b1, w2, b2 = grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, file)
-
+    w1, b1, w2, b2 = grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, lambd, file)
     return w1, b1, w2, b2
 
 if __name__ == "__main__":
@@ -106,7 +112,13 @@ if __name__ == "__main__":
     X_train = data[:, 1:785].T / 255
     Y_train = data[:, 0].reshape(1, -1)
 
-    file = 'models/nn.pkl'
+    file = 'models/l3nn.pkl'
 
-    w1, b1, w2, b2 = model(X_train, Y_train, 400, .1, file)
+    w1, b1, w2, b2 = model(X_train, Y_train, 500, .1, 1000, file)
 
+'''
+
+The higher Lambda is, the higher the loss is, due to the penalty constraint imposed onto the loss function
+(refer to imgs/geol2inter.png for visualization)
+
+'''
