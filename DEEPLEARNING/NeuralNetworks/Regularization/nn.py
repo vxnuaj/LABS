@@ -52,10 +52,10 @@ def accuracy(a, y):
 def backward(x, one_hot_y, w2, a2, a1, z1):
     dz2 = a2 - one_hot_y
     dw2 = np.dot(dz2, a1.T) / one_hot_y.shape[1]
-    db2 = np.sum(dz2) / one_hot_y.shape[1]
+    db2 = np.sum(dz2, axis = 1, keepdims=True) / one_hot_y.shape[1]
     dz1 = np.dot(w2.T, dz2) * leaky_relu_deriv(z1)
     dw1 = np.dot(dz1, x.T) / one_hot_y.shape[1]
-    db1 = np.sum(dz1) / one_hot_y.shape[1]
+    db1 = np.sum(dz1, axis = 1, keepdims=True) / one_hot_y.shape[1]
     return dw1, db1, dw2, db2
 
 def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
