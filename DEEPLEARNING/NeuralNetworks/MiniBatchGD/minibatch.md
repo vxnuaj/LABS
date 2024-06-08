@@ -1,5 +1,7 @@
 ### MiniBatch Gradient Descent
 
+> _More notes [here](https://github.com/vxnuaj/NEOCORTEX/blob/main/Neurons/Deep-Learning/Mini-Batch%20Gradient%20Descent.md)_
+
 `MiniBatchNN.pkl`
 
 Trained for 1000 Epochs on FashionMNIST
@@ -18,6 +20,3 @@ Trained for 1000 Epochs on FashionMNIST
 
 
 **Seems that Mini-Batch gradient descent, at least when used alongside a good batch-size, is able to allow the model to converge faster, as it's able to take more training steps per epoch.**
-
-
-
