@@ -48,10 +48,10 @@ if __name__ == "__main__":
     y = data[:, 1]
 
     m = 0.1
-    b = 0.1
+    b = 3
 
     alpha = .00001
-    epochs = 2000
+    epochs = 20000
 
     loss = 0
 

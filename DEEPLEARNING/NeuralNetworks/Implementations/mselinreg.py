@@ -19,13 +19,13 @@ def forward(x, w, b):
     return pred
 
 def mse(y, pred):
-    l = np.sum((y - pred) ** 2) / 352
+    l = np.sum((y - pred) ** 2) / y.shape[1]
     return l
 
 def backwards(x, y, pred):
     dz = (-2) * (y - pred)
-    dw = np.dot(dz, x.T) / 352
-    db = np.sum(dz, keepdims=True) / 352
+    dw = np.dot(dz, x.T) / x.shape[1]
+    db = np.sum(dz, keepdims=True) / x.shape[1]
     return dw, db
 
 def update(w, b, dw, db, alpha):
@@ -58,10 +58,13 @@ def model(x, y, epochs, alpha):
 
 if __name__ == "__main__":
 
-    data = pd.read_csv('data/toy.csv')
+    data = pd.read_csv('data/random1.csv')
     data = np.array(data)
 
     X_train = data[:, :1].T
     Y_train = data[:, 1].reshape(1, -1)
 
-    w, b = model(X_train, Y_train, 500000, .001)
+    scale = StandardScaler()
+    X_train_scaled = scale.fit_transform(X_train)
+
+    w, b = model(X_train_scaled, Y_train, 500000, .001)
