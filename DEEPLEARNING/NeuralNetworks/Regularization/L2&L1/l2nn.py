@@ -46,7 +46,7 @@ def one_hot(y):
     return one_hot_y
 
 def cce(one_hot_y, a, w1, w2, lambd):
-    fronorm = (lambd * ((np.sum(np.square(w1))) + (np.sum(np.square(w2))))) / 60000
+    fronorm = (lambd * ((np.sum(np.square(w1)) / 60000) + (np.sum(np.square(w2))) / 60000))
     eps = 1e-10
     l = - np.sum(one_hot_y * np.log(a + eps)) / 60000
     reg_l = l + fronorm
@@ -59,11 +59,11 @@ def accuracy(a, y):
 
 def backward(x, one_hot_y, w2, w1, a2, a1, z1, fronorm, lambd):
     dz2 = a2 - one_hot_y
-    dw2 = (np.dot(dz2, a1.T) + (2 * lambd * np.abs(w2))) / one_hot_y.shape[1]
-    db2 = np.sum(dz2) / one_hot_y.shape[1]
+    dw2 = (np.dot(dz2, a1.T) + (2 * lambd * w2)) / one_hot_y.shape[1]
+    db2 = np.sum(dz2, axis = 1, keepdims=True) / one_hot_y.shape[1]
     dz1 = np.dot(w2.T, dz2) * leaky_relu_deriv(z1)
-    dw1 = (np.dot(dz1, x.T) + ( 2 * lambd * np.abs(w1))) / one_hot_y.shape[1]
-    db1 = np.sum(dz1) / one_hot_y.shape[1]
+    dw1 = (np.dot(dz1, x.T) + ( 2 * lambd * w1)) / one_hot_y.shape[1]
+    db1 = np.sum(dz1, axis = 1, keepdims=True) / one_hot_y.shape[1]
     return dw1, db1, dw2, db2
 
 def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):

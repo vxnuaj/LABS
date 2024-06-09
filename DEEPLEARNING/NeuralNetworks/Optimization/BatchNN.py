@@ -98,11 +98,11 @@ def model(x, y, epochs, alpha, file):
 
 if __name__ == "__main__":
 
-    data = np.array(pd.read_csv('../data/fashion-mnist_train.csv'))
+    data = np.array(pd.read_csv('data/fashion-mnist_train.csv'))
 
     X_train = data[:, 1:786].T / 255 #784, 60000
     Y_train = data[:, 0].reshape(1, -1) #1, 60000
 
     file = '../models/BatchNN.pkl'
 
-    w1, b1, w2, b2 = model(X_train, Y_train, 1000, .1, file)
+    w1, b1, w2, b2 = model(X_train, Y_train, 250, .1, file)

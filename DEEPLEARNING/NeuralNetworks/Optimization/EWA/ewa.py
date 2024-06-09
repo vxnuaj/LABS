@@ -17,7 +17,7 @@ if __name__ == "__main__":
     data = np.array(data)
 
 
-    ewa_arr = ewa(data, 0.6)
+    ewa_arr = ewa(data, 0.2)
 
     print(ewa_arr)
 

@@ -59,6 +59,13 @@ def backward(x, one_hot_y, w2, a2, a1, z2, z1):
     db1 = np.sum(dz1, axis=1, keepdims=True) / 60000
     return dw2, db2, dw1, db1
 
+def rms(beta, dw1, db1, dw2, db2, vdw1_p, vdb1_p, vdw2_p, vdb2_p):
+    vdw1 = (beta * vdw1_p) + ((1 - beta) * dw1)
+    vdb1 = (beta * vdb1_p) + ((1 - beta) * db1)
+    vdw2 = (beta * vdw2_p) + ((1 - beta) * dw2)
+    vdb2 = (beta * vdb2_p) + ((1 - beta) * db2)
+    return vdw1, vdb1, vdw2, vdb2
+
 def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
     w1 = w1 - alpha * dw1
     b1 = b1 - alpha * db1
@@ -98,11 +105,11 @@ def model(x, y, epochs, alpha, file):
 
 if __name__ == "__main__":
 
-    data = np.array(pd.read_csv('../data/fashion-mnist_train.csv'))
+    data = np.array(pd.read_csv('data/fashion-mnist_train.csv'))
 
     X_train = data[:, 1:786].T / 255 #784, 60000
     Y_train = data[:, 0].reshape(1, -1) #1, 60000
 
     file = '../models/BatchNN.pkl'
 
-    w1, b1, w2, b2 = model(X_train, Y_train, 1000, .1, file)
+    w1, b1, w2, b2 = model(X_train, Y_train, 250, .1, file)

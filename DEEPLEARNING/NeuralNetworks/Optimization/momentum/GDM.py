@@ -1,6 +1,13 @@
+'''
+
+Implementing Gradient Descent with Momentum.
+
+'''
+
 import numpy as np
 import pandas as pd
 import pickle
+import sys
 
 def load_model(file):
     with open(file) as f:
@@ -31,7 +38,11 @@ def forward(x, w1, b1, w2, b2):
     z1 = np.dot(w1, x) + b1
     a1 = leaky_relu(z1)
     z2 = np.dot(w2, a1) + b2
-    a2 = softmax(z2)
+    #print(f"Z2: {np.max(z2)}")
+    try:
+        a2 = softmax(z2)
+    except RuntimeWarning:
+        sys.exit("overflow!")
     return z1, a1, z2, a2
 
 def one_hot(y):
@@ -41,7 +52,7 @@ def one_hot(y):
 
 def cat_cross(one_hot_y, a):
     eps = 1e-10
-    l = -np.sum(one_hot_y * np.log(a + eps)) / 60000
+    l = (-np.sum(one_hot_y * np.log(a + eps))) / 60000
     return l
 
 def accuracy(y, a2):
@@ -50,7 +61,7 @@ def accuracy(y, a2):
     return acc
 
 
-def backward(x, one_hot_y, w2, a2, a1, z2, z1):
+def backward(x, one_hot_y, w2, w1, a2, a1, z2, z1):
     dz2 = a2 - one_hot_y
     dw2 = np.dot(dz2, a1.T) / 60000
     db2 = np.sum(dz2, axis = 1, keepdims=True) / 60000
@@ -59,32 +70,61 @@ def backward(x, one_hot_y, w2, a2, a1, z2, z1):
     db1 = np.sum(dz1, axis=1, keepdims=True) / 60000
     return dw2, db2, dw1, db1
 
-def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
-    w1 = w1 - alpha * dw1
-    b1 = b1 - alpha * db1
-    w2 = w2 - alpha * dw2
-    b2 = b2 - alpha * db2
+def momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2):
+    vdw1 = (beta * vdw1) + ((1 - beta) * dw1)
+
+    vdb1 = (beta * vdb1) + ((1 - beta) * db1)
+
+    vdw2 = (beta * vdw2) + ((1 - beta) * dw2)
+
+    vdb2 = (beta * vdb2) + ((1 - beta) * db2)
+    return vdw1, vdb1, vdw2, vdb2
+
+
+def update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha):
+    w1 = w1 - alpha * vdw1
+    b1 = b1 - alpha * vdb1
+    w2 = w2 - alpha * vdw2
+    b2 = b2 - alpha * vdb2
     return w1, b1, w2, b2
 
-def gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, file):
+def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
     one_hot_y = one_hot(y)
+    vdw1 = 0
+    vdb1 = 0
+    vdw2 = 0
+    vdb2 = 0
     for epoch in range(epochs):
         z1, a1, z2, a2 = forward(x, w1, b1, w2, b2)
 
         l = cat_cross(one_hot_y, a2)
         acc = accuracy(y, a2)
 
-        dw2, db2, dw1, db1 = backward(x, one_hot_y, w2, a2, a1, z2, z1)
-        w1, b1, w2, b2 = update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha)
+        dw2, db2, dw1, db1 = backward(x, one_hot_y, w2, w1, a2, a1, z2, z1)
 
+        vdw1, vdb1, vdw2, vdb2 = momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2)
+
+        w1, b1, w2, b2 = update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha)
+
+        '''if epoch % 5 == 0:
+            print(f"epoch: {epoch}")
+            print(f"loss: {l}")
+            print(f"acc: {acc}%")
+            print(f"Z2: {np.max(z2)}\n")'''
+    
         print(f"epoch: {epoch}")
         print(f"loss: {l}")
-        print(f"acc: {acc}%\n")
+        print(f"acc: {acc}%")
+        print(f"dw: {np.max(dw1), np.max(dw2)}")
+        print(f"vdw: {np.max(vdw1), np.max(vdw2)}")
+        print(f"db: {np.max(db1), np.max(db2)}")
+        print(f"vdb: {np.max(vdb1), np.max(vdb2)}")
+        print(f"Z2: {np.max(z2)}\n")
 
     save_model(file, w1, b1, w2, b2)
     return w1, b1, w2, b2
     
-def model(x, y, epochs, alpha, file):
+def model(x, y, epochs, alpha, beta, file):
     try:
         w1, b1, w2, b2 = load_model(file)
         print("found model! initializing model params!")
@@ -93,7 +133,7 @@ def model(x, y, epochs, alpha, file):
         print("model not found! initializing new params!")
         w1, b1, w2, b2= init_params()
     
-    w1, b1, w2, b2 = gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, file)
+    w1, b1, w2, b2 = gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta,file)
     return w1, b1, w2, b2
 
 if __name__ == "__main__":
@@ -103,6 +143,6 @@ if __name__ == "__main__":
     X_train = data[:, 1:786].T / 255 #784, 60000
     Y_train = data[:, 0].reshape(1, -1) #1, 60000
 
-    file = 'models/BatchNN.pkl'
+    file = '../models/BatchNN.pkl'
 
-    w1, b1, w2, b2 = model(X_train, Y_train, 1000, .1, file)
+    w1, b1, w2, b2 = model(X_train, Y_train, epochs = 250, alpha = .1, beta = .9, file = file)
