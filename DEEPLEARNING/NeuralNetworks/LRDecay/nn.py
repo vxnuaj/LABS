@@ -1,11 +1,3 @@
-'''
-
-Example of using the weight decay as a halving (or any other %) decay.
-
-'''
-
-
-
 import numpy as np
 import pandas as pd
 import pickle
@@ -66,21 +58,14 @@ def backward(x, one_hot_y, w2, a2, a1, z1):
     db1 = np.sum(dz1, axis = 1, keepdims=True) / one_hot_y.shape[1]
     return dw1, db1, dw2, db2
 
-def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha, epoch, div, rate):
-
-
-    ''' Learning Rate, dividing by `div` every `rate` Epochs '''
-
-    if epoch != 0 and epoch % rate == 0:
-        alpha = alpha / div
-
+def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
     w1 = w1 - alpha * dw1
     b1 = b1 - alpha * db1
     w2 = w2 - alpha * dw2
     b2 = b2 - alpha * db2
-    return w1, b1, w2, b2, alpha
+    return w1, b1, w2, b2
 
-def grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, div, rate, file):
+def grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, file):
     one_hot_y = one_hot(y)
     for epoch in range(epochs):
         z1, a1, z2, a2 = forward(x, w1, b1, w2, b2)
@@ -89,19 +74,18 @@ def grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, div, rate, file):
         acc = accuracy(a2, y)
 
         dw1, db1, dw2, db2 = backward(x, one_hot_y, w2, a2, a1, z1)
-        w1, b1, w2, b2, alpha = update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha, epoch, div, rate)
+        w1, b1, w2, b2 = update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha)
     
         print(f"Epoch: {epoch}")
         print(f"Loss: {loss}")
-        print(f"Acc: {acc}")
-        print(f"Alpha: {alpha}\n")
+        print(f"Acc: {acc}\n")
 
     save_model(file, w1, b1, w2, b2)
     print(f"Saved model!")
 
     return w1, b1, w2, b2
 
-def model(x, y, epochs, alpha, div, rate, file):
+def model(x, y, epochs, alpha, file):
 
     try:
         w1, b1, w2, b2 = load_model(file)
@@ -111,7 +95,7 @@ def model(x, y, epochs, alpha, div, rate, file):
         print(f"MODEL NOT FOUND. INIT NEW MODEL!")
         w1, b1, w2, b2 = init_params()
     
-    w1, b1, w2, b2 = grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, div, rate, file)
+    w1, b1, w2, b2 = grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, file)
 
     return w1, b1, w2, b2
 
@@ -122,7 +106,7 @@ if __name__ == "__main__":
     X_train = data[:, 1:785].T / 255
     Y_train = data[:, 0].reshape(1, -1)
 
-    file = 'nan'
+    file = 'models/nn.pkl'
 
-    w1, b1, w2, b2 = model(X_train, Y_train, epochs = 500, alpha = .1, div = 1.2, rate = 10, file = file)
+    w1, b1, w2, b2 = model(X_train, Y_train, 400, .1, file)
 

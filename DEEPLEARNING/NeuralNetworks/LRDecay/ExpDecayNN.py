@@ -1,3 +1,10 @@
+'''
+
+Example of using the weight decay as an exponential decay.
+
+'''
+
+
 import numpy as np
 import pandas as pd
 import pickle

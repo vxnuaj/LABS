@@ -1,14 +1,7 @@
-'''
-
-Implementing Gradient Descent with Momentum.
-
-'''
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import pickle
-import sys
 
 def load_model(file):
     with open(file) as f:
@@ -40,11 +33,7 @@ def forward(x, w1, b1, w2, b2):
     z1 = np.dot(w1, x) + b1
     a1 = leaky_relu(z1)
     z2 = np.dot(w2, a1) + b2
-    #print(f"Z2: {np.max(z2)}")
-    try:
-        a2 = softmax(z2)
-    except RuntimeWarning:
-        sys.exit("overflow!")
+    a2 = softmax(z2)
     return z1, a1, z2, a2
 
 def one_hot(y):
@@ -52,10 +41,10 @@ def one_hot(y):
     one_hot_y[y, np.arange(y.size)] = 1
     return one_hot_y
 
-def cat_cross(one_hot_y, a):
+def cat_cross(one_hot_y, a, w2, w1, lambd):
     eps = 1e-10
-    l = (-np.sum(one_hot_y * np.log(a + eps))) / 60000
-    return l
+    reg_l = -np.sum(one_hot_y * np.log(a + eps)) / 60000    
+    return reg_l
 
 def accuracy(y, a2):
     pred = np.argmax(a2, axis = 0)
@@ -63,41 +52,35 @@ def accuracy(y, a2):
     return acc
 
 
-def backward(x, one_hot_y, w2, w1, a2, a1, z2, z1):
+def backward(x, one_hot_y, w2, w1, a2, a1, z2, z1, lambd):
     dz2 = a2 - one_hot_y
-    dw2 = np.dot(dz2, a1.T) / 60000
+    dw2 = (np.dot(dz2, a1.T)) / 60000
     db2 = np.sum(dz2, axis = 1, keepdims=True) / 60000
     dz1 = np.dot(w2.T, dz2) * leaky_relu_deriv(z1)
-    dw1 = np.dot(dz1, x.T) / 60000
+    dw1 = (np.dot(dz1, x.T) ) / 60000
     db1 = np.sum(dz1, axis=1, keepdims=True) / 60000
     return dw2, db2, dw1, db1
 
-def momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch):
-    eps = 1e-10
-    
-    vdw1 = (beta * vdw1) + (1 - beta) * dw1
-    #vdw1 = vdw1 / ( 1 - (beta ** epoch) + eps )
-
-    vdb1 = (beta * vdb1) + (1 - beta) * db1
-    #vdb1 = vdb1 / ( 1 - (beta ** epoch) + eps)
-
-    vdw2 = (beta * vdw2) + (1 - beta) * dw2
-    #vdw2 = vdw2 / ( 1 - (beta ** epoch) + eps)
-
-    vdb2 = (beta * vdb2) + (1 - beta) * db2
-    #vdb2 = vdb2 / ( 1 - (beta ** epoch) + eps)
+def rms(beta, dw1, db1, dw2, db2, vdw1_p, vdb1_p, vdw2_p, vdb2_p):
+    vdw1 = (beta * vdw1_p) + ((1 - beta) * np.square(dw1))
+    vdb1 = (beta * vdb1_p) + ((1 - beta) * np.square(db1))
+    vdw2 = (beta * vdw2_p) + ((1 - beta) * np.square(dw2))
+    vdb2 = (beta * vdb2_p) + ((1 - beta) * np.square(db2))
     return vdw1, vdb1, vdw2, vdb2
 
-
-def update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha):
-    w1 = w1 - alpha * vdw1
-    b1 = b1 - alpha * vdb1
-    w2 = w2 - alpha * vdw2
-    b2 = b2 - alpha * vdb2
+def update_rms(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, alpha):
+    eps = 1e-8
+    w1 = w1 - alpha * (dw1 / np.sqrt(vdw1 + eps))
+    b1 = b1 - alpha * (db1 / np.sqrt(vdb1 + eps))
+    w2 = w2 - alpha * (dw2 / np.sqrt(vdw2 + eps))
+    b2 = b2 - alpha * (db2 / np.sqrt(vdb2 + eps))
     return w1, b1, w2, b2
 
-def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
+def gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, beta, lambd, file):
     one_hot_y = one_hot(y)
+
+    #Instantiating initial values for RMSprop as 0
+
     vdw1 = 0
     vdb1 = 0
     vdw2 = 0
@@ -110,37 +93,27 @@ def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
     for epoch in range(epochs):
         z1, a1, z2, a2 = forward(x, w1, b1, w2, b2)
 
-        l = cat_cross(one_hot_y, a2)
+        l = cat_cross(one_hot_y, a2, w2, w1, lambd)
         acc = accuracy(y, a2)
 
-        dw2, db2, dw1, db1 = backward(x, one_hot_y, w2, w1, a2, a1, z2, z1)
+        dw2, db2, dw1, db1 = backward(x, one_hot_y, w2, w1, a2, a1, z2, z1, lambd)
 
-        vdw1, vdb1, vdw2, vdb2 = momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch)
+        vdw1, vdb1, vdw2, vdb2 = rms(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2)
 
-        w1, b1, w2, b2 = update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha)
+        w1, b1, w2, b2 = update_rms(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, alpha)
 
-        '''if epoch % 5 == 0:
-            print(f"epoch: {epoch}")
-            print(f"loss: {l}")
-            print(f"acc: {acc}%")
-            print(f"Z2: {np.max(z2)}\n")'''
-    
         print(f"epoch: {epoch}")
         print(f"loss: {l}")
         print(f"acc: {acc}%")
-        print(f"dw: {np.max(dw1), np.max(dw2)}")
-        print(f"vdw: {np.max(vdw1), np.max(vdw2)}")
-        print(f"db: {np.max(db1), np.max(db2)}")
-        print(f"vdb: {np.max(vdb1), np.max(vdb2)}")
-        print(f"Z2: {np.max(z2)}\n")
+        print(f"vdw2: {np.max(vdw2)}")
 
+        epochs_vec.append(epoch)
         loss_vec.append(l)
         acc_vec.append(acc)
-        epochs_vec.append(epoch)
 
-    return w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec
+    return w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec
     
-def model(x, y, epochs, alpha, beta, file):
+def model(x, y, epochs, alpha, beta, lambd, file):
     try:
         w1, b1, w2, b2 = load_model(file)
         print("found model! initializing model params!")
@@ -149,8 +122,8 @@ def model(x, y, epochs, alpha, beta, file):
         print("model not found! initializing new params!")
         w1, b1, w2, b2= init_params()
     
-    w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec  = gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta,file)
-    return w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec
+    w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec = gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, beta, lambd, file)
+    return w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec
 
 if __name__ == "__main__":
 
@@ -161,7 +134,7 @@ if __name__ == "__main__":
 
     file = '../models/BatchNN.pkl'
 
-    w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec = model(X_train, Y_train, epochs = 250, alpha = .1, beta = .9, file = file)
+    w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec= model(X_train, Y_train, epochs = 250, alpha = .001, beta = .9, lambd = 10, file = file)
 
     fig, axs = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
 
