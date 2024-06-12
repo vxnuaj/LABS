@@ -92,7 +92,7 @@ def backward(x, one_hot_y, w2, a2, a1, z1):
     db1 = np.sum(dz1, axis = 1, keepdims=True) / one_hot_y.shape[1]
     return dw1, db1, dw2, db2
 
-def update(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, alpha_max, alpha_min, beta_min, beta_max, cycle_size, epoch):
+def supercon(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, alpha_max, alpha_min, beta_min, beta_max, cycle_size, epoch):
 
     #cyclical learning rate
     cyc = np.floor(1 + (epoch / (2 * cycle_size)))
