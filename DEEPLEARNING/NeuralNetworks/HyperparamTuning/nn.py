@@ -3,6 +3,50 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pickle
 
+
+'''
+
+alpha_range: takes in a list of 2 values, denoting the range of Alpha to search over
+alpha_val_num: takes in the amount of alpha values we want to consider over the range
+
+beta_range: takes in a list of 2 values, denoting the range of Beta to search over
+beta_val_num: takes in the amount of beta valeus we want to consider over the range
+
+model: takes in the function for calling and training the model.
+
+'''
+
+def random_search(alpha_range:list, beta_range:list, alpha_val_num:int, beta_val_num:int, x, y, epochs, lambd = 0):
+    alpha_vals = np.linspace(start = alpha_range[0], stop = alpha_range[1], num = alpha_val_num)
+    beta_vals = np.linspace(start = beta_range[0], stop = beta_range[1], num = beta_val_num)
+
+    results = []
+    
+    # Choosing random values over alpha_vals / beta_vals (performing random search)
+
+    search_num = max(alpha_val_num, beta_val_num)
+
+    for i in range(search_num):
+        alpha = np.random.choice(alpha_vals)
+        beta = np.random.choice(beta_vals)
+        w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec, acc_f, l_f, alpha_f, beta_f = model(x, y, epochs, alpha, beta, lambd, file = file)
+        stat = {'Search_Num': i + 1, 'Beta': beta_f, 'Alpha': alpha_f, 'Accuracy': acc_f, 'Loss': l_f}
+        results.append(stat)
+
+    for i, result in enumerate(results):
+        print(f"Search Number: {result['Search_Num']}")
+        print(f"Alpha: {result['Alpha']}")
+        print(f"Beta: {result['Beta']}")
+        print(f"Accuracy: {result['Accuracy']}")
+        print(f"Loss: {result['Loss']}\n")
+
+    max_accuracy = max(results, key=lambda x: x['Accuracy'])
+    print(f"Maximum Accuracy: {max_accuracy['Accuracy']}")
+    print(f"Corresponding Alpha: {max_accuracy['Alpha']}")
+    print(f"Corresponding Beta: {max_accuracy['Beta']}")
+
+    return results
+
 def load_model(file):
     with open(file) as f:
         return pickle.load(f)
@@ -66,7 +110,7 @@ def rms(beta, dw1, db1, dw2, db2, vdw1_p, vdb1_p, vdw2_p, vdb2_p):
     vdb1 = (beta * vdb1_p) + ((1 - beta) * np.square(db1))
     vdw2 = (beta * vdw2_p) + ((1 - beta) * np.square(dw2))
     vdb2 = (beta * vdb2_p) + ((1 - beta) * np.square(db2))
-    return vdw1, vdb1, vdw2, vdb2
+    return vdw1, vdb1, vdw2, vdb2, beta
 
 def update_rms(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, alpha):
     eps = 1e-8
@@ -76,7 +120,7 @@ def update_rms(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, alpha
     b2 = b2 - alpha * (db2 / np.sqrt(vdb2 + eps))
     return w1, b1, w2, b2, alpha
 
-def gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, beta, lambd, file):
+def gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, beta, lambd):
     one_hot_y = one_hot(y)
 
     #Instantiating initial values for RMSprop as 0
@@ -100,22 +144,25 @@ def gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, beta, lambd, file):
 
         dw2, db2, dw1, db1 = backward(x, one_hot_y, w2, w1, a2, a1, z2, z1, lambd)
 
-        vdw1, vdb1, vdw2, vdb2 = rms(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2)
+        vdw1, vdb1, vdw2, vdb2, beta = rms(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2)
 
         w1, b1, w2, b2, alpha= update_rms(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, alpha)
 
         print(f"epoch: {epoch}")
         print(f"loss: {l}")
-        print(f"acc: {acc}%")
-        print(f"vdw2: {np.max(vdw2)}")
+        print(f"acc: {acc}% \n")
         print(f"alpha: {alpha}")
-        print(f"alpha * dw1 / sqrt(vdw1) {np.max((alpha * (dw1 / np.sqrt(vdw1 + eps))))}")
+        print(f"beta: {beta}")
+
+        #print(f"vdw2: {np.max(vdw2)}")
+        #print(f"alpha: {alpha}")
+        #print(f"alpha * dw1 / sqrt(vdw1) {np.max((alpha * (dw1 / np.sqrt(vdw1 + eps))))}")
 
         epochs_vec.append(epoch)
         loss_vec.append(l)
         acc_vec.append(acc)
 
-    return w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec
+    return w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec, acc, l, alpha, beta
     
 def model(x, y, epochs, alpha, beta, lambd, file):
     try:
@@ -126,8 +173,8 @@ def model(x, y, epochs, alpha, beta, lambd, file):
         print("model not found! initializing new params!")
         w1, b1, w2, b2= init_params()
     
-    w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec = gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, beta, lambd, file)
-    return w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec
+    w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec, acc_f, l_f, alpha_f, beta_f = gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, beta, lambd)
+    return w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec, acc_f, l_f, alpha_f, beta_f
 
 if __name__ == "__main__":
 
@@ -138,7 +185,13 @@ if __name__ == "__main__":
 
     file = '../models/BatchNN.pkl'
 
-    w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec= model(X_train, Y_train, epochs = 250, alpha = .001, beta = .9, lambd = 10, file = file)
+    random_search(alpha_range=[.0005, .005], beta_range=[.9, .969], alpha_val_num=3, beta_val_num=3, x = X_train, y = Y_train, epochs = 50)
+
+    
+
+
+
+    '''w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec= model(X_train, Y_train, epochs = 250, alpha = .001, beta = .9, lambd = 10, file = file)
 
     fig, axs = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
 
@@ -152,4 +205,4 @@ if __name__ == "__main__":
     axs[1].set_ylabel('Loss')
     axs[1].legend()
 
-    plt.show()
+    plt.show()'''

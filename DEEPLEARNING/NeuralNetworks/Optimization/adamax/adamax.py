@@ -1,6 +1,6 @@
 '''
 
-Implementation of Adam
+Implementation of AdaMax
 
 '''
 
@@ -89,25 +89,25 @@ def update(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, rdw1, rdb
     #vdb2 = vdb2 / ( 1 - (beta_1 ** epoch) + eps)
 
 
-    ''' computing moving a verage of the accumulated squared gradients '''
+    ''' computing moving a verage of the accumulated squared gradients, based on the l^pth norm '''
     
-    rdw1 = (beta_1 * rdw1) + (1 - beta_2) * np.square(dw1)
+    rdw1 = np.maximum(beta_2 * rdw1, np.abs(dw1))
     #rdw1 = rdw1 / ( 1 - (beta_2 ** epoch)  + eps)
 
-    rdb1 = (beta_1 * rdb1) + (1 - beta_2) * np.square(db1)
+    rdb1 = np.maximum(beta_2 * rdb1, np.abs(db1))
     #rdb1 = rdb1 / ( 1 - (beta_2 ** epoch)  + eps )
 
-    rdw2 = (beta_1 * rdw2) + (1 - beta_2) * np.square(dw2)
+    rdw2 = np.maximum(beta_2 * rdw2, np.abs(dw2))
     #rdw2 = rdw2 / ( 1 - (beta_2 ** epoch)  + eps )
 
-    rdb2 = (beta_1 * rdb2) + (1 - beta_2) * np.square(db2)
+    rdb2 = np.maximum(beta_2 * rdb2, np.abs(db2))
     #rdb2 = rdb2 / ( 1 - (beta_2 ** epoch)  + eps )
 
 
-    w1 = w1 - alpha * (vdw1 / np.sqrt(rdw1 + eps))
-    b1 = b1 - alpha * (vdb1 / np.sqrt(rdb1 + eps))
-    w2 = w2 - alpha * (vdw2 / np.sqrt(rdw2 + eps))
-    b2 = b2 - alpha * (vdb2 / np.sqrt(rdb2 / eps))
+    w1 = w1 - alpha * (vdw1 / rdw1)
+    b1 = b1 - alpha * (vdb1 / rdb1)
+    w2 = w2 - alpha * (vdw2 / rdw2)
+    b2 = b2 - alpha * (vdb2 / rdb2)
     return w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, rdw1, rdb1, rdw2, rdb2, alpha
 
 def gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, beta_1, beta_2, file):
@@ -127,6 +127,10 @@ def gradient_descent(x, y, w1, b1, w2, b2, epochs, alpha, beta_1, beta_2, file):
 
         l = cat_cross(one_hot_y, a2)
         acc = accuracy(y, a2)
+
+        if acc > 87:
+            alpha = .005
+            beta_1 = .99
 
         dw2, db2, dw1, db1 = backward(x, one_hot_y, w2, a2, a1, z2, z1)
         w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, rdw1, rdb1, rdw2, rdb2, alpha = update(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, rdw1, rdb1, rdw2, rdb2, alpha, beta_1, beta_2, epoch)
@@ -164,7 +168,7 @@ if __name__ == "__main__":
 
     file = '../models/BatchNN.pkl'
 
-    w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec= model(X_train, Y_train, epochs = 1000, alpha = .1, beta_1 = .99, beta_2 = .9, file =file)
+    w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec= model(X_train, Y_train, epochs = 1000, alpha = .01, beta_1 = .9, beta_2 = .99, file =file)
 
     fig, axs = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
 

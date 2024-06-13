@@ -72,28 +72,28 @@ def backward(x, one_hot_y, w2, w1, a2, a1, z2, z1):
     db1 = np.sum(dz1, axis=1, keepdims=True) / 60000
     return dw2, db2, dw1, db1
 
-def momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch):
+def momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch, alpha):
     eps = 1e-10
     
-    vdw1 = (beta * vdw1) + (1 - beta) * dw1
+    vdw1 = (beta * vdw1) - (alpha) * dw1
     #vdw1 = vdw1 / ( 1 - (beta ** epoch) + eps )
 
-    vdb1 = (beta * vdb1) + (1 - beta) * db1
+    vdb1 = (beta * vdb1) - (alpha) * db1
     #vdb1 = vdb1 / ( 1 - (beta ** epoch) + eps)
 
-    vdw2 = (beta * vdw2) + (1 - beta) * dw2
+    vdw2 = (beta * vdw2) - (alpha) * dw2
     #vdw2 = vdw2 / ( 1 - (beta ** epoch) + eps)
 
-    vdb2 = (beta * vdb2) + (1 - beta) * db2
+    vdb2 = (beta * vdb2) - (alpha) * db2
     #vdb2 = vdb2 / ( 1 - (beta ** epoch) + eps)
     return vdw1, vdb1, vdw2, vdb2
 
 
 def update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha):
-    w1 = w1 - alpha * vdw1
-    b1 = b1 - alpha * vdb1
-    w2 = w2 - alpha * vdw2
-    b2 = b2 - alpha * vdb2
+    w1 = w1 + vdw1
+    b1 = b1 + vdb1
+    w2 = w2 + vdw2
+    b2 = b2 + vdb2
     return w1, b1, w2, b2
 
 def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
@@ -115,7 +115,7 @@ def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
 
         dw2, db2, dw1, db1 = backward(x, one_hot_y, w2, w1, a2, a1, z2, z1)
 
-        vdw1, vdb1, vdw2, vdb2 = momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch)
+        vdw1, vdb1, vdw2, vdb2 = momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch, alpha)
 
         w1, b1, w2, b2 = update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha)
 
