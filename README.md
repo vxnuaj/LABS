@@ -1,9 +1,12 @@
 ## LABS
 
-Code I've written, while on the path to reach the edge of technical knowledge. 
+my personal labspace.
+
+learning dl. and breaking lots of things on purpose.
 
 ### Index
 
-1. [Deep Learning](DEEPLEARNING)
-2. [Programming](Programming)
+1. [Deep Learning](deeplearning)
+2. [Machine Learning](machinelearning)
+3. [Programming](programming)
 
