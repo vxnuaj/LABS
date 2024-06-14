@@ -1,4 +1,10 @@
-' Thank you @ Corey Schafer '
+''' 
+
+Thank you @ Corey Schafer 
+
+'''
+
+import datetime
 
 class Employee:
 
@@ -25,11 +31,24 @@ class Employee:
     def set_raise_amt(cls, amount):
         cls.raise_amt = amount
 
+    @classmethod
+    def from_string(cls, emp_str:str):
+        try:
+            first, last, pay = emp_str.split("-")
+            return cls(first, last, pay)
+        except (ValueError, AttributeError):
+            print("Invalid string!")
+
+    @staticmethod
+    def is_workday(day):
+        if day.weekday() == 5 or day.weekday() == 6:
+            return False
+        return True
+
+
 emp_1 = Employee('Corey', 'Schafer', 50000)
 emp_2 = Employee('Test', 'Employee', 60000)
 
-Employee.set_raise_amt(1.05)
+my_date = datetime.date(2016, 8, 10)
 
-print(Employee.raise_amt)
-print(emp_1.raise_amt)
-print(emp_2.raise_amt)
+print(Employee.is_workday(my_date))

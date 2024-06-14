@@ -1,10 +1,5 @@
-> *As you learn more, add more.*
-> 
+ ### Essential
 
-### Essential
-
-> These are essential for building a good foundation as a programmer towards building with emerging technologies.
-> 
 - [ ]  **Data Types:**
     - [x]  Lists: Creating, accessing elements, list methods.
     - [x]  Strings: Manipulating strings, string methods.
@@ -30,22 +25,56 @@
 - [x]  **Exceptions and Error Handling:**
     - [x]  Using **`try`**, **`except`**, **`else`**, **`finally`** blocks.
     - [x]  Handling specific exceptions, raising exceptions.
-- [ ]  **Basics of Object-Oriented Programming (OOP):**
-    - [ ]  Classes: Defining classes, attributes, methods.
-    - [ ]  Objects: Creating instances, accessing attributes/methods.
-    - [ ]  Encapsulation: Public vs. private attributes/methods.
+- [ ]  **Object-Oriented Programming (OOP):**
+    - **~~Classes and Objects~~**
+        - [x]  Defining classes
+        - [x]  Attributes (data members)
+        - [x]  Methods (functions inside a class)
+        - [x]  Creating instances (objects)
+        - [x]  Accessing attributes and methods
+    - **~~Inheritance~~**
+        - [x]  Creating subclasses
+        - [x]  Method overriding
+        - [x]  Single inheritance
+        - [x]  Multiple inheritance
+    - **Static and Class Methods + Other methods**
+        - [x]  Defining static methods
+        - [x]  Defining class methods
+        - [ ]  Using **`@property`** for defining properties
+        - [ ]  Using **`@getter`**
+        - [ ]  Using `@deleter`
+        - [ ]  Using **`@staticmethod`** for defining static methods
+        - [ ]  Using **`@classmethod`** for defining class methods
+    - **Encapsulation**
+        - [ ]  Public vs. private attributes and methods
+        - [ ]  Data hiding
+        - [ ]  Access control (using __ for private attributes)
+    - **Polymorphism**
+        - [ ]  Method overriding
+        - [ ]  Operator overloading (customizing operators like +, -, etc. for your classes)
+    - **Abstraction**
+        - [ ]  Hiding implementation details and showing only essential features
+    - **Composition**
+        - [ ]  Creating objects from other objects
+    - **Delegation**
+        - [ ]  Passing responsibilities to other objects
+    - **Abstract Classes and Interfaces**
+        - [ ]  Using abc module in Python
+        - [ ]  Defining abstract classes and interfaces
+    - **Class and Instance Variables**
+        - [ ]  Defining class variables
+        - [ ]  Defining instance variables
+    - **Special Methods**
+        - [ ]  **init** and **new** methods
+        - [ ]  **str** and **repr** methods for custom string representation
+        - [ ]  **eq** and other special methods for custom comparisons
 - [ ]  **Recursion:**
     - [ ]  Understanding recursive functions.
     - [ ]  Solving problems using recursion.
-- [ ]  **Advanced OOP:**
-    - [ ]  Inheritance: Creating subclasses, method overriding.
-    - [ ]  Polymorphism: Using interfaces, method overloading.
-    - [ ]  Encapsulation: Data hiding, access control.
+- [ ]  **2 Technical Projects**
 
 ### Advanced & Useful
 
-> These are useful, though not essential, towards working with emerging technologies
-> 
 - [ ]  **Data Structures:**
     - [ ]  Linked Lists: Singly linked, doubly linked lists.
     - [ ]  Stacks: Operations, implementing with lists or linked lists.
@@ -64,3 +93,28 @@
     - [ ]  Big O notation: Understanding and analyzing time complexity.
     - [ ]  Space complexity: Analyzing space requirements of algorithms.
     - [ ]  Best, worst, and average-case scenarios.
+
+<details><summary>Project Ideas</summary>
+
+- Building a deterministic finite state automata in python.
+- a python library that allows you to data augment easily
+- a terminal based pokedex, just query for any pokemon.
+- A menu bar app for quick code snippets
+- A script to clear my desktop
+- A terminal based story game
+- A UI that provides me with details on top DL models based on specific filters
+- A python library to return stock information, crypto information, etc
+- A UI to return details on specific books based on title or isbn.
+- A compiler / interpreter from scratch for mathematical operations
+- A machine learning / deep learning framework with model statistics as it trains.
+- A python library to seamlessly train implemented SOTA models.
+- An autograd library.
+- A menubar item that shows the price of a current stock, crypto from the previously build library.
+- A menubar item that automatically clears dns, dhcp, and other needed protocols.
+- A python script to automatically run the “git add . | git commit -m “Update” | git push on a given file path through a menu bar item
+- Create a mac menu bar item that shows total current CPU usage, risk of crashing, and top “X” apps (defined by user) that use the most CPU percentage.
+- Build a python library that gets music data, and downloads music as mp3 based on a given url.
+- Based on the previous library, a script that downloads music based on a url, adds it to a specified self hosted playlist and then uses a menu bar item to shuffle the playlist and play music.
+- A terminal based twitter client.
+
+</details>
