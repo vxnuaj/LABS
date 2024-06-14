@@ -4,154 +4,143 @@ Implementing BatchNorm on mini-batch gradient descent (mini-batches of 10k sampl
 
 '''
 
-
 import numpy as np
 import pandas as pd
-import pickle
 
-def mini_batches(data, batch_size):
+def minibatches_process(data, batch_num):
 
-    #should return data in dims (batches, features, samples)    
-    # takes in data with shape (samples, features)
+    ''' Returns processed and batched data (for MNIST), split into Labels (Y) and Features (X)'''
 
-    data_batched = np.split(data, indices_or_sections=batch_size)
-    data_batched = np.array(data_batched)
-    data_batched = data_batched.reshape(batch_size,data.shape[1],  -1)
-    return data_batched
+    data = np.array(data).T
+    x = data[1:786, :] # 784, 60000
+    y = data[0, :].reshape(1, 60000) # 1, 60000
 
-def save_model(file, w1, b1, w2, b2):
-    with open(file, 'wb') as f:
-        pickle.dump((w1, b1, w2, b2), f)
-
-def load_model(file):
-    with open(file, 'rb') as f:
-        return pickle.load(f)
+    x_batched = np.array(np.split(x, batch_num, axis = 1)) / 255 # 10, 784, (60000 / batch_num)
+    y_batched = np.array(np.split(y,  batch_num, axis = 1)) # 10, 1, (60000 / batch_num)
+    return x_batched, y_batched
 
 def init_params():
     rng = np.random.default_rng(seed = 1)
-    w1 =rng.normal(size = (64, 784)) * np.sqrt(1/784)
-    gamma1 = np.ones((64, 1))
-    beta1 = np.zeros((64, 1))
-
-    w2 = rng.normal(size = (10, 64)) * np.sqrt(1/784)
-    gamma2 = np.ones((10, 1))
-    beta2 = np.zeros((10, 1))
-    return w1, w2, gamma1, beta1, gamma2, beta2
+    w1 = rng.normal(size = (32, 784)) * np.sqrt(1/784)
+    g1 = np.ones((32, 1))
+    b1 = np.zeros((32, 1))
+    w2 = rng.normal(size = (10 ,32)) * np.sqrt(1/ 784)
+    g2 = np.ones((10, 1))
+    b2 = np.zeros((10 ,1))
+    return w1, g1, b1, w2, g2, b2
 
 def leaky_relu(z):
-    return np.where(z > 0, z, .01 * z)
+    return np.where(z>0, z, .01 * z)
 
 def leaky_relu_deriv(z):
-    return np.where(z > 0, 1, .01)
+    return np.where(z>0, 1, .01)
 
 def softmax(z):
-    eps = 1e-10
-    return np.exp(z + eps) / np.sum(np.exp(z + eps), axis = 0, keepdims=True)
-
-def batchnorm(z, gamma, beta):
     eps = 1e-8
-    mu = np.sum(z, axis = 0, keepdims=True) / z.shape[0]
-    std_2 = np.sum((z - mu) ** 2, axis = 0, keepdims=True) / z.shape[0]
-    z_norm = (z - mu) / (np.sqrt(std_2 + eps))
-    z_norm_a = gamma * z_norm + beta
-    return z_norm_a, z_norm
+    return np.exp(z + eps) / (np.sum(np.exp(z + eps), axis = 0, keepdims=True))
 
-def forward(x, w1, w2, gamma1, gamma2, beta1, beta2):
+def batch_norm(z):
+    eps = 1e-8
+    mu = np.mean(z, axis = 1, keepdims=True)
+    var = np.var(z, axis = 1, keepdims=True)
+    z = (z - mu) / np.sqrt(var + eps)
+    return z, np.sqrt(var + eps)
+
+def forward(x, w1, g1, b1, w2, g2, b2):
     z1 = np.dot(w1, x)
-    z1, z1_norm_a = batchnorm(z1, gamma1, beta1)
-    a1 = leaky_relu(z1)
+    b_z1_norm, std1 = batch_norm(z1)
+    z1_norm = (g1 * b_z1_norm) + b1
+    a1 = leaky_relu(z1_norm) 
     z2 = np.dot(w2, a1)
-    z2, z2_norm_a = batchnorm(z2, gamma2, beta2)
-    a2 = softmax(z2) #10, 60000
-    return z1, a1, z2, a2, z1_norm_a, z2_norm_a
+    b_z2_norm, std2 = batch_norm(z2)
+    z2_norm = (g2 * b_z2_norm) + b2
+    a2 = softmax(z2_norm)
+    return z1, z1_norm, b_z1_norm, a1, z2, z2_norm, b_z2_norm, a2, std1, std2
 
-def one_hot(y):
-    b_one_hot = np.empty((0, 10, 600))
+def one_hot(y, batch_num):
+    one_hot_y_b = np.empty(shape = (0, 10, int(60000 / batch_num)))
     for i in range(y.shape[0]):
-        one_hot_y = np.zeros((np.max(y[i] + 1), y[i].size))
+        one_hot_y = np.zeros((np.max(y[i] + 1), y[i].size)) # (10, (60000 / batch_num))
         one_hot_y[y[i], np.arange(y[i].size)] = 1
-        b_one_hot = np.concatenate((b_one_hot, one_hot_y[np.newaxis, ...]), axis = 0)
-    return b_one_hot
+        one_hot_y_b = np.concatenate((one_hot_y_b, one_hot_y[np.newaxis, ...]), axis = 0)
+    return one_hot_y_b # 10, 10, (600000 / batch_num)
 
-def cce(one_hot_y, a):
-    eps = 1e-10
-    l = - np.sum(one_hot_y * np.log(a + eps)) / one_hot_y.shape[1]
-    return l
+def CCE(one_hot, a):
+    eps = 1e-8
+    loss = - np.sum(one_hot * np.log(a + eps)) / one_hot.shape[1]
+    return loss
 
-def accuracy(a, y):
-    pred = np.argmax(a, axis = 0, keepdims=True)
-    acc = np.sum(y == pred) / y.size * 100
-    return acc
+def acc(y, a2):
+    pred = np.argmax(a2, axis = 0)
+    accuracy = np.sum(y == pred) / y.size * 100
+    return accuracy
 
-def backward(x, one_hot_y, w2, a2, a1, z1, z1_norm_a, z2_norm_a):
-    dz2 = a2 - one_hot_y
-    dw2 = np.dot(dz2, a1.T) / one_hot_y.shape[1]
-    dgamma2 = np.sum(dz2 * z2_norm_a, axis = 1, keepdims = True) / one_hot_y.shape[1]
-    dbeta2 = np.sum(dz2, axis = 1, keepdims = True) / one_hot_y.shape[1]
+def backward(x, one_hot, a2, a1, w2, b_z2_norm, b_z1_norm, z1_norm, g2, g1, std2, std1):
+    eps = 1e-8
 
-    dz1 = np.dot(w2.T, dz2) * leaky_relu_deriv(z1_norm_a)
-    dw1 = np.dot(dz1, x.T) / one_hot_y.shape[1]
-    dgamma1 = np.sum(dz1 * z1_norm_a, axis = 1, keepdims=True) / one_hot_y.shape[1]
-    dbeta1 = np.sum(dz1, axis = 1, keepdims=True) / one_hot_y.shape[1]
+    ''' Layer 2 Backprop '''
 
-    return dw1, dw2, dgamma1, dgamma2, dbeta1, dbeta2
+    dz2_norm = a2 - one_hot #10, (60000 / batch_size)
+    dg2 = dz2_norm * b_z2_norm  #10, (60000 / batch_size)
+    db2 = dz2_norm  #10, (60000 / batch_size)
+    dz2 = dz2_norm * g2 * (1 / np.abs(std2 + eps)) #10, (60000 / batch_size)
+    dw2 = np.dot(dz2, a1.T) / x.shape[1] #  #(10, (60000 / batch_size) • (60000 / batch_size, 32)) -> 10, 32
 
-def update(w1, w2,gamma1, gamma2, beta1, beta2, dw1, dw2, dgamma1, dgamma2, dbeta1, dbeta2, alpha):
-    w1 = w1 - alpha * dw1
-    gamma1 = gamma1 - alpha * dgamma1
-    beta1 = beta1 - alpha * dbeta1
-    
+    ''' Layer 1 Backprop'''
+
+    dz1_norm = np.dot(w2.T, dz2) * leaky_relu_deriv(z1_norm) # ( (32, 10) • (10, 60000 / batch_size)) -> 32, 6000
+    dg1 = dz1_norm * b_z1_norm  # 32, (60000 / batch_size)
+    db1 = dz1_norm # 32, (60000 / batch_size)
+    dz1 = dz1_norm * g1 * (1 / np.abs(std1 + eps)) # 32, (60000 / batch_size)
+    dw1 = np.dot(dz1, x.T) / x.shape[1] # ( (32, (60000 / batch_size)) • (60000 / batch_size, 784)) -> 32, 784
+
+    return dw2, dg2, db2, dw1, dg1, db1
+
+def update(w2, g2, b2, w1, g1, b1, dw2, dg2, db2, dw1, dg1, db1, alpha):
     w2 = w2 - alpha * dw2
-    gamma2 = gamma2 - alpha * dgamma2
-    beta2 = beta2 - alpha * dbeta2
-    return w1, w2, gamma1, gamma2, beta1, beta2
+    g2 = g2 - alpha * dg2
+    b2 = b2 - alpha * db2
+    w1 = w1 - alpha * dw1
+    g1 = g1 - alpha * dg1
+    b1 = b1 - alpha * db1
+    return w2, g2, b2, w1, g1, b1
 
-def grad_descent(x, y, w1, w2, gamma1, beta1, gamma2, beta2, epochs, alpha, file):
-    one_hot_y = one_hot(y)
+def gradient_descent(x, y, w1, g1, b1, w2, g2, b2, epochs, alpha, batch_num):
+    one_hot_y_b = one_hot(y, batch_num)
     for epoch in range(epochs):
         for i in range(x.shape[0]):
-            z1, a1, z2, a2, z1_norm_a, z2_norm_a = forward(x[i], w1, w2, gamma1, gamma2, beta1, beta2)
+            z1, z1_norm, b_z1_norm, a1, z2, z2_norm, b_z2_norm, a2, std1, std2 = forward(x[i], w1, g1, b1, w2, g2, b2)
 
-            loss = cce(one_hot_y[i], a2)
-            acc = accuracy(a2, y[i])
+            loss = CCE(one_hot_y_b[i], a2)
+            accuracy = acc(y[i], a2)
 
-            dw1, dw2, dgamma1, dgamma2, dbeta1, dbeta2 = backward(x[i], one_hot_y[i], w2, a2, a1, z1, z1_norm_a, z2_norm_a)
-            w1, w2, gamma1, gamma2, beta1, beta2 = update(w1, w2,gamma1, gamma2, beta1, beta2, dw1, dw2, dgamma1, dgamma2, dbeta1, dbeta2, alpha)
-        
-            print(f"Iteration: {i}")
-            print(f"Epoch: {epoch}")
-            print(f"Loss: {loss}")
-            print(f"Acc: {acc}")
-            print(f"Beta1: {np.max(beta1)}")
-            print(f"Beta2: {np.max(beta2)}\n")
+            dw2, dg2, db2, dw1, dg1, db1 = backward(x[i], one_hot_y_b[i], a2, a1, w2, b_z2_norm, b_z1_norm, z1_norm, g2, g1, std2, std1)
+            w2, g2, b2, w1, g1, b1 = update(w2, g2, b2, w1, g1, b1, dw2, dg2, db2, dw1, dg1, db1, alpha)
+            
+            if i % 2 == 0:
+                print(f"Epoch: {epoch} | Iteration: {i}")
+                print(f"Accuracy: {accuracy}")
+                print(f"Loss: {loss}\n")
+                print(f"dw2: {np.mean(dw2)}")
+                print(f"dg2: {np.mean(dg2)}")
+                print(f"db2: {np.mean(db2)}")
+    return w1, g1, b1, w2, g2, b2
 
-    return w1, w2, gamma1, gamma2, beta1, beta2,
 
-def model(x, y, epochs, alpha, file):
-
-    try:
-        w1, w2, gamma1, gamma2, beta1, beta2 = load_model(file)
-        print(f"LOADED MODEL!")
-
-    except FileNotFoundError:
-        print(f"MODEL NOT FOUND. INIT NEW MODEL!")
-        w1, w2, gamma1, beta1, gamma2, beta2 = init_params()
+def model(x, y, epochs, alpha, batch_num):
+    w1, g1, b1, w2, g2, b2 = init_params()
+    w1, g1, b1, w2, g2, b2 = gradient_descent(x, y, w1, g1, b1, w2, g2, b2, epochs, alpha, batch_num)
+    return w1, g1, b1, w2, g2, b2
     
-    w1, w2, gamma1, gamma2, beta1, beta2 = grad_descent(x, y, w1, w2, gamma1, beta1, gamma2, beta2, epochs, alpha, file)
-
-    return w1, w2, gamma1, gamma2, beta1, beta2
 
 if __name__ == "__main__":
-    data = pd.read_csv('data/fashion-mnist_train.csv')
-    data = np.array(data)
 
-    data_batched = mini_batches(data, batch_size = 10) # 10, 785, 6000
-
-    X_train = data_batched[:, 1:786, :] / 255 # 10, 784, 6000
-    Y_train = data_batched[:, 0, :].reshape(10, -1, 6000) # 10, 1, 6000
-
-    file = 'models/nn.pkl'
+    batch_num = 10
     epochs = 100
     alpha = .1
+    data = pd.read_csv("../data/fashion-mnist_train.csv")
 
-    w1, w2, gamma1, gamma2, beta1, beta2 = model(X_train, Y_train, epochs, alpha, file)
+    X_train, Y_train = minibatches_process(data, batch_num)
+
+    w1, g1, b1, w2, g2, b2 = model(X_train, Y_train, epochs, alpha, batch_num)
+
