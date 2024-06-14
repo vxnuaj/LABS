@@ -21,3 +21,20 @@
 in `@fullname.setter`, the second parameter represents the parameter that's used when assigning to the attritbute
 
 `person.fullname = 'Jane Smith`, the second parameter being passed to the method defiend under `@fullname.setter` is 'Jane Smith', which is then used to modify any other attributes that depend on the fullname method / attribute (given per `@property`)
+
+finally, `@deleter` allows for us to set the rules for what happen when we call `del` to delete a variable, for example as:
+
+```
+del fullname
+```
+
+we can define a deleter, for example, as:
+
+```
+@fullname.deleter
+    def fullname(self):
+        self.first = None
+        self.last = None
+        print("Deleted employee name!")
+
+```
