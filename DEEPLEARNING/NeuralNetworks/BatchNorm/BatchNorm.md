@@ -16,7 +16,7 @@ Each model was run for **500 epochs**, therefore each model was run for **5000**
 
 **Final Accuracy:** $98.77$%
 
-<img src = 'images/mini_batchnormnn.png' width = 500>
+<img src = 'images/Mini_BatchNormNN.png' width = 500>
 
 > _Comments: Did not expect Batch Normalization to be this effective... prior when training using mini-batches, my training would struggle to even near the % or loss when training in full batches. This exceeded my expectations, but now I'm excited to train the same model with learning rate decay (RMSprop)._
 
@@ -24,7 +24,7 @@ Each model was run for **500 epochs**, therefore each model was run for **5000**
 
 **Final Accuracy:** $max(99.95)$, true final: $99.91666$%
 
-<img src = 'images/mini_batchnormnn2.png' width = 500>
+<img src = 'images/Mini_BatchNormNN2.png' width = 500>
 
 ### `RMSMini_BatchNormNN.py`
 
