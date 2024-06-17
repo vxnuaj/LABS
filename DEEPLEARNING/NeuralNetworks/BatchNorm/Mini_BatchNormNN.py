@@ -113,6 +113,8 @@ def gradient_descent(x, y, w1, g1, b1, w2, g2, b2, epochs, alpha, batch_num):
     acc_vec = []
     loss_vec = []
     epoch_vec = []
+    w1_vec = []
+    dw1_vec = []
 
     for epoch in range(epochs):
         for i in range(x.shape[0]):
@@ -127,44 +129,52 @@ def gradient_descent(x, y, w1, g1, b1, w2, g2, b2, epochs, alpha, batch_num):
             acc_vec.append(accuracy)
             loss_vec.append(loss)
             epoch_vec.append(epoch)
+            w1_vec.append(np.mean(w1))
+            dw1_vec.append(np.mean(dw1))
 
             if i % 2 == 0:
                 print(f"Epoch: {epoch} | Iteration: {i}")
                 print(f"Accuracy: {accuracy}")
                 print(f"Loss: {loss}\n")
 
-    return w1, g1, b1, w2, g2, b2, acc_vec, loss_vec, epoch_vec
+    return w1, g1, b1, w2, g2, b2, acc_vec, loss_vec, epoch_vec, w1_vec, dw1_vec
 
 
 def model(x, y, epochs, alpha, batch_num):
     w1, g1, b1, w2, g2, b2 = init_params()
-    w1, g1, b1, w2, g2, b2, acc_vec, loss_vec, epoch_vec = gradient_descent(x, y, w1, g1, b1, w2, g2, b2, epochs, alpha, batch_num)
-    return w1, g1, b1, w2, g2, b2, acc_vec, loss_vec, epoch_vec
+    w1, g1, b1, w2, g2, b2, acc_vec, loss_vec, epoch_vec, w1_vec, dw1_vec = gradient_descent(x, y, w1, g1, b1, w2, g2, b2, epochs, alpha, batch_num)
+    return w1, g1, b1, w2, g2, b2, acc_vec, loss_vec, epoch_vec, w1_vec, dw1_vec
     
 
 if __name__ == "__main__":
 
     batch_num = 10
-    epochs = 1
+    epochs = 100
     alpha = .5
     data = pd.read_csv("../data/fashion-mnist_train.csv")
 
     X_train, Y_train = minibatches_process(data, batch_num)
 
-    w1, g1, b1, w2, g2, b2, acc_vec, loss_vec, epoch_vec = model(X_train, Y_train, epochs, alpha, batch_num)
+    w1, g1, b1, w2, g2, b2, acc_vec, loss_vec, epoch_vec, w1_vec, dw1_vec = model(X_train, Y_train, epochs, alpha, batch_num)
 
-    fig, axs = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
+    w1 = np.array(w1_vec)
+    dw1 = np.array(dw1_vec)
+    print("w1 avg", np.mean(w1))
+    print("dw1 avg", np.mean(dw1))
+
+    ''' fig, axs = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
 
 
-    axs[0].plot(epoch_vec, loss_vec, label='Loss')
+    axs[0].plot(epoch_vec, dw2_vec, label='dw2')
     axs[0].set_xlabel('Epoch')
-    axs[0].set_ylabel('Loss')
+    axs[0].set_ylabel('dw2')
     axs[0].legend()
 
-    axs[1].plot(epoch_vec, acc_vec, label='Accuracy')
+    axs[1].plot(epoch_vec, w2_vec, label='w2')
     axs[1].set_xlabel('Epoch')
-    axs[1].set_ylabel('Accuracy')
+    axs[1].set_ylabel('w2')
     axs[1].legend()
     
     plt.tight_layout()
-    plt.show()
+    plt.show()'''
+

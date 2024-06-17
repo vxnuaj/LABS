@@ -170,7 +170,7 @@ def model(x, y, epochs, alpha, beta, batch_num):
 if __name__ == "__main__":
 
     batch_num = 10
-    epochs = 250
+    epochs = 500
     alpha = .05
     beta = .99
     data = pd.read_csv("../data/fashion-mnist_train.csv")

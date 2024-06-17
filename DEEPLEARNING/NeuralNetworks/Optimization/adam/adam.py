@@ -91,16 +91,16 @@ def update(w1, b1, w2, b2, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, rdw1, rdb
 
     ''' computing moving a verage of the accumulated squared gradients '''
     
-    rdw1 = (beta_1 * rdw1) + (1 - beta_2) * np.square(dw1)
+    rdw1 = (beta_2 * rdw1) + (1 - beta_2) * np.square(dw1)
     #rdw1 = rdw1 / ( 1 - (beta_2 ** epoch)  + eps)
 
-    rdb1 = (beta_1 * rdb1) + (1 - beta_2) * np.square(db1)
+    rdb1 = (beta_2 * rdb1) + (1 - beta_2) * np.square(db1)
     #rdb1 = rdb1 / ( 1 - (beta_2 ** epoch)  + eps )
 
-    rdw2 = (beta_1 * rdw2) + (1 - beta_2) * np.square(dw2)
+    rdw2 = (beta_2 * rdw2) + (1 - beta_2) * np.square(dw2)
     #rdw2 = rdw2 / ( 1 - (beta_2 ** epoch)  + eps )
 
-    rdb2 = (beta_1 * rdb2) + (1 - beta_2) * np.square(db2)
+    rdb2 = (beta_2 * rdb2) + (1 - beta_2) * np.square(db2)
     #rdb2 = rdb2 / ( 1 - (beta_2 ** epoch)  + eps )
 
 
