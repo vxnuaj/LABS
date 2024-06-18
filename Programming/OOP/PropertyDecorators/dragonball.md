@@ -20,14 +20,7 @@ Create a class `DragonBallCollection` that manages a collection of Dragon Balls.
 - The class should have a method `add_ball(ball_number, is_collected, location)` that creates a new `DragonBall` instance with the given parameters and adds it to the collection.
 - The class should have a method `remove_ball(ball_number)` that removes the `DragonBall` instance with the given ball number from the collection.
 - The class should have a method `find_ball(ball_number)` that returns the `DragonBall` instance with the given ball number.
-- The class should have a method `collect_ball(ball_number)` that collects the `DragonBall` instance with the given ball number, setting its `is_collected` property to `True`.
 - The class should have a method `scatter_ball(ball_number, location)` that scatters the `DragonBall` instance with the given ball number to the specified location.
-- The class should have a static method `get_total_balls()` that returns the total number of Dragon Balls in the collection.
+- The class should have a class method `get_total_balls()` that returns the total number of Dragon Balls in the collection.
 - The class should have a class method `find_by_location(location)` that returns a list of `DragonBall` instances that are currently located at the specified location.
-- The class should have a class method `find_by_status(is_collected)` that returns a list of `DragonBall` instances that have the specified collection status (`True` for collected, `False` for not collected).
 
-
-
-**Notes**
-
-- Read only means, only be able to be read not changed.
