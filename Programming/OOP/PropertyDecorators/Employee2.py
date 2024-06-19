@@ -1,3 +1,5 @@
+import datetime
+
 class Employee:
     num_of_emps = 0
     raise_amt = 1.04
@@ -16,12 +18,20 @@ class Employee:
 
     @classmethod
     def set_raise_amt(cls, amount):
-        pass
+        cls.raise_amt = amount
 
-emp_1 = Employee('Corey', 'Schafer', 50000)
+    @classmethod
+    def emp2str(cls, empstr:str):
+        first, last, pay = empstr.split('-')
+        return cls(first, last, pay)
 
-emp_2 = Employee('Test', 'Employee', 60000)
+    @staticmethod
+    def isworkday(day):
+        if day.weekday() in [4, 5]:
+            return False
+        return True
 
-print(Employee.raise_amt)
-print(emp_1.raise_amt)
-print(emp_2.raise_amt)
+
+my_date = datetime.date(2024, 6, 19)
+
+print(Employee.isworkday(my_date))
