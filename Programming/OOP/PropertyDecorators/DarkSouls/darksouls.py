@@ -44,6 +44,90 @@ class Character:
             raise ValueError('data_list must be type list!')
         characters = [cls.from_dict(i) for i in data_list]
         return characters
+    
+    @staticmethod
+    def calculate_total_attributes(character):
+        attr_points = character.vigor + character.strength + character.dexterity
+        return attr_points
+    
+    @staticmethod
+    def validate_character_data(data):
+        attr = ['fullname', 'level', 'vigor', 'strength', 'dexterity', 'equipment']
+                
+        if not isinstance(data, dict):
+            raise ValueError("data must be type dict!")
+        
+        for i in data: # Checking that all values belonging to a given key are the right type
+            if not isinstance(i, str):
+                raise ValueError("all keys in data dict must be type str!")
+            elif i.lower() == 'fullname' and not isinstance(data[i], str):
+                print(type(i))
+                raise ValueError(f"{''.join(i.split())} must be type str!")
+            elif i.lower() in ['level', 'vigor', 'strength', 'dexterity'] and not isinstance(data[i], int):
+                raise ValueError(f"{i} must be type int!")
+            elif i.lower() == 'equipment' and not isinstance(data[i], dict):
+                raise ValueError(f"{i} must be type dict!")
+                
+        for i in data: # Checking that the ranges for levels and attributes are in the right range.
+            if i.lower() == 'level' and not 1 <= data[i] <= 802:
+                raise ValueError(f"Attribute {i} must be between range 1 to 802, inclusive!")
+            elif i.lower() in ['vigor', 'strength', 'dexterity'] and not 1 <= data[i] <= 99:
+                raise ValueError(f"Attribute {i} must be between range 1 to 99, inclusive!")
+                
+        char_attr = [attr.lower()for attr in data.keys()]
+
+        for i in attr:
+            if i not in char_attr:
+                raise ValueError(f"Attribute {i} does not exist in the data dict!")
+        if len(data) != len(attr):
+            raise ValueError(f"Data must be {', '.join(attr)}. You have {', '.join(data.keys())}")
+                
+    '''
+
+    @staticmethod
+        def validate_character_data(data):
+            attr = ['fullname', 'level', 'vigor', 'strength', 'dexterity', 'equipment']
+
+            if not isinstance(data, dict):
+                raise ValueError("data must be type dict!")
+            elif len(data) != 6:
+                raise ValueError("data must be 'fullname', 'level', 'vigor', 'strength', 'dexterity', and 'equipment'.")
+                
+            if not all(isinstance(i, str) for i in data):
+                raise ValueError("all keys in data dict must be type str!")
+            
+                
+            char_attr = [''.join(attr.split()).lower()for attr in data.keys()]
+
+            for i in attr:
+                if i not in char_attr:
+                    raise ValueError(f"Attribute {i} does not exist in the data dict!")
+                
+            return True
+
+
+    '''        
+
+
+    @staticmethod
+    def caluclate_level_up_cost(level:int):
+
+        if not 1 <= level <= 802:
+            raise ValueError("Level must be in range 1, 802, inclusive!")
+        elif not isinstance(level, int):
+            raise ValueError("Your soul level must be type int!")
+        elif level == 802:
+            return f"You're already at level {level}, the maximum possible level. Congratulations!"
+        
+        
+        levels_12 = [673, 689, 706, 723, 740, 757, 775, 793, 811, 829, 847]
+        
+        if level < 13:
+            level -= 1
+            cost = levels_12[level]
+        elif level >= 13:
+            cost = int(((.002 * level) ** 3) + ((3.06 * level) ** 2) + (105.6 * level) - 895)
+        return cost
 
     @property
     def fullname(self):
@@ -55,7 +139,7 @@ class Character:
             raise ValueError("All names must either be NoneType or type str!")
         fullname = ' '.join(fullname.split()).title()
         names = fullname.split(' ')
-        if len(names) == 2:   
+        if len(names) == 2:
             self._fullname = fullname
             self._firstname = names[0]
             self._lastname = names[1]
@@ -215,6 +299,8 @@ class Character:
                 raise ValueError(f"Item name must be type str, denoting the name of a given item that {self.fullname} holds!")
             if not isinstance(amt, int):
                 raise ValueError(f"Value associated with {item} must be type int, denoting the amount {self.fullname} holds!")
+            if not amt > 0:
+                raise ValueError(f"Value associated with {item} must be greater than 0! You can't carry nothing if you have something!")
             self._equipment = {item.strip().replace("'", "œ").title().replace("œ", "'"): amt for item, amt in equipment.items()}
 
     @equipment.deleter
@@ -275,7 +361,7 @@ if __name__ == "__main__":
 
 
     data = {
-        'fullname': '    juan    vera ',
+        'fullname': 'vxnuaj',
         'level': 802,
         'vigor': 99,
         'strength': 99,
@@ -301,9 +387,8 @@ if __name__ == "__main__":
         
     }
     
-    data_list = [data, data2]
+
     
-    characters = Character.load_characters(data_list)
-    darksun = Game(characters)
-    
-    darksun.list_characters()
+vxnuaj = Character.from_dict(data)
+
+print(Character.calculate_total_attributes(vxnuaj))

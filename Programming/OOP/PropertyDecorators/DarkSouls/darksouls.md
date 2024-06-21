@@ -42,8 +42,13 @@ You are tasked with creating an enhanced Character Management System for the gam
       > In essence, create a list of characters (in object form), from a list of dictoinaries where each dictionary holds the attributes of each character.
 
 4. **Static Methods:**
-   - `calculate_level_up_cost(level)`: Static method that calculates the soul cost to level up based on the current level.
-   - `validate_character_data(data)`: Static method that validates if the provided character data (dictionary) contains all necessary attributes.
-   - `calculate_total_attributes(character)`: Static method that calculates the total attribute points of a character.
+   - ~~`calculate_level_up_cost(level)`: Static method that calculates the soul cost to level up based on the current level.~~
+  
+      > ~~y = soul cost at previous level + (soul cost at previous level * .025)~~
+      >
+      > ~~dy = 0.02x³ + 3.06x² + 105.6x - 895 for x ≥ 13~~
+
+   - ~~`validate_character_data(data)`: Static method that validates if the provided character data (dictionary) contains all necessary attributes.~~ 
+   - ~~`calculate_total_attributes(character)`: Static method that calculates the total attribute points of a character.~~
 
 Implement the classes and methods described above. Make sure to include necessary error handling and input validation where appropriate. This will help you practice using staticmethods, classmethods, properties with getters, setters, and deleters, and other OOP concepts in Python.
