@@ -5,15 +5,16 @@ You are tasked with creating an enhanced Character Management System for the gam
 #### Class: `Character`
 
 1. **Attributes:**
-   - `name` (string): The name of the character.
-   - `level` (integer): The level of the character.
-   - `vigor` (integer): The vigor stat of the character.
-   - `strength` (integer): The strength stat of the character.
-   - `dexterity` (integer): The dexterity stat of the character.
-   - `equipment` (dictionary): A dictionary containing equipment slots (e.g., 'weapon', 'armor') and their corresponding items.
+   - ~~`name` (string): The name of the character.~~
+   - ~~`level` (integer): The level of the character.~~
+   -~~`vigor` (integer): The vigor stat of the character.~~
+   - ~~`strength` (integer): The strength stat of the character.~~
+   - ~~`dexterity` (integer): The dexterity stat of the character.~~
+   - ~~`equipment` (dictionary): A dictionary containing equipment slots (e.g., 'weapon', 'armor') and their corresponding items.~~
 
 2. **Methods:**
-   - `__init__(self, name, level, vigor, strength, dexterity, equipment)`: Initializes the character with the provided attributes and equipment.
+   - ~~`__init__(self, name, level, vigor, strength, dexterity, equipment)`: Initializes the character with the provided attributes and equipment.~~
+   - ~~[X] CREATE A METHOD THAT GETS RID OF ITEMS IN EQUIPMENT BASED ON THE NAME AND AMOUNT PARAMTERS~~
    
 3. **Properties:**
    - ~~`name`: Property for the character's name with getter, setter, and deleter.~~
@@ -26,17 +27,19 @@ You are tasked with creating an enhanced Character Management System for the gam
 #### Class: `Game`
 
 1. **Attributes:**
-   - `characters` (list): A list of `Character` instances representing the characters in the game.
+   - ~~`characters` (list): A list of `Character` instances representing the characters in the game.~~
 
 2. **Methods:**
-   - `__init__(self)`: Initializes the game with an empty list of characters.
-   - `add_character(self, character)`: Adds a `Character` instance to the `characters` list.
-   - `remove_character(self, name)`: Removes a `Character` instance from the `characters` list by name.
-   - `list_characters(self)`: Lists all characters in the game.
+   - ~~`__init__(self)`: Initializes the game with an empty list of characters.~~
+   - `~~add_character(self, character)`: Adds a `Character` instance to the `characters` list.~~
+   - ~~`remove_character(self, name)`: Removes a `Character` instance from the `characters` list by name.~~
+   - ~~`list_characters(self)`: Lists all characters in the game.~~
 
 3. **Class Methods:**
-   - `from_dict(cls, data)`: Class method that creates a `Character` instance from a dictionary containing character attributes.
-   - `load_characters(cls, data_list)`: Class method that creates a list of `Character` instances from a list of dictionaries containing character attributes.
+   - ~~`from_dict(cls, data)`: Class method that creates a `Character` instance from a dictionary containing character attributes.~~
+   - ~~`load_characters(cls, data_list)`: Class method that creates a list of `Character` instances from a list of dictionaries containing character attributes.~~
+
+      > In essence, create a list of characters (in object form), from a list of dictoinaries where each dictionary holds the attributes of each character.
 
 4. **Static Methods:**
    - `calculate_level_up_cost(level)`: Static method that calculates the soul cost to level up based on the current level.

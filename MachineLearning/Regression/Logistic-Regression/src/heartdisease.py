@@ -90,7 +90,7 @@ if __name__ == "__main__":
     #X_train = (X_train - np.min(X_train, axis = 0, keepdims = True)) / (np.max(X_train, axis = 0, keepdims = True) - np.min(X_train, axis = 0, keepdims = True))
 
 
-    model_train(X_train, Y_train, .0001, 300000, filename)
+    model_train(X_train, Y_train, .001, 300000, filename)
 
 
 ''''

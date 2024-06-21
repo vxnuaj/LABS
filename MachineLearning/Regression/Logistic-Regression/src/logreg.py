@@ -76,8 +76,7 @@ if __name__ == "__main__":
     alpha = .0001
     epochs = 5000
 
-    print(X_train.dtype)
 
-    '''w, b = gradient_descent(X_train, Y_train, alpha, epochs)
-    save_model(w, b, './Logistic-Regression/models/linreg.pkl')
+    w, b = gradient_descent(X_train, Y_train, alpha, epochs)
+    '''save_model(w, b, './Logistic-Regression/models/linreg.pkl')
 '''

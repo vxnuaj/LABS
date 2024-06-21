@@ -84,4 +84,4 @@ if __name__ == "__main__":
     Y_train = le.fit_transform(Y_train).reshape(1, -1)
 
 
-    w, b = model(X_train, Y_train, .001, 100000)
+    w, b = model(X_train, Y_train, .001, 10000)

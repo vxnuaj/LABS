@@ -1,3 +1,5 @@
+from typing import Union, List
+
 class Character:
 
     def __init__(self, fullname:str, level:int, vigor:int, strength:int, dexterity:int, equipment:dict):
@@ -9,6 +11,39 @@ class Character:
         self.strength = strength
         self.dexterity = dexterity
         self.equipment = equipment
+        
+    def remove_equipment(self, name, amount):
+        if not  isinstance(name, str):
+            raise ValueError("Name must be type str!")
+        if not isinstance(amount, int):
+            raise ValueError("Amount must be type int!")
+        
+        name = ' '.join(name.split()).title()
+        if self.equipment[name] < amount:
+            self.equipment[name] = 0
+        else:
+            self.equipment[name] -= amount
+            
+        if self.equipment[name] == 0:
+            self.equipment.pop(name)
+
+    @classmethod
+    def from_dict(cls, data:dict):
+        try:
+            fullname, level, vigor, strength, dexterity, equipment = data.values()
+        except ValueError as e:
+            if 'not enough values to unpack' in str(e):
+                raise ValueError("Not enough items in data! Include fullname, level, vigor, strength, dexterity, and equipment in the respective order!")
+            elif 'too many values to unpack' in str(e):   
+                raise ValueError("Too many items in data! Only include fullname, level, vigor, strength, dexterity, and equipment in the respective order!")
+        return cls(fullname, level, vigor, strength, dexterity, equipment)
+    
+    @classmethod
+    def load_characters(cls, data_list: list[dict]) -> list:
+        if not isinstance(data_list, list):
+            raise ValueError('data_list must be type list!')
+        characters = [cls.from_dict(i) for i in data_list]
+        return characters
 
     @property
     def fullname(self):
@@ -18,7 +53,7 @@ class Character:
     def fullname(self, fullname):
         if not isinstance(fullname, str):
             raise ValueError("All names must either be NoneType or type str!")
-        fullname = fullname.strip().title()
+        fullname = ' '.join(fullname.split()).title()
         names = fullname.split(' ')
         if len(names) == 2:   
             self._fullname = fullname
@@ -186,21 +221,89 @@ class Character:
     def equipment(self):
         self._equipment.clear()
         
-    # TODO:
-    # - [ ]CREATE A METHOD THAT GETS RID OF ITEMS IN EQUIPMENT BASED ON THE NAME AND AMOUNT PARAMTERS
+class Game:
+    def __init__(self, characters: Union[object, list[object]]):
+        self.characters = []
+        self.__add_character(characters)
 
+    def add_character(self, character:Union[object, list[object]]):
+        if isinstance(character, object):
+            self.characters.append(character)
+        elif isinstance(character, list):
+            if not all(isinstance(i, object) for i in character):
+                    raise ValueError("Not all items in your character list are characters!")
+            self.characters += [i for i in character]
+
+    def __add_character(self, character:Union[object, list[object]]):
+        if isinstance(character, Character):
+            self.characters.append(character)
+        elif isinstance(character, list):
+            if not all(isinstance(i, object) for i in character):
+                    raise ValueError("Not all items in your character list are characters!")
+            self.characters.extend(character)
+        return self.characters
+
+    def remove_character(self, fullname):
+        if not isinstance(fullname, str):
+            raise ValueError("fullname must be type str!")
+    
+        fullname = ' '.join(fullname.split()).title()
+        self.characters = [i for i in self.characters if i.fullname != fullname]
+        
+    def list_characters(self):
+        i = 1
+        num = len(self.characters)
+        print(f"{num} TOTAL CHARACTERS:")
+        for character in self.characters:
+            print(f"{i}. {character.fullname}")
+            i += 1
+        
+    
 
 if __name__ == "__main__":
 
-    name = '    juan vera '
-    level = 10
-    vigor = 9
-    strength = 12
-    dexterity = 11
+    fullname = '    juan    vera '
+    level = 802
+    vigor = 99
+    strength = 99
+    dexterity = 99
     equipment = {
         'exile greatsword': 1,
         "dancer's enchanted swords" : 1,
         'pyromancy flame': 1
     }
 
-    me = Character(name, level, vigor, strength, dexterity, equipment)
+
+    data = {
+        'fullname': '    juan    vera ',
+        'level': 802,
+        'vigor': 99,
+        'strength': 99,
+        'dexterity': 99,
+        'equipment': {
+            'exile greatsword': 1,
+            "dancer's enchanted swords" : 1,
+            'pyromancy flame': 1
+    }
+    }
+    
+    data2 = {
+        'fullname': '    tfue',
+        'level': 801,
+        'vigor': 94,
+        'strength': 91, 
+        'dexterity': 89,
+        'equipment': {
+            'peensword': 1,
+            'bush': 3,
+            'prymancy flame': 1
+        }
+        
+    }
+    
+    data_list = [data, data2]
+    
+    characters = Character.load_characters(data_list)
+    darksun = Game(characters)
+    
+    darksun.list_characters()
