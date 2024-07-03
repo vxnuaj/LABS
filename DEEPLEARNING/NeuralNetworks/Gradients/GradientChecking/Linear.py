@@ -59,4 +59,4 @@ if __name__ == "__main__":
 
     scale = StandardScaler()
 
-    w, b = model(X_train, Y_train, 200000, .0001)o
+    w, b = model(X_train, Y_train, 200000, .0001)

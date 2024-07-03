@@ -173,7 +173,6 @@ def gradient_descent(x, y, w1, g1, b1, w2, g2, b2, epochs, alpha, beta1, beta2, 
                 print(f"Epoch: {epoch} | Iteration: {i}")
                 print(f"Accuracy: {accuracy}")
                 print(f"Loss: {loss}")
-                print(f"z2: {np.mean(z2)}\n") #exploding?
 
 
     return w1, g1, b1, w2, g2, b2, acc_vec, loss_vec, epoch_vec

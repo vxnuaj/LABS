@@ -1,9 +1,3 @@
-'''
-
-L2 REGULARIZATION ON FASHION-MNIST NN
-
-'''
-
 import numpy as np
 import pandas as pd
 import pickle
@@ -30,8 +24,8 @@ def leaky_relu_deriv(z):
     return np.where(z > 0, 1, .01)
 
 def softmax(z):
-    z = z - np.max(z, axis = 0, keepdims = True)
-    return np.exp(z) / np.sum(np.exp(z), axis = 0, keepdims=True)
+    eps = 1e-10
+    return np.exp(z + eps) / np.sum(np.exp(z + eps), axis = 0, keepdims=True)
 
 def forward(x, w1, b1, w2, b2):
     z1 = np.dot(w1, x) + b1
@@ -45,25 +39,39 @@ def one_hot(y):
     one_hot_y[y, np.arange(y.size)] = 1
     return one_hot_y
 
-def cce(one_hot_y, a, w1, w2, lambd):
-    fronorm = (lambd * ((np.sum(np.square(w1))) + (np.sum(np.square(w2))))) / 60000
+def cce(one_hot_y, a):
     eps = 1e-10
-    l = - np.sum(one_hot_y * np.log(a + eps)) / 60000
-    reg_l = l + fronorm
-    return fronorm, reg_l
+    l = - np.sum(one_hot_y * np.log(a + eps)) / one_hot_y.shape[1]
+    return l
 
 def accuracy(a, y):
     pred = np.argmax(a, axis = 0, keepdims=True)
     acc = np.sum(y == pred) / y.size * 100
     return acc
 
-def backward(x, one_hot_y, w2, w1, a2, a1, z1, fronorm, lambd):
+def backward(x, one_hot_y, w2, a2, a1, z1, k):
     dz2 = a2 - one_hot_y
-    dw2 = (np.dot(dz2, a1.T) + (2 * lambd * w2)) / one_hot_y.shape[1]
+    dw2 = np.dot(dz2, a1.T) / one_hot_y.shape[1]
     db2 = np.sum(dz2, axis = 1, keepdims=True) / one_hot_y.shape[1]
     dz1 = np.dot(w2.T, dz2) * leaky_relu_deriv(z1)
-    dw1 = (np.dot(dz1, x.T) + ( 2 * lambd * w1)) / one_hot_y.shape[1]
+    dw1 = np.dot(dz1, x.T) / one_hot_y.shape[1]
     db1 = np.sum(dz1, axis = 1, keepdims=True) / one_hot_y.shape[1]
+   
+    # implementation of gradient norm clipping
+   
+    print(f"Orig DW2: {np.max(dw2), np.min(dw2)}")
+     
+    dw2_norm = np.linalg.norm(dw2, ord = 2) 
+    db2_norm = np.linalg.norm(db2, ord = 2) 
+    dw1_norm = np.linalg.norm(dw1, ord = 2) 
+    db1_norm = np.linalg.norm(db1, ord = 2)
+  
+    dw2 = np.where(dw2_norm > k, (dw2 / dw2_norm) * k, dw2)
+    db2 = np.where(db2_norm > k, (db2 / db2_norm) * k, db2)
+    dw1 = np.where(dw1_norm > k, (dw1 / dw1_norm) * k, dw1)
+    db1 = np.where(db1_norm > k, (db1 / db1_norm) * k, db1)
+ 
+    print(f"New DW2: {np.max(dw2), np.min(dw2)}")
     return dw1, db1, dw2, db2
 
 def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
@@ -73,26 +81,27 @@ def update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
     b2 = b2 - alpha * db2
     return w1, b1, w2, b2
 
-def grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, lambd, file):
+def grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, k, file):
     one_hot_y = one_hot(y)
     for epoch in range(epochs):
         z1, a1, z2, a2 = forward(x, w1, b1, w2, b2)
 
-        fronorm, loss = cce(one_hot_y, a2, w1, w2, lambd)
+        loss = cce(one_hot_y, a2)
         acc = accuracy(a2, y)
 
-        dw1, db1, dw2, db2 = backward(x, one_hot_y, w2, w1, a2, a1, z1, fronorm, lambd)
+        dw1, db1, dw2, db2 = backward(x, one_hot_y, w2, a2, a1, z1, k)
         w1, b1, w2, b2 = update(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha)
     
         print(f"Epoch: {epoch}")
         print(f"Loss: {loss}")
         print(f"Acc: {acc}\n")
 
-    save_model(file, w1, b1, w2, b2)
+    #save_model(file, w1, b1, w2, b2)
+    print(f"Saved model!")
 
     return w1, b1, w2, b2
 
-def model(x, y, epochs, alpha, lambd, file):
+def model(x, y, epochs, alpha, k, file):
 
     try:
         w1, b1, w2, b2 = load_model(file)
@@ -102,23 +111,24 @@ def model(x, y, epochs, alpha, lambd, file):
         print(f"MODEL NOT FOUND. INIT NEW MODEL!")
         w1, b1, w2, b2 = init_params()
     
-    w1, b1, w2, b2 = grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, lambd, file)
+    w1, b1, w2, b2 = grad_descent(x, y, w1, b1, w2, b2, epochs, alpha, k, file)
+
     return w1, b1, w2, b2
 
 if __name__ == "__main__":
-    data = pd.read_csv('../data/fashion-mnist_train.csv')
+    data = pd.read_csv('data/fashion-mnist_train.csv')
     data = np.array(data)
 
     X_train = data[:, 1:785].T / 255
     Y_train = data[:, 0].reshape(1, -1)
 
-    file = 'models/l3nn.pkl'
+    alpha = .1
+    epochs = 100
+    k = .2
+    file = 'models/nn.pkl'
+    
+    w1, b1, w2, b2 = model(X_train, Y_train, epochs, alpha, k, file)
 
-    w1, b1, w2, b2 = model(X_train, Y_train, 500, .1, 1000, file)
-
-'''
-
-The higher Lambda is, the higher the loss is, due to the penalty constraint imposed onto the loss function
-(refer to imgs/geol2inter.png for visualization)
-
-'''
+    
+    
+    
