@@ -4,6 +4,9 @@ class Vehicle(ABC):
     @abstractmethod
     def __init__(self):
         pass
+    
+    def hello_test(self):
+        return f"Hello"
 
 class Car(Vehicle):
    
@@ -15,12 +18,14 @@ class Motorcycle(Vehicle):
     def go(self):
         print("You ride the motorcycle!")
  
-vehicle = Vehicle()
+#vehicle = Vehicle()
 car = Car()
 motorcycle = Motorcycle()
 
 car.go()
 motorcycle.go()
+
+print(car.hello_test())
 
 
 '''
