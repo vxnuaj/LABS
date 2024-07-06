@@ -1,0 +1,170 @@
+- [x]  **Neuron Model**
+    - [x]  Neuron anatomy: inputs, weights, bias, activation function, output.
+    - [x]  Neuron output calculation: weighted sum, activation.
+- [x]  **Activation Functions**
+    - ~~Important Characteristaics of Activation Functions~~
+        
+        > Understand, *why,* each is important when building a deep learning model.
+        > 
+        - [x]  Nonlinearity
+        - [x]  Range
+        - [x]  Monotonicity
+        - [x]  Continuity
+        - [x]  Differentiability
+        - [x]  Sparsity
+        - [x]  Computational Complexity
+    - ~~Sigmoid Activation Function~~
+        - [x]  Mathematical Definition
+            - [x]  Mathematical derivation from it’s original form
+        - [x]  Range
+        - [x]  Derivative
+        - [x]  Smoothness, is it smooth everywhere?
+        - [x]  Monotonicity
+        - [x]  Computational Efficiency
+        - [x]  Common Use Cases
+        - [x]  Advantages / Disadvantages
+        - [ ]  Implementation in a Model vs Others
+    - ~~Tanh Activation Function: math, purpose, pros/cons.~~
+        - [x]  Mathematical Definition
+        - [x]  Range
+        - [x]  Derivative
+        - [x]  Smoothness, is it smooth everywhere?
+        - [x]  Monotonicity
+        - [x]  Computational Efficiency
+        - [x]  Common Use Cases
+        - [x]  Advantages / Disadvantages
+        - [x]  Implementation in a Model vs Others
+    - ~~Rectified Linear Unit (ReLU): math, purpose, pros/cons.~~
+        - [x]  Mathematical Definition
+        - [x]  Range
+        - [x]  Derivative
+        - [x]  Smoothness, is it smooth everywhere?
+        - [x]  Monotonicity
+        - [x]  Computational Efficiency
+        - [x]  Common Use Cases
+        - [x]  Advantages / Disadvantages
+        - [x]  Implementation in a Model vs Others
+    - ~~Leaky Rectified Linear Unit (Leaky ReLU): math, purpose, pros/cons.~~
+        - [x]  Mathematical Definition
+        - [x]  Range
+        - [x]  Derivative
+        - [x]  Smoothness, is it smooth everywhere?
+        - [x]  Monotonicity
+        - [x]  Computational Efficiency
+        - [x]  Common Use Cases
+        - [x]  Advantages / Disadvantages
+        - [x]  Implementation in a Model vs Others
+    - ~~Softmax Activation Function: math, purpose, pros/cons.~~
+        - [x]  Mathematical Definition
+        - [x]  Range
+        - [x]  Derivative
+        - [x]  Smoothness, is it smooth everywhere?
+        - [x]  Monotonicity
+        - [x]  Computational Efficiency
+        - [x]  Common Use Cases
+        - [x]  Advantages / Disadvantages
+        - [x]  Implementation in a Model vs Others
+    - ~~SELU Activation Function: math, purpose, pros/cons.~~
+        - [x]  Mathematical Definition
+        - [x]  Range
+        - [x]  Derivative
+        - [x]  Smoothness, is it smooth everywhere?
+        - [x]  Monotonicity
+        - [x]  Computational Efficiency
+        - [x]  Common Use Cases
+        - [x]  Advantages / Disadvantages
+        - [x]  Implementation in a Model vs Others
+    - ~~Swish Activation Function: math, purpose, pros/cons.~~
+        - [x]  Mathematical Definition
+        - [x]  Range
+        - [x]  Derivative
+        - [x]  Smoothness, is it smooth everywhere?
+        - [x]  Monotonicity
+        - [x]  Computational Efficiency
+        - [x]  Common Use Cases
+        - [x]  Advantages / Disadvantages
+        - [x]  Implementation in a Model vs Others
+    - ~~ELU Activation Function: math, purpose, pros/cons.~~
+        - [x]  Mathematical Definition
+        - [x]  Range
+        - [x]  Derivative
+        - [x]  Smoothness, is it smooth everywhere?
+        - [x]  Monotonicity
+        - [x]  Computational Efficiency
+        - [x]  Common Use Cases
+        - [x]  Advantages / Disadvantages
+        - [x]  Implementation in a Model vs Others
+- [x]  **Feedforward Operation**
+    - [x]  Forward pass: concept, calculation.
+    - [x]  Layer interaction: input-output relationship.
+- [x]  **Loss Functions | Similar method as Activation Functions**
+    - [x]  **Mean Squared Error (MSE):**
+        - [x]  Definition, Mathematical and Code
+        - [x]  Usage in regression, Concept and Implementation
+        - [x]  Characteristics
+    - [x]  **Mean Absolute Error (MAE):**
+        - [x]  Definition, Mathematical and Code
+        - [x]  Usage in regression, Concept and Implementation
+        - [x]  Characteristics
+    - [x]  **Binary Cross-Entropy Loss:**
+        - [x]  Definition, Mathematical and Code
+        - [x]  Usage in binary classification, Concept and Implementation
+        - [x]  Characteristics
+    - [x]  **Categorical Cross Entropy Loss:**
+        - [x]  Definition, Mathematical and Code
+        - [x]  Usage in classification, Concept and Implementation
+        - [x]  Characteristics
+    - [x]  **Smoothed Cross Entropy Loss:**
+        - [x]  Definition, Mathematical and Code
+        - [x]  Usage in classification, Concept and Implementation
+        - [x]  Characteristics
+    - [x]  **Sparse Cross Entropy Loss:**
+        - [x]  Definition, Mathematical and Code
+        - [x]  Usage in classification, Concept and Implementation
+        - [x]  Characteristics
+- [x]  **Optimization Algorithms**
+    - [x]  Gradient Descent: basic update rule.
+    - [x]  Batch Gradient Descent: update using full dataset.
+    - [x]  Stochastic Gradient Descent (SGD): update using single example.
+    - [x]  Mini-batch Gradient Descent: update using batch of examples.
+    - [x]  Adaptive Learning Rate Algorithms (e.g., Adam, RMSprop): role in optimization.
+    - [x]  Learning Rate Scheduling: Exponential decay, step decay, 1cycle policy
+    - [x]  Vanishing / Exploding Gradients
+    - [x]  Gradient Clipping: preventing exploding gradients.
+    - [x]  Gradient Normalization: improving training stability.
+- [x]  **Backpropagation**
+    - [x]  Concept and purpose in training.
+    - [x]  Calculation of gradients using chain rule.
+- [x]  **Regularization Techniques**
+    - [x]  L1 and L2 Regularization: preventing overfitting.
+    - [x]  Dropout: improving generalization.
+    - [x]  Elastic Net regularization: additional regularization.
+    - [x]  Early Stopping: preventing overfitting.
+    - [x]  Auxuliary losses
+    - [x]  ~~Input~~ and Weight Standardization
+    - [x]  Gradient Centralization
+- [x]  **Overfitting and Underfitting**
+    - [x]  Identifying and addressing issues.
+    - [x]  Bias-Variance Tradeoff: impact on performance.
+- [x]  **Initialization Methods**
+    - ~~General~~
+        - [x]  Importance of Weight Initialization
+    - ~~Xavier/Glorot Initialization~~
+        - [x]  Motivation / Purpose
+        - [x]  Formula / Mathematical
+        - [x]  Code Implementation
+    - ~~He initialization: initialization for deeper networks.~~
+        - [x]  Motivation / Purpose
+        - [x]  Formula / Mathematical
+        - [x]  Code Implementation
+- [x]  **Hyperparameter Tuning**
+    - [x]  Learning rate selection: balancing speed and convergence.
+    - [x]  Batch size selection: optimizing training.
+    - [x]  Determining network complexity: layers, neurons.
+    - [x]  Learning rate decay strategies: improving convergence.
+    - [x]  Momentum usage: faster convergence.
+    - [x]  Nesterov Momentum
+    - [x]  Nadam
+- [x]  **Model Evaluation**
+    - [x]  Dataset split: Training Set, Validation Set, Test Set.
+    - [x]  Addressing overfitting and underfitting.
