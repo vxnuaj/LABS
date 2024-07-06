@@ -1,0 +1,62 @@
+[
+    {
+      "id": 1,
+      "age": 25,
+      "income": 40000,
+      "education": "Bachelor's",
+      "occupation": "Software Engineer",
+      "marital_status": "Single",
+      "hours_worked": 40,
+      "commute_time": 30,
+      "city_size": "Medium",
+      "target": 0
+    },
+    {
+      "id": 2,
+      "age": 31,
+      "income": 60000,
+      "education": "Master's",
+      "occupation": "Data Scientist",
+      "marital_status": "Married",
+      "hours_worked": 45,
+      "commute_time": 20,
+      "city_size": "Large",
+      "target": 1
+    },
+    {
+      "id": 3,
+      "age": 42,
+      "income": 70000,
+      "education": "Ph.D.",
+      "occupation": "Professor",
+      "marital_status": "Divorced",
+      "hours_worked": 30,
+      "commute_time": 45,
+      "city_size": "Small",
+      "target": 0
+    },
+    {
+      "id": 4,
+      "age": 28,
+      "income": 50000,
+      "education": "Bachelor's",
+      "occupation": "Marketing Manager",
+      "marital_status": "Single",
+      "hours_worked": 35,
+      "commute_time": 25,
+      "city_size": "Medium",
+      "target": 1
+    },
+    {
+      "id": 5,
+      "age": 35,
+      "income": 55000,
+      "education": "Master's",
+      "occupation": "Engineer",
+      "marital_status": "Married",
+      "hours_worked": 40,
+      "commute_time": 30,
+      "city_size": "Large",
+      "target": 0
+    }
+  ]
