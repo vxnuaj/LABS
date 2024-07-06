@@ -72,7 +72,8 @@
 - [x]  **Recursion:**
     - [x]  Understanding recursive functions.
     - [x]  Solving problems using recursion.
-### Advanced & Useful
+
+### Advanced & Useful (this is just CS at this point lol.)
 
 - [ ]  **Data Structures:**
     - [ ]  Linked Lists: Singly linked, doubly linked lists.

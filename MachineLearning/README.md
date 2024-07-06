@@ -84,3 +84,6 @@
     - [ ]  Active Learning: Pool-based sampling, stream-based sampling, and query synthesis.
     - [ ]  Causal Inference: Potential outcomes framework, propensity score matching, and instrumental variables.
     - [ ]  Fairness, Accountability, and Transparency (FAT) in Machine Learning: Bias mitigation, explainability, and privacy-preserving techniques.
+
+- Projects?
+  - Maybe a couple want to get to DL sooner.
