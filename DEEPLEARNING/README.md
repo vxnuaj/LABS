@@ -1,3 +1,15 @@
 ## Deep Learning
 
->_I swear, the future is neurons_
+The future, are neurons
+
+- [X] Neural Networks
+- [ ] Convolutional Neural Networks
+- [ ] Recurrent Neural Networks
+- [ ] Transformers
+
+---
+
+- [ ] Diffusion Models
+- [ ] GANs
+- [ ] Graph NNs
+- [ ] Deep RL
