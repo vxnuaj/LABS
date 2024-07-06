@@ -41,39 +41,37 @@
     - **Static and Class Methods + Other methods**
         - [x]  Defining static methods
         - [x]  Defining class methods
-        - [ ]  Using **`@property`** for defining properties
-        - [ ]  Using **`@getter`**
-        - [ ]  Using `@deleter`
-        - [ ]  Using **`@staticmethod`** for defining static methods
-        - [ ]  Using **`@classmethod`** for defining class methods
+        - [X]  Using **`@property`** for defining properties
+        - [x]  Using **`@getter`**
+        - [x]  Using `@deleter`
+        - [x]  Using **`@staticmethod`** for defining static methods
+        - [x]  Using **`@classmethod`** for defining class methods
     - **Encapsulation**
-        - [ ]  Public vs. private attributes and methods
-        - [ ]  Data hiding
-        - [ ]  Access control (using __ for private attributes)
+        - [x]  Public vs. private attributes and methods
+        - [x]  Data hiding
+        - [x]  Access control (using __ for private attributes)
     - **Polymorphism**
-        - [ ]  Method overriding
-        - [ ]  Operator overloading (customizing operators like +, -, etc. for your classes)
+        - [x]  Method overriding
+        - [x]  Operator overloading (customizing operators like +, -, etc. for your classes)
     - **Abstraction**
-        - [ ]  Hiding implementation details and showing only essential features
+        - [x]  Hiding implementation details and showing only essential features
     - **Composition**
-        - [ ]  Creating objects from other objects
+        - [x]  Creating objects from other objects
     - **Delegation**
-        - [ ]  Passing responsibilities to other objects
+        - [x]  Passing responsibilities to other objects
     - **Abstract Classes and Interfaces**
-        - [ ]  Using abc module in Python
-        - [ ]  Defining abstract classes and interfaces
+        - [x]  Using abc module in Python
+        - [x]  Defining abstract classes and interfaces
     - **Class and Instance Variables**
-        - [ ]  Defining class variables
-        - [ ]  Defining instance variables
+        - [x]  Defining class variables
+        - [x]  Defining instance variables
     - **Special Methods**
-        - [ ]  **init** and **new** methods
-        - [ ]  **str** and **repr** methods for custom string representation
+        - [x]  **init** and **new** methods
+        - [x]  **str** and **repr** methods for custom string representation
         - [ ]  **eq** and other special methods for custom comparisons
-- [ ]  **Recursion:**
-    - [ ]  Understanding recursive functions.
-    - [ ]  Solving problems using recursion.
-- [ ]  **2 Technical Projects**
-
+- [x]  **Recursion:**
+    - [x]  Understanding recursive functions.
+    - [x]  Solving problems using recursion.
 ### Advanced & Useful
 
 - [ ]  **Data Structures:**
