@@ -1,7 +1,19 @@
 **Current Resources**: Introduction to Statistical Learning, IBM ML, Sebastian Raschka ML.
 
+**Process**
+
+- Using IBM + Sebastian Raschka as Video Content
+- Using An Introduction to Statistical Learning as Book Content
+- Selectively learn what you need based on this README.md
+
+**Next Steps**
+- 
 
 **Supervised Learning**
+- [ ] **Train-Test Split**
+  - [ ] Regular Splitting
+  - [ ] Shuffle Splitting
+  - [ ] Stratified Splitting 
 - [ ] **Regression**
     - [ ] Linear regression
     - [ ] Polynomial regression
@@ -32,19 +44,24 @@
     - [ ] ROC-AUC
 - [ ] **K-fold Cross-Validation**
 - [ ] **Log Likelihood**: Understanding log likelihood and its role in model evaluation
-- [ ] **Understanding how to choose the appropriate evaluation methodologies**
+- [ ] Understanding how to choose the appropriate evaluation methodologies
 - [ ] **Model Selection Techniques**: Cross-validation
 
 **Hyperparameter Tuning / Model Selection**
-- [ ] **Hyperparameter Tuning**: Grid search, random search, bayesian optimization, etc.
+- [ ] **Hyperparameter Tuning**:
+  - [ ] Grid search
+  - [ ] Random search
+  - [ ] Bayesian optimization, etc.
 
 **Bias-Variance Tradeoff**
-- [ ] **Understanding bias and variance in models**
-- [ ] **Techniques to manage bias and variance**
+- [ ] Understanding bias and variance in models
+- [ ] Techniques to manage bias and variance
 
 **Ensemble Methods**
 - [ ] **Bagging**: Random forests
-- [ ] **Boosting**: AdaBoost, Gradient Boosting
+- [ ] **Boosting**: 
+  - [ ] AdaBoost
+  - [ ] Gradient Boosting
 
 **Introduction to Reinforcement Learning**
 - [ ] **Basics**: Agents, environments, rewards, policies

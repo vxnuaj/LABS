@@ -4,13 +4,10 @@ from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-
 # Pred
-
 def predict(x, m, b):
     pred = np.dot(x, m) + b
     return pred
-
 
 # Loss
 def MSE(y, pred):
