@@ -4,7 +4,7 @@ Just Foundations rn.
     - [x]  Neuron anatomy: inputs, weights, bias, activation function, output.
     - [x]  Neuron output calculation: weighted sum, activation.
 - [x]  **Activation Functions**
-    - ~~Important Characteristaics of Activation Functions~~
+    - [x] ~~Important Characteristaics of Activation Functions~~
         
         > Understand, *why,* each is important when building a deep learning model.
         > 
@@ -15,7 +15,7 @@ Just Foundations rn.
         - [x]  Differentiability
         - [x]  Sparsity
         - [x]  Computational Complexity
-    - ~~Sigmoid Activation Function~~
+    - [x] ~~Sigmoid Activation Function~~
         - [x]  Mathematical Definition
             - [x]  Mathematical derivation from it’s original form
         - [x]  Range
@@ -26,7 +26,7 @@ Just Foundations rn.
         - [x]  Common Use Cases
         - [x]  Advantages / Disadvantages
         - [ ]  Implementation in a Model vs Others
-    - ~~Tanh Activation Function: math, purpose, pros/cons.~~
+    - [x]~~Tanh Activation Function: math, purpose, pros/cons.~~
         - [x]  Mathematical Definition
         - [x]  Range
         - [x]  Derivative
@@ -36,7 +36,7 @@ Just Foundations rn.
         - [x]  Common Use Cases
         - [x]  Advantages / Disadvantages
         - [x]  Implementation in a Model vs Others
-    - ~~Rectified Linear Unit (ReLU): math, purpose, pros/cons.~~
+    - [x] ~~Rectified Linear Unit (ReLU): math, purpose, pros/cons.~~
         - [x]  Mathematical Definition
         - [x]  Range
         - [x]  Derivative
@@ -46,7 +46,7 @@ Just Foundations rn.
         - [x]  Common Use Cases
         - [x]  Advantages / Disadvantages
         - [x]  Implementation in a Model vs Others
-    - ~~Leaky Rectified Linear Unit (Leaky ReLU): math, purpose, pros/cons.~~
+    - [x]~~Leaky Rectified Linear Unit (Leaky ReLU): math, purpose, pros/cons.~~
         - [x]  Mathematical Definition
         - [x]  Range
         - [x]  Derivative
@@ -56,7 +56,7 @@ Just Foundations rn.
         - [x]  Common Use Cases
         - [x]  Advantages / Disadvantages
         - [x]  Implementation in a Model vs Others
-    - ~~Softmax Activation Function: math, purpose, pros/cons.~~
+    - [x] ~~Softmax Activation Function: math, purpose, pros/cons.~~
         - [x]  Mathematical Definition
         - [x]  Range
         - [x]  Derivative
@@ -66,7 +66,7 @@ Just Foundations rn.
         - [x]  Common Use Cases
         - [x]  Advantages / Disadvantages
         - [x]  Implementation in a Model vs Others
-    - ~~SELU Activation Function: math, purpose, pros/cons.~~
+    - [x]~~SELU Activation Function: math, purpose, pros/cons.~~
         - [x]  Mathematical Definition
         - [x]  Range
         - [x]  Derivative
@@ -76,7 +76,7 @@ Just Foundations rn.
         - [x]  Common Use Cases
         - [x]  Advantages / Disadvantages
         - [x]  Implementation in a Model vs Others
-    - ~~Swish Activation Function: math, purpose, pros/cons.~~
+    - [x]~~Swish Activation Function: math, purpose, pros/cons.~~
         - [x]  Mathematical Definition
         - [x]  Range
         - [x]  Derivative
@@ -86,7 +86,7 @@ Just Foundations rn.
         - [x]  Common Use Cases
         - [x]  Advantages / Disadvantages
         - [x]  Implementation in a Model vs Others
-    - ~~ELU Activation Function: math, purpose, pros/cons.~~
+    - [x]~~ELU Activation Function: math, purpose, pros/cons.~~
         - [x]  Mathematical Definition
         - [x]  Range
         - [x]  Derivative
