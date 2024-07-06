@@ -9,7 +9,11 @@ The future, are neurons
 
 ---
 
+Later (Perhaps):
+
 - [ ] Diffusion Models
 - [ ] GANs
 - [ ] Graph NNs
 - [ ] Deep RL
+- [ ] NLP
+- [ ] CV
