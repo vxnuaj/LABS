@@ -1,3 +1,5 @@
+Just Foundations rn.
+
 - [x]  **Neuron Model**
     - [x]  Neuron anatomy: inputs, weights, bias, activation function, output.
     - [x]  Neuron output calculation: weighted sum, activation.
