@@ -1,11 +1,11 @@
  
  ### Essential
 
-- [ ]  **Data Types:**
+- [x]  **Data Types:**
     - [x]  Lists: Creating, accessing elements, list methods.
     - [x]  Strings: Manipulating strings, string methods.
     - [x]  Tuples: Creating, accessing elements, tuple methods.
-    - [ ]  Sets: Creating, adding, removing elements, set operations.
+    - [x]  Sets: Creating, adding, removing elements, set operations.
     - [x]  Floats, Integers: Arithmetic operations, conversions.
     - [x]  Booleans: Logical operations, truthiness.
 - [x]  **Control Flow/Looping:**
@@ -15,10 +15,10 @@
 - [x]  **Arithmetic and Expressions:**
     - [x]  Basic arithmetic operations: **`+`**, **`*, **`**, **`/`**, **`//`**, **`%`**.
     - [x]  Operator precedence, parentheses in expressions.
-- [ ]  **I/O (Input/Output):**
+- [x]  **I/O (Input/Output):**
     - [x]  Using **`input()`** for user input.
     - [x]  Using **`print()`** for output.
-    - [ ]  Reading/writing files: Using **`open()`**, **`read()`**, **`write()`**, **`close()`**.
+    - [x]  Reading/writing files: Using **`open()`**, **`read()`**, **`write()`**, **`close()`**.
 - [x]  **Functions:**
     - [x]  Defining functions, parameters, return values.
     - [x]  Scope of variables, global vs. local variables.
@@ -26,7 +26,7 @@
 - [x]  **Exceptions and Error Handling:**
     - [x]  Using **`try`**, **`except`**, **`else`**, **`finally`** blocks.
     - [x]  Handling specific exceptions, raising exceptions.
-- [ ]  **Object-Oriented Programming (OOP):**
+- [x]  **Object-Oriented Programming (OOP):**
     - **~~Classes and Objects~~**
         - [x]  Defining classes
         - [x]  Attributes (data members)
