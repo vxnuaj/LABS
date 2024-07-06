@@ -1,6 +1,6 @@
 '''
 
-Implementing Gradient Descent with Momentum.
+Implementing Gradient Descent with Nesterov Momentum.
 
 '''
 
@@ -43,8 +43,8 @@ def forward(x, w1, b1, w2, b2):
     #print(f"Z2: {np.max(z2)}")
     try:
         a2 = softmax(z2)
-    except RuntimeWarning:
-        sys.exit("overflow!")
+    except RuntimeWarning as e:
+        sys.exit(f"overflow!: {e}")
     return z1, a1, z2, a2
 
 def one_hot(y):
@@ -72,30 +72,27 @@ def backward(x, one_hot_y, w2, w1, a2, a1, z2, z1):
     db1 = np.sum(dz1, axis=1, keepdims=True) / 60000
     return dw2, db2, dw1, db1
 
-def momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch, alpha):
-    eps = 1e-10
+def update_momentum(x, one_hot_y, w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha, beta):
+
+    w1_lookahead = w1 - beta * vdw1 
+    b1_lookahead = b1 - beta * vdb1
+    w2_lookahead = w2 - beta * vdw2
+    b2_lookahead = b2 - beta * vdb2
+
+    z1_lookahead, a1_lookahead, z2_lookahead, a2_lookahead = forward(x, w1_lookahead, b1_lookahead, w2_lookahead, b2_lookahead)
+    dw2, db2, dw1, db1 = backward(x, one_hot_y, w2_lookahead, w1_lookahead, a2_lookahead, a1_lookahead, z2_lookahead, z1_lookahead)    
+
+    vdw1 = beta * vdw1 + ( 1 - beta ) * dw1 
+    vdb1 = beta * vdb1 + ( 1 - beta ) * db1
+    vdw2 = beta * vdw2 + ( 1 - beta )  * dw2
+    vdb2 = beta * vdb2 + ( 1-  beta) * db2
+
+    w1 = w1 - alpha * vdw1
+    b1 = b1 - alpha * vdb1
+    w2 = w2 - alpha * vdw2
+    b2 = b2 - alpha * vdb2
     
-    vdw1 = (beta * vdw1) - alpha * dw1
-    #vdw1 = vdw1 / ( 1 - (beta ** epoch) + eps )
-
-    vdb1 = (beta * vdb1) - alpha * db1
-    #vdb1 = vdb1 / ( 1 - (beta ** epoch) + eps)
-
-    vdw2 = (beta * vdw2) - alpha *dw2
-    #vdw2 = vdw2 / ( 1 - (beta ** epoch) + eps)
-
-    vdb2 = (beta * vdb2) - alpha * db2
-    #vdb2 = vdb2 / ( 1 - (beta ** epoch) + eps)
-    return vdw1, vdb1, vdw2, vdb2
-
-
-def update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha):
-
-    w1 = w1 + vdw1
-    b1 = b1 + vdb1
-    w2 = w2 + vdw2
-    b2 = b2 + vdb2
-    return w1, b1, w2, b2
+    return w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2
 
 def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
     one_hot_y = one_hot(y)
@@ -114,11 +111,7 @@ def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
         l = cat_cross(one_hot_y, a2)
         acc = accuracy(y, a2)
 
-        dw2, db2, dw1, db1 = backward(x, one_hot_y, w2, w1, a2, a1, z2, z1)
-
-        vdw1, vdb1, vdw2, vdb2 = momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch, alpha)
-
-        w1, b1, w2, b2 = update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha)
+        w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2 = update_momentum(x, one_hot_y, w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha, beta)
 
         '''if epoch % 5 == 0:
             print(f"epoch: {epoch}")
@@ -128,7 +121,7 @@ def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
     
         print(f"epoch: {epoch}")
         print(f"loss: {l}")
-        print(f"acc: {acc}%")
+        print(f"acc: {acc}%\n")
 
         loss_vec.append(l)
         acc_vec.append(acc)
@@ -155,7 +148,7 @@ if __name__ == "__main__":
     X_train = data[:, 1:786].T / 255 #784, 60000
     Y_train = data[:, 0].reshape(1, -1) #1, 60000
 
-    file = '../models/BatchNN.pkl'
+    file = '../models/NesterovNN.pkl'
 
     w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec = model(X_train, Y_train, epochs = 250, alpha = .1, beta = .9, file = file)
 

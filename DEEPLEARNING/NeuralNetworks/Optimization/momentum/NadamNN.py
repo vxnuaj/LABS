@@ -1,6 +1,6 @@
 '''
 
-Implementing Gradient Descent with Momentum.
+Implementing Gradient Descent with Nadam.
 
 '''
 
@@ -11,12 +11,12 @@ import pickle
 import sys
 
 def load_model(file):
-    with open(file) as f:
+    with open(file, 'rb') as f:
         return pickle.load(f)
 
-def save_model(file, w1, b1, w2, b2, w3, b3):
-    with open(file) as f:
-        pickle.dump((w1, b1, w2, b2, w3, b3), f)
+def save_model(file, w1, b1, w2, b2):
+    with open(file, 'wb') as f:
+        pickle.dump((w1, b1, w2, b2), f)
 
 def init_params():
     rng = np.random.default_rng(seed = 1)
@@ -43,8 +43,8 @@ def forward(x, w1, b1, w2, b2):
     #print(f"Z2: {np.max(z2)}")
     try:
         a2 = softmax(z2)
-    except RuntimeWarning:
-        sys.exit("overflow!")
+    except RuntimeWarning as e:
+        sys.exit(f"overflow!: {e}")
     return z1, a1, z2, a2
 
 def one_hot(y):
@@ -72,37 +72,40 @@ def backward(x, one_hot_y, w2, w1, a2, a1, z2, z1):
     db1 = np.sum(dz1, axis=1, keepdims=True) / 60000
     return dw2, db2, dw1, db1
 
-def momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch, alpha):
-    eps = 1e-10
-    
-    vdw1 = (beta * vdw1) - alpha * dw1
-    #vdw1 = vdw1 / ( 1 - (beta ** epoch) + eps )
+def update_momentum(x, one_hot_y, w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, sdw1, sdb1, sdw2, sdb2, alpha, beta, beta_2):
 
-    vdb1 = (beta * vdb1) - alpha * db1
-    #vdb1 = vdb1 / ( 1 - (beta ** epoch) + eps)
+    w1_lookahead = w1 - beta * vdw1 
+    b1_lookahead = b1 - beta * vdb1
+    w2_lookahead = w2 - beta * vdw2
+    b2_lookahead = b2 - beta * vdb2
 
-    vdw2 = (beta * vdw2) - alpha *dw2
-    #vdw2 = vdw2 / ( 1 - (beta ** epoch) + eps)
+    z1_lookahead, a1_lookahead, z2_lookahead, a2_lookahead = forward(x, w1_lookahead, b1_lookahead, w2_lookahead, b2_lookahead)
+    dw2, db2, dw1, db1 = backward(x, one_hot_y, w2_lookahead, w1_lookahead, a2_lookahead, a1_lookahead, z2_lookahead, z1_lookahead)    
 
-    vdb2 = (beta * vdb2) - alpha * db2
-    #vdb2 = vdb2 / ( 1 - (beta ** epoch) + eps)
-    return vdw1, vdb1, vdw2, vdb2
+    vdw1 = beta * vdw1 + ( 1 - beta ) * dw1 
+    vdb1 = beta * vdb1 + ( 1 - beta ) * db1
+    vdw2 = beta * vdw2 + ( 1 - beta )  * dw2
+    vdb2 = beta * vdb2 + ( 1-  beta) * db2
 
+    sdw1 = beta_2 * sdw1 + ( 1 - beta_2 ) * np.square(dw1)
+    sdb1 = beta_2 * sdb1 + ( 1 - beta_2 ) * np.square(db1)
+    sdw2 = beta_2 * sdw2 + ( 1 - beta_2 ) * np.square(dw2)
+    sdb2 = beta_2 * sdb2 + ( 1 - beta_2 ) * np.square(db2)
 
-def update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha):
+    w1 = w1 - (alpha / np.sqrt(sdw1)) * vdw1
+    b1 = b1 - (alpha / np.sqrt(sdb1)) * vdb1
+    w2 = w2 - (alpha / np.sqrt(sdw2)) * vdw2
+    b2 = b2 - (alpha / np.sqrt(sdb2)) * vdb2
+    return w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, sdw1, sdb1, sdw2, sdb2
 
-    w1 = w1 + vdw1
-    b1 = b1 + vdb1
-    w2 = w2 + vdw2
-    b2 = b2 + vdb2
-    return w1, b1, w2, b2
-
-def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
+def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, beta_2, file):
     one_hot_y = one_hot(y)
     vdw1 = 0
     vdb1 = 0
     vdw2 = 0
     vdb2 = 0
+
+    sdw1, sdb1, sdw2, sdb2 = 0, 0, 0, 0
 
     epochs_vec = []
     acc_vec = []
@@ -114,11 +117,7 @@ def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
         l = cat_cross(one_hot_y, a2)
         acc = accuracy(y, a2)
 
-        dw2, db2, dw1, db1 = backward(x, one_hot_y, w2, w1, a2, a1, z2, z1)
-
-        vdw1, vdb1, vdw2, vdb2 = momentum(beta, dw1, db1, dw2, db2, vdw1, vdb1, vdw2, vdb2, epoch, alpha)
-
-        w1, b1, w2, b2 = update_momentum(w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, alpha)
+        w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, sdw1, sdb1, sdw2, sdb2 = update_momentum(x, one_hot_y, w1, b1, w2, b2, vdw1, vdb1, vdw2, vdb2, sdw1, sdb1, sdw2, sdb2, alpha, beta, beta_2)
 
         '''if epoch % 5 == 0:
             print(f"epoch: {epoch}")
@@ -128,15 +127,15 @@ def gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, file):
     
         print(f"epoch: {epoch}")
         print(f"loss: {l}")
-        print(f"acc: {acc}%")
+        print(f"acc: {acc}%\n")
 
         loss_vec.append(l)
         acc_vec.append(acc)
         epochs_vec.append(epoch)
-
+    save_model(file, w1, b1, w2, b2)
     return w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec
     
-def model(x, y, epochs, alpha, beta, file):
+def model(x, y, epochs, alpha, beta, beta_2, file):
     try:
         w1, b1, w2, b2 = load_model(file)
         print("found model! initializing model params!")
@@ -145,7 +144,7 @@ def model(x, y, epochs, alpha, beta, file):
         print("model not found! initializing new params!")
         w1, b1, w2, b2= init_params()
     
-    w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec  = gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta,file)
+    w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec  = gradient_descent_momentum(x, y, w1, b1, w2, b2, epochs, alpha, beta, beta_2, file)
     return w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec
 
 if __name__ == "__main__":
@@ -155,9 +154,9 @@ if __name__ == "__main__":
     X_train = data[:, 1:786].T / 255 #784, 60000
     Y_train = data[:, 0].reshape(1, -1) #1, 60000
 
-    file = '../models/BatchNN.pkl'
+    file = 'models/NadamNN.pkl'
 
-    w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec = model(X_train, Y_train, epochs = 250, alpha = .1, beta = .9, file = file)
+    w1, b1, w2, b2, loss_vec, acc_vec, epochs_vec = model(X_train, Y_train, epochs = 1000, alpha = .01, beta = .9, beta_2 = .99, file = file)
 
     fig, axs = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
 

@@ -2,7 +2,7 @@
 
 my personal labspace.
 
-learning dl. and breaking lots of things on purpose.
+learning dl / ml + coding + mathematics
 
 ### Index
 
