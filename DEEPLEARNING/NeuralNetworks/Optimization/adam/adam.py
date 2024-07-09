@@ -164,7 +164,9 @@ if __name__ == "__main__":
 
     file = '../models/BatchNN.pkl'
 
-    w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec= model(X_train, Y_train, epochs = 1000, alpha = .1, beta_1 = .99, beta_2 = .9, file =file)
+    print(X_train.shape)
+
+    '''    w1, b1, w2, b2, epochs_vec, loss_vec, acc_vec= model(X_train, Y_train, epochs = 1000, alpha = .1, beta_1 = .99, beta_2 = .9, file =file)
 
     fig, axs = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
 
@@ -178,4 +180,4 @@ if __name__ == "__main__":
     axs[1].set_ylabel('Loss')
     axs[1].legend()
 
-    plt.show()
+    plt.show()'''

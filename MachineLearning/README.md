@@ -6,11 +6,6 @@
 - Using An Introduction to Statistical Learning as Book Content
 - Selectively learn what you need based on this README.md
 
-**Next Steps**
-- Read Statistical Learning Intro, **15 - 40** 
-- Read Statistical Learning Linear Regression, **69 - 111** 
-- Continue with IBMs Module 2 and move from there.
-
 **Supervised Learning**
 - [ ] **Train-Test Split**
   - [ ] Regular Splitting

@@ -11,9 +11,10 @@ def save_model(file, w1, b1, w2, b2, w3, b3):
         pickle.dump((w1, b1, w2, b2, w3, b3), f)
 
 def init_params():
-    w1 = np.random.randn(32, 784) * np.sqrt(2/784)
+    rng = np.random.default_rng(seed = 1)
+    w1 = rng.normal(size = (32, 784)) * np.sqrt(2/784)
     b1 = np.zeros((32, 1))
-    w2 = np.random.randn(10 , 32) * np.sqrt(2/32)
+    w2 = rng.normal(size = (10 , 32)) * np.sqrt(2/32)
     b2 = np.zeros((10, 1))
     return w1, b1, w2, b2
 
@@ -21,7 +22,7 @@ def leaky_relu(z):
     return np.where(z > 0, z, (.01 * z))
 
 def leaky_relu_deriv(z):
-    return np.where(z>0, 1, .1)
+    return np.where(z>0, 1, .01)
 
 def softmax(z):
     eps = 1e-6
@@ -40,7 +41,7 @@ def one_hot(y):
     return one_hot_y
 
 def cat_cross(one_hot_y, a):
-    eps = 1e-10
+    eps = 1e-8
     l = -np.sum(one_hot_y * np.log(a + eps)) / 60000
     return l
 
@@ -98,7 +99,7 @@ def model(x, y, epochs, alpha, file):
 
 if __name__ == "__main__":
 
-    data = np.array(pd.read_csv('data/mnist_train.csv'))
+    data = np.array(pd.read_csv('data/fashion-mnist_train.csv'))
 
     X_train = data[:, 1:786].T / 255 #784, 60000
     Y_train = data[:, 0].reshape(1, -1) #1, 60000
