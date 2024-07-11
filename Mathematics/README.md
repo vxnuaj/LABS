@@ -1,5 +1,12 @@
 # MATHEMATICS
 
+These notes are just pointers, I will more than likely avoid writing math here.
+
+I'm willing to sleep on the floor, run 15 miles, eat plain chicken and rice for the rest of my life, 
+but you will not catch be doing math in pure LaTeX as of yet. 
+
+Too inefficient, pencil and paper beats.
+
 **Resources used thus far**
 
 1. **[Linear Algebra](LinearAlgebra)**

@@ -8,7 +8,6 @@ Implementing Dropout
 import numpy as np
 import pandas as pd
 import pickle
-
 def save_model(file, w1, b1, w2, b2):
     with open(file, 'wb') as f:
         pickle.dump((w1, b1, w2, b2), f)
