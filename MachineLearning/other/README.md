@@ -24,23 +24,18 @@ You can use `sklearn.model_selection.train_test_split` or `sklearn.model_selecti
 ### Cross Validation
 
 
-In cross-validation, you make different splits of the data, each varying in training and test splits. 
+#### K-Fold Cross Val
 
-Each time a split is made, the training and testing datasets for that specific split are unique, meaning that the test set does not overlap with the training set for that split. 
+In K-fold cross validation, the dataset is split into different folds of training and testing sets, where each fold has a unique set of training and testing data, of same size across folds.
 
-However, across different splits, the same data points will appear in different training and test sets, ensuring that every data point is used for both training and testing across the entire cross-validation process.
+A unique model is trained across different folds and the loss and accuracy metrics are averaged to get a true error metric.
 
-A different model is trained and tested amongst all k-folds of training data, each time evaluating the loss for training and testing seperately.
+This can eliminate the risk of overfitting and gives a more broader view of what true model error is on a generalized dataset.
 
-Then accross all splits, we average the individual test score (loss and accuracy and f1 + other metrics) over all folds, in order to get a more broader view of accuracy and loss.
+#### LOOCV
 
-*This is done to ensure that a model didn't get lucky on a specific training split, which can be used as comparable results accross different models.*
+An extreme end to K-fold Cross Validation, where one model is created for the number of samples in a dataset.
 
-If you only have 1 split of train-test data, it's likely that the model will overfit on that specific split and have a near perfect training error if a model is increasingly complex.
+Here, a model is trained on all samples with one sample left out to be used for testing.
 
-But during cross validation, given that the model is evaluated on different folds of train/test splits, overfitting will generally not be an option and the cross-validation error can increase as the issue of your model getting a 'lucky' testing score diminshes since you're validating accross multiple folds.
-
-
-#### Different Cross Validation Approaches
-
- 
+This is done over all samples, with a then averaged loss to get a more representative error.

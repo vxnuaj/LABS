@@ -19,4 +19,3 @@ Albeit, it's increase in flexibility allows for better modelling of data, of cou
 
 It's still called linear as the coefficients $b_i$ are still performing a linear combination.
 
-

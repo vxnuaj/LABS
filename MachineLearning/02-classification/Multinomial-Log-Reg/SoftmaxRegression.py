@@ -21,10 +21,14 @@ def forward(x, w, b):
 def one_hot(y):
     lencode = skpp.LabelEncoder()
     ly = lencode.fit_transform(y)
-
     one_hot_y = np.zeros((np.max(ly) + 1, 150)) #3, 150
     one_hot_y[ly, np.arange(ly.size)] = 1
     return one_hot_y
+
+def accuracy(y,  a):
+    pred = np.argmax(a, axis = 0)
+    acc = np.sum(y == pred) / y.size * 100
+    return acc
 
 def loss(one_hot_y, a):
     l = - np.sum(one_hot_y * np.log(a)) / 150
@@ -33,7 +37,7 @@ def loss(one_hot_y, a):
 def backward(x, one_hot_y, a):
     dz = a - one_hot_y
     dw = np.dot(dz, x.T) / 150
-    db = np.sum(dz, axis=1, keepdims=True) / 150
+    db = np.sum(dz, axis=1, keepdims=True) / one_hot_y.shape[1] 
     return dw, db
 
 def update(dw, db, w, b, alpha):
@@ -43,17 +47,21 @@ def update(dw, db, w, b, alpha):
 
 def gradient_descent(x, y, w, b, alpha, epochs):
     one_hot_y = one_hot(y)
+    encode = skpp.LabelEncoder()
+    y_encoded = encode.fit_transform(y) 
     for epoch in range(epochs):
         a = forward(x, w, b)
         
         l = loss(one_hot_y, a)
+        acc = accuracy(y_encoded, a)
 
         dw, db = backward(x, one_hot_y, a)
         w, b = update(dw, db, w, b, alpha)
 
-        if epoch % 500 == 0:
+        if epoch % 10 == 0:
             print(f"epoch: {epoch}")
             print(f"loss: {l}")
+            print(f"Accuracy: {acc}")
 
     return w, b
 
@@ -70,7 +78,4 @@ if __name__=="__main__":
     Y_train = data[:, 4]
     print(X_train.dtype)
 
-    model(X_train, Y_train, .01, 10000)
-
-
-
+    model(X_train, Y_train, .5, 500)
