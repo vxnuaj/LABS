@@ -1,6 +1,6 @@
 ## Classification
 
-## Logistic Regression
+### Logistic Regression
 
 Performs binary classification, defined as:
 
@@ -325,3 +325,77 @@ $IG(D, A) = H(D) - H(D, A)$, where $D$ is a dataset and $A$ is a specific featur
 - $H(D, A)$ is the weighted entropy of the subsets of the original $D$ as $\sum_{j=1}^n\frac{D_j}{|D|}H(D_j)$ where $n$ is the number of total subsets and $D_j$ is the number of total instances in the given subset. $H(D_j)$ is then the entropy of the given $D_j$. 
 
 The subtraction, then yields the ***information gain***, which then denotes how much each additional feature or in the context of decision trees, how much each node contributed to reducing the amount of disorder or uncertainty in the given problem.
+
+The information gain, at a given split of a tree, serves as an indicator to which feature can be the most important to consider at a given split. When splitting the root node, the first split is done on the most important feature to split upon, denoted by the highest information gain.
+
+You can also regularize a decision tree, by adding an additional hyperparameter typically denoted as $\alpha$ or $cp$ (complexity parameter). This acts as a means of adding a penalty to the weighted entropy such that the information gain becomes negative. Given this, for some nodes there will be an information gain that doesn't prove to be optimal for the baseline split, thereby will split to an empty leaf node.
+
+This is a form of pruning.
+
+> *Check out the comments under the [implementation](Decision-Trees/dtree.py)*
+
+### Ensemble Methods
+
+Ensemble learning is a form of learning where we combing multiple models, more commonly Decision Trees to make more generalizable predictions through Majority Voting Classifiers or Soft Voting Classifiers.
+
+**Majority Voting Classifiers** are Classifiers that leverage majority voting to make a final prediction are a form of Ensemble Learning. 
+
+Majority voting classifiers are made up of multiple distinct classifiers, say $f_i$ where $i$ is the $ith$ classifier.
+
+All $i$ classifiers are trained on the same data, to then make a final prediction of $\hat{y}_i$.
+
+For every $\hat{y}_i$ that is made, the majority or the $mode()$ of all predictions is taken to find the majority vote, which is then set as the final prediction, $\hat{Y}$.
+
+We use majority voting to mitigate the impact of that Irreducible Error has per each individual classifier $f_i$. If the Irreducible Error is uncorrelated amongst all $i$ models, taking the $mode()$ of all $\hat{y}_i$ can potentially yield a more accurate $\hat{Y}$.
+
+The error for an ensemble model can then be computed using the Binomial Theorem, as:
+
+$\epsilon_{ens}= \sum_{k = 0}^n \begin{pmatrix}n \\ k \end{pmatrix} (1 - \epsilon)^{n - k} \epsilon^k$
+
+where $\epsilon_{ens}$ is the irreducible error a sum of the binomial probability over all $n$ models and $k$ are the amount of models that predict the sample label.
+
+**Soft Voting Classifiers** are n extension of Majority Voting Classifiers, but where instead of computing the hard majority, we compute the soft majority, based on the output probabilities of a decision tree to a given class.
+
+For each model $f_i$, rather than outputting the raw label as a prediction, it would output the probability of a label $Y$ belonging to a sample $X$.
+
+This probability would then be used to compute an average probability of a given $X$ belong to $Y$, for all classes in $Y$ using a weight $w_i$ which is typically the same across all predictions as $\frac{1}{n}$ where $n$ is the total number of models.
+
+The final probability is then computed as:
+
+$\hat{Y} = argmax(\sum_{i = 0}^n w_i \cdot p_{ij})$
+
+> *Here, if we have a given classifier with a higher reliability, we can increase the prominence of it's classification by increasing the magnitude of it's corresponding weight.*
+> 
+> *Then, the classifier has more of a say into which is the right prediction within the overarching ensemble*
+> 
+> *Finding these weights might prove to be tedious, it's a form of hyperparameter tuning. You might be able to do a grid / random search.*
+
+Then, the class belonging to the highest probability is chosen as the class prediction.
+
+Bagging, also known as bootstrap aggregating, is an Ensemble Learning method, that uses the same learning algorithm for all $n$ models within the Ensemble.
+
+It uses $n$ Bootstrap Samples to train $n$ total models.
+
+Then, from each prediction from a given model, $f_i$, you can use the hard majority vote or the soft majority vote from Majority Voting Classifiers and Soft Voting Classifiers respectively, to compute the final prediction for the ensemble.
+
+Given this, in Bagging, it is practical to overfit numerous models on different sets of Bootstrap Samples, and then take the $argmax$ of a set of averaged probabilities for a set of classes to get a more precise prediction.
+
+> *Bagging is more geared for decision trees, so if you train multiple decision trees without pruning on different Bootstrap Samples, to overfit, and then take the hard or soft majority you'd hypothetically get a higher accuracy.*
+
+Random forests are a set of bagged decision trees, with the addition of some extra randomness to each tree.
+
+Rather than only using Bootstrap Samples, a random forest has it's individual bagged decision trees trained on a random subset of features.
+
+If we have $n$ total features, we choose $k$ features randomly at each node, where $k < n$, limiting a decision tree to choose the optimal feature split index from only the subset $k$.
+
+Then per usual, you'd choose the split with the highest Information Gain through the Gini Index or Entropy, to make the next split.
+
+A typical choice of $k$ is $k = \sqrt{n}$
+
+This is done to decorrelate each tree within the ensemble, to further reduce the variance and mitigate overfitting. 
+
+> *Otherwise, an individual tree in the ensemble might still come up with similar splits to others.*
+
+If each tree was overfit, given that Bootstrap Samples still contain some similar data, the overall result may still yield an overfit prediction with high variance. 
+
+Random Forests, decorrelating each tree through Bootstrap Samples and a random selection of features, are able to produce results that are more generalizable.
