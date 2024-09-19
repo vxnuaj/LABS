@@ -32,11 +32,21 @@ For multivariate outputs (multiple output neurons), the 'joints' of a final piec
 
 But each will have their 'joints' at the same location, given that each output neuron is connected to the same hidden units in the previous layer.
 
-> *a function is convex if a line drawn between any two points on it lies above the minima. inverse is concave*
+So the final piecewise function has joints at the same positions, given that the neurons in the output layer share the same hidden layer inputs. The prior hidden layer inputs are all clipped by $ReLU$ at the same position, where the input to $ReLU$ turns to $x ≤ 0$.
+
+But each output neuron has a different final piecewise function, despite sharing the same inputs and 'joints'. This is as each $i$th output neuron has a different set of parameters (weights and a bias) for each $n$ unique connection, ultimately altering the function per output neuron.
 
 In regards to multivariate inputs, the combination of piecewise $ReLU$ activations, creates a surface of convex polygonal regions, given by the intersecting hyperplanes of each hidden unit in the $\mathbb{R}^n$ space.
 
+Think of the construction of hyperplanes as such:
+
+For each $ith$ hidden unit, there is an equation $\theta_ix + b_i$ that yields the scalar output for the given $ith$ hidden unit. 
+
+Given the $ReLU$ function as $max(0, x)$, it clips the output of the linear combination to $0$ where $x < 0$. The values of $x$ that yield $0$, when the output of the linear combination is applied onto $ReLU$ represent the position of the diviing hyperplanes.
+
 Each intersection of the hyperplanes creates a seperate convex polygonal region. If we had 2 intersectiong hyperplanes (2 hidden units) in an $\mathbb{R}^2$ space we'd be dividing the region into 4 seperate convex polygons.
+
+> *a function is convex if a line drawn between any two points on it lies above the minima. inverse is concave*
 
 Another example,
 
@@ -45,10 +55,11 @@ Another example,
 
 where 3 hidden units, $h_i$ divide the 2 dimensional space, $\mathbb{R}^2$ into 7 distinct regions.
 
-As the number of input dimensions (features) grows, the number of convex polygonal regions begins to increaes exponentially. If you imagine each extra hidden unit as an additional hyperplane in the $R^{n}$ space, the number of convex polygonal regions increases to $2^n$, under ideal conditions where the hyperplanes are optimally placed.
-
+As the number of input dimensions (features) grows, the number of convex polygonal regions begins to increaes exponentially. If you imagine each extra hidden unit as an additional hyperplane in the $R^{n}$ space, and we had the same number of hidden units as input dimensions, the number of convex polygonal regions increases by a rate of $2^n$, where $n =$ input dimensions, under ideal conditions where the hyperplanes are optimally placed.
 
 Of course, neural networks often have more hidden units (hence deep) than input dimensions, so the number of convex polygonal regions is typically higher than $2^n$.
+
+It's better approximated by $2^k$ where $k$ is the number of hidden units in the neural network.
 
 > *This phenomen can be known as the curse of dimensionality, the more dimensions you have, the more exponentially complex your problem space becomes.*
 

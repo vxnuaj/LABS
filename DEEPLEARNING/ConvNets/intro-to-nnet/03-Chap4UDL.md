@@ -1,5 +1,7 @@
 # Deep Neural Networks
 
+> Learning Resource: [Understanding Deep Learning](https://udlbook.com/) Chapter 3.X
+
 ### 4.1
 
 With $ReLU$ activations, both shallow and deep neural networks can essentially be described as a combination of multiple piecewise activations ($ReLU$) to form a single linear piecewise function that maps the input $x$ to output $y$.
@@ -43,6 +45,8 @@ Each set of hidden units can describe a given family of functions, $f \in \set{\
 ### 4.5
 
 A deep neural network can approximate a different family of functions than a shallow neural network, given the introduction of a non-linearity such as $ReLU$. Of course, if the activation function $a ≠ ReLU$ and was instead purely a linear mapping, then the deep network could be reduced to a shallow model, given the linear dependency. 
+
+> *no need for excessive transformations if they are al linear. **they add no unique information!** learn linalg!*
 
 The extra layers would not add new information that maps the output from the first layer to the output in the 3rd layer via the second layer. You coudl just reduce the network to a single shallow layer.
 
