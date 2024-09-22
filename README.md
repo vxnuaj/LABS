@@ -6,7 +6,7 @@ learning dl / ml + coding + mathematics
 
 ### Index
 
-1. [Deep Learning](deeplearning)
-2. [Machine Learning](machinelearning)
-3. [Programming](programming)
+1. [Deep Learning](./DEEPLEARNING)
+2. [Machine Learning](./machinelearning)
+3. [Programming](./programming)
 
