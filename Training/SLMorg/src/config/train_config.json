@@ -1,0 +1,18 @@
+{
+    "total_epochs": 10,
+    "mixed_precision": false,
+    "save_checkpoint_path": "checkpoints/saved_cache/",
+    "load_checkpoint_path": false,
+    "save_checkpoint_steps": 2500,
+    "clip_grad_norm": true,
+    "max_grad_norm": 1,
+    "track_grad_norm": true,
+    "val_data_path": "data/tensors/val/",
+    "val_steps": 2500,
+    "sample_model_val": true,
+    "parallel": true,
+    "seed": 0,
+    "batch_size": 16,
+    "pad_token_id": 1,
+    "run": 9
+}

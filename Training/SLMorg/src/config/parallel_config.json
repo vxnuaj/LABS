@@ -1,0 +1,6 @@
+{
+    "parallelism_type": "fsdp",
+    "backend": "nccl",
+    "min_num_params":  "1_000_000",
+    "type_": "transformer"
+}

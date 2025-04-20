@@ -1,0 +1,8 @@
+wandb
+tqdm
+transformers
+tokenizers
+pandas
+pyarrow
+torchinfo
+nvitop

@@ -1,0 +1,12 @@
+{
+    "eos_token": 0,
+    "context_len": 512,
+    "max_toks_out": 100,
+    "_greedy": false, 
+    "top_p": 0.9,
+    "top_k": null,
+    "temperature": 1.0,
+    "verbose": false,
+    "sample_model_str": "Once upon a time, in a big forest, there lived a rhinoceros named Roxy.",
+    "tokenizer_path": "data/data/tokenizer.json"
+}

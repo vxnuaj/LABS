@@ -1,0 +1,15 @@
+{
+    "d_model": 512,
+    "embed_dim": 512,
+    "max_seq_len": 512,
+    "dropout_p": 0.1,
+    "n_heads": 8,
+    "n_blocks": 4,
+    "context_len": 512,
+    "vocab_size": 10000,
+    "pretrained_embeddings": false,
+    "sliding_window": 256,
+    "learned_pe": false,
+    "freeze_embeddings": false
+  }
+  
